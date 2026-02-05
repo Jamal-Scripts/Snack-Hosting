@@ -400,10 +400,14 @@
     </style>
 </head>
 <body>
-    <script>
+<script>
         // ============================================
-        // ⚙️ EASY CONFIGURATION - EDIT YOUR DATA HERE
+        // ⚙️ CONFIGURATION & STATE
         // ============================================
+
+        // 🟢 REAL-TIME COUNTER LOGIC
+        // We load the count from browser storage. If none exists, we start at 12 (Marketing trick).
+        let liveServerCount = parseInt(localStorage.getItem('snac_active_servers')) || 12;
 
         const CONFIG = {
             siteName: "SNAC-Hosting",
@@ -411,8 +415,9 @@
             serverIP: "play.snac-hosting.com",
 
             stats: {
-                servers: "0",
-                uptime: "100",
+                // We use the variable 'liveServerCount' here instead of a hardcoded string
+                servers: liveServerCount, 
+                uptime: "99.9",
                 support: "24/7"
             },
 
@@ -589,8 +594,390 @@
             logout() { localStorage.removeItem('snac_current_user'); },
             hash(p) { let h = 0; for (let i = 0; i < p.length; i++) { h = ((h << 5) - h) + p.charCodeAt(i); h = h & h; } return 'h_' + Math.abs(h).toString(16); }
         };
-    </script>
 
+        // UI RENDER FUNCTIONS
+        let selectedPaymentMethod = 'card';
+        let selectedBillingCycle = 'monthly';
+
+        function renderStats() {
+            const s = CONFIG.stats;
+            // 🟢 UPDATED: This now reads the dynamic variable
+            document.getElementById('heroStats').innerHTML = `
+                <div class="stat"><div class="stat-value" id="stat-servers">${liveServerCount}<span>+</span></div><div class="stat-label">Active Servers</div></div>
+                <div class="stat"><div class="stat-value">${s.uptime}<span>%</span></div><div class="stat-label">Uptime SLA</div></div>
+                <div class="stat"><div class="stat-value">${s.support.replace('/', '<span>/')}</span></div><div class="stat-label">Support</div></div>
+            `;
+        }
+
+        function renderFeatures() {
+            document.getElementById('featuresGrid').innerHTML = CONFIG.features.map(f => `
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">${f.icon}</div>
+                    <h3>${f.title}</h3>
+                    <p>${f.description}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderPricing() {
+            document.getElementById('pricingGrid').innerHTML = CONFIG.plans.map(p => `
+                <div class="pricing-card ${p.popular ? 'popular' : ''} animate-on-scroll">
+                    ${p.popular ? '<span class="popular-badge">Most Popular</span>' : ''}
+                    <div class="plan-name">${p.name}</div>
+                    <div class="plan-description">${p.description}</div>
+                    <div class="plan-price"><span class="price">$${p.price.toFixed(2)}</span><span class="price-period">${p.period}</span></div>
+                    <ul class="plan-features">${p.features.map(f => `<li><span class="check">✓</span>${f}</li>`).join('')}</ul>
+                    <button class="btn btn-${p.buttonStyle}" onclick="handlePlanSelect('${p.id}')">${p.buttonText}</button>
+                </div>
+            `).join('');
+        }
+
+        function renderFAQ() {
+            document.getElementById('faqGrid').innerHTML = CONFIG.faq.map(f => `
+                <div class="faq-item animate-on-scroll">
+                    <button class="faq-question" onclick="toggleFAQ(this)">${f.question}<span class="faq-icon"></span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">${f.answer}</div></div>
+                </div>
+            `).join('');
+        }
+
+        function renderAuthButtons() {
+            const user = Auth.getCurrentUser();
+            const nav = document.getElementById('navButtons');
+            const mob = document.getElementById('mobileAuthButtons');
+            
+            const cartIcon = `<div class="cart-icon" onclick="openCheckoutModal()">🛒<span class="cart-badge">${Cart.items.length}</span></div>`;
+            
+            if (user) {
+                const init = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                nav.innerHTML = `${cartIcon}<div class="user-menu"><div class="user-avatar">${init}</div><div class="user-dropdown"><div class="user-dropdown-header"><strong>${user.name}</strong><span>${user.email}</span></div><a href="#">Dashboard</a><a href="#">My Servers</a><button class="logout-btn" onclick="handleLogout()">Sign Out</button></div></div>`;
+                mob.innerHTML = `<p style="color:var(--text-secondary);margin-bottom:1rem;">Signed in as ${user.name}</p><button class="btn btn-secondary" style="width:100%;" onclick="handleLogout();toggleMobileMenu();">Sign Out</button>`;
+            } else {
+                nav.innerHTML = `${cartIcon}<button class="btn btn-ghost" onclick="openAuthModal('signin')">Sign In</button><button class="btn btn-primary" onclick="openAuthModal('signup')">Get Started</button>`;
+                mob.innerHTML = `<button class="btn btn-ghost" style="width:100%;margin-bottom:1rem;" onclick="openAuthModal('signin');toggleMobileMenu();">Sign In</button><button class="btn btn-primary" style="width:100%;" onclick="openAuthModal('signup');toggleMobileMenu();">Get Started</button>`;
+            }
+            Cart.updateUI();
+        }
+
+        function handlePlanSelect(planId) {
+            Cart.add(planId);
+            openCheckoutModal();
+        }
+
+        function openCheckoutModal() {
+            if (Cart.items.length === 0) {
+                alert('Please select a plan first!');
+                return;
+            }
+            
+            const user = Auth.getCurrentUser();
+            if (user) {
+                document.getElementById('checkoutFirstName').value = user.name.split(' ')[0] || '';
+                document.getElementById('checkoutLastName').value = user.name.split(' ')[1] || '';
+                document.getElementById('checkoutEmail').value = user.email;
+            }
+            
+            renderBillingCycle();
+            renderOrderSummary();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function renderBillingCycle() {
+            const item = Cart.items[0];
+            if (!item) return;
+            
+            const monthly = item.price;
+            const quarterly = (item.price * 3 * 0.9).toFixed(2);
+            const yearly = (item.price * 12 * 0.8).toFixed(2);
+            
+            document.getElementById('billingCycle').innerHTML = `
+                <div class="billing-option ${selectedBillingCycle === 'monthly' ? 'selected' : ''}" onclick="selectBillingCycle('monthly')">
+                    <span class="billing-period">Monthly</span>
+                    <span class="billing-price">$${monthly.toFixed(2)}/mo</span>
+                </div>
+                <div class="billing-option ${selectedBillingCycle === 'quarterly' ? 'selected' : ''}" onclick="selectBillingCycle('quarterly')">
+                    <span class="billing-period">Quarterly</span>
+                    <span class="billing-price">$${quarterly}/3mo</span>
+                    <span class="billing-save">Save 10%</span>
+                </div>
+                <div class="billing-option ${selectedBillingCycle === 'yearly' ? 'selected' : ''}" onclick="selectBillingCycle('yearly')">
+                    <span class="billing-period">Yearly</span>
+                    <span class="billing-price">$${yearly}/yr</span>
+                    <span class="billing-save">Save 20%</span>
+                </div>
+            `;
+        }
+
+        function selectBillingCycle(cycle) {
+            selectedBillingCycle = cycle;
+            Cart.setBillingCycle(cycle);
+            renderBillingCycle();
+            renderOrderSummary();
+        }
+
+        function renderOrderSummary() {
+            const item = Cart.items[0];
+            if (!item) return;
+            
+            const total = Cart.getTotal();
+            const cycleText = selectedBillingCycle === 'monthly' ? '/month' : selectedBillingCycle === 'quarterly' ? '/3 months' : '/year';
+            
+            document.getElementById('orderSummary').innerHTML = `
+                <h3>Order Summary</h3>
+                <div class="order-item">
+                    <div class="order-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.description}</p>
+                    </div>
+                    <div class="order-item-price">$${total.toFixed(2)}</div>
+                </div>
+                <div class="order-total">
+                    <span>Total ${cycleText}</span>
+                    <span class="total-price">$${total.toFixed(2)}</span>
+                </div>
+                <div class="order-features">
+                    <h4>Includes:</h4>
+                    <ul>
+                        ${item.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('cardPaymentFields').style.display = method === 'card' ? 'block' : 'none';
+            document.getElementById('paypalPaymentFields').style.display = method === 'paypal' ? 'block' : 'none';
+        }
+
+        // 🟢 THIS IS THE IMPORTANT PAYMENT FUNCTION
+        function processPayment() {
+            const firstName = document.getElementById('checkoutFirstName').value;
+            const lastName = document.getElementById('checkoutLastName').value;
+            const email = document.getElementById('checkoutEmail').value;
+            const terms = document.getElementById('checkoutTerms').checked;
+            
+            if (!firstName || !lastName || !email) {
+                showCheckoutAlert('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            if (!terms) {
+                showCheckoutAlert('Please agree to the Terms of Service.', 'error');
+                return;
+            }
+            
+            if (selectedPaymentMethod === 'card') {
+                const cardNumber = document.getElementById('checkoutCardNumber').value;
+                const expiry = document.getElementById('checkoutExpiry').value;
+                const cvv = document.getElementById('checkoutCVV').value;
+                
+                if (!cardNumber || !expiry || !cvv) {
+                    showCheckoutAlert('Please fill in all payment details.', 'error');
+                    return;
+                }
+            }
+            
+            // Simulate payment processing
+            const btn = event.target;
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                // 🟢 INCREMENT SERVERS HERE
+                liveServerCount++;
+                localStorage.setItem('snac_active_servers', liveServerCount); // Save to browser
+                renderStats(); // Update the UI instantly
+                
+                closeCheckoutModal();
+                showSuccessModal();
+                Cart.clear();
+                renderAuthButtons();
+                btn.textContent = 'Complete Order';
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function showCheckoutAlert(message, type) {
+            const alert = document.getElementById('checkoutAlert');
+            alert.textContent = message;
+            alert.className = `alert ${type} visible`;
+            setTimeout(() => alert.className = 'alert', 5000);
+        }
+
+        function showSuccessModal() {
+            const item = Cart.items[0];
+            const total = Cart.getTotal();
+            const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
+            
+            document.getElementById('orderDetails').innerHTML = `
+                <h4>Order Details</h4>
+                <div class="order-detail-row"><span>Order ID</span><span>${orderId}</span></div>
+                <div class="order-detail-row"><span>Plan</span><span>${item?.name || 'N/A'}</span></div>
+                <div class="order-detail-row"><span>Billing</span><span>${selectedBillingCycle.charAt(0).toUpperCase() + selectedBillingCycle.slice(1)}</span></div>
+                <div class="order-detail-row"><span>Total</span><span style="color: var(--accent-primary);">$${total.toFixed(2)}</span></div>
+            `;
+            
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function openAuthModal(mode) {
+            document.getElementById('authModal').classList.add('active');
+            mode === 'signup' ? showSignUp() : showSignIn();
+            clearAlerts();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+            clearAlerts();
+        }
+
+        function showSignIn() {
+            document.getElementById('signInForm').style.display = 'block';
+            document.getElementById('signUpForm').style.display = 'none';
+        }
+
+        function showSignUp() {
+            document.getElementById('signInForm').style.display = 'none';
+            document.getElementById('signUpForm').style.display = 'block';
+        }
+
+        function clearAlerts() {
+            document.querySelectorAll('.alert').forEach(el => el.className = 'alert');
+        }
+
+        function showAlert(id, msg, type) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = `alert ${type} visible`;
+        }
+
+        function handleSignIn(e) {
+            e.preventDefault();
+            clearAlerts();
+            const result = Auth.login(document.getElementById('signInEmail').value, document.getElementById('signInPassword').value);
+            if (result.success) {
+                showAlert('signInAlert', result.message, 'success');
+                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1000);
+            } else showAlert('signInAlert', result.message, 'error');
+        }
+
+        function handleSignUp(e) {
+            e.preventDefault();
+            clearAlerts();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const result = Auth.register(email, password, name);
+            if (result.success) {
+                showAlert('signUpAlert', result.message, 'success');
+                Auth.login(email, password);
+                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1500);
+            } else showAlert('signUpAlert', result.message, 'error');
+        }
+
+        function handleLogout() { Auth.logout(); renderAuthButtons(); }
+
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            input.type = input.type === 'password' ? 'text' : 'password';
+            btn.textContent = input.type === 'password' ? '👁' : '🙈';
+        }
+
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function toggleFAQ(button) {
+            const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Close modals on overlay click
+        ['authModal', 'checkoutModal', 'successModal'].forEach(id => {
+            document.getElementById(id).addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        document.addEventListener('keydown', e => { 
+            if (e.key === 'Escape') {
+                closeAuthModal();
+                closeCheckoutModal();
+                closeSuccessModal();
+            }
+        });
+
+        // Format card number input
+        document.addEventListener('DOMContentLoaded', function() {
+            renderStats();
+            renderFeatures();
+            renderPricing();
+            renderFAQ();
+            renderAuthButtons();
+            Cart.load();
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            document.querySelectorAll('.features-grid .feature-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
+            document.querySelectorAll('.pricing-grid .pricing-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.15}s`);
+            document.querySelectorAll('.faq-grid .faq-item').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
+            
+            // Card number formatting
+            const cardInput = document.getElementById('checkoutCardNumber');
+            if (cardInput) {
+                cardInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                    let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+                    e.target.value = formatted;
+                });
+            }
+            
+            // Expiry formatting
+            const expiryInput = document.getElementById('checkoutExpiry');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="logo" onclick="showHomePage()"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
