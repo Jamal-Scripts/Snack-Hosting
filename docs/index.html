@@ -42,6 +42,8 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes checkmark { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
         .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -266,12 +268,9 @@
         }
         .hero-container { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
         .hero-content { animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
-            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 100px;
-            font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;
-        }
-        .hero-badge .dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; animation: pulse 2s infinite; }
+        
+        /* Removed .hero-badge style */
+
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
         .hero h1 span { color: var(--accent-primary); }
         .hero-description { font-size: 1.15rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 2rem; }
@@ -293,8 +292,9 @@
             border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.4);
         }
-        .server-icon { width: 100px; height: 100px; background: var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
-        .server-icon::before { content: '⛏'; font-size: 3rem; }
+        
+        /* Removed .server-icon style */
+
         .server-status { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 212, 170, 0.1); border-radius: 100px; font-size: 0.875rem; color: var(--accent-primary); font-weight: 500; }
         .server-status .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; animation: pulse 1.5s infinite; }
 
@@ -502,7 +502,7 @@
 
     <nav id="navbar">
         <div class="nav-container">
-            <a onclick="showHomePage()" class="logo"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
+            <a onclick="showHomePage()" class="logo" style="cursor: pointer;"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
             <ul class="nav-links">
                 <li><a href="#features" onclick="showHomePage()">Features</a></li>
                 <li><a href="#pricing" onclick="showHomePage()">Pricing</a></li>
@@ -641,7 +641,6 @@
             <div class="hero-bg"><div class="hero-grid"></div></div>
             <div class="hero-container">
                 <div class="hero-content">
-                    <div class="hero-badge"><span class="dot"></span>All systems operational</div>
                     <h1>Host Your <span>Minecraft</span> Server in Seconds</h1>
                     <p class="hero-description">Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules.</p>
                     <div class="hero-cta">
@@ -657,7 +656,6 @@
                         <div class="floating-block block-3"></div>
                         <div class="floating-block block-4"></div>
                         <div class="main-server-visual">
-                            <div class="server-icon"></div>
                             <div class="server-status"><span class="status-dot"></span>Online & Ready</div>
                         </div>
                     </div>
@@ -710,13 +708,13 @@
                 <p>By accessing and using services provided by SNAC-Hosting, you accept and agree to be bound by the terms and provision of this agreement.</p>
 
                 <h2>2. Service Availability</h2>
-                <p>We strive to maintain 99.9% uptime. However, periodic maintenance or unforeseen circumstances may cause temporary interruptions. We will provide updates via our Discord community.</p>
+                <p>We strive to maintain 99.9% uptime. However, periodic maintenance or unforeseen circumstances may cause temporary interruptions.</p>
 
                 <h2>3. Refunds & Cancellations</h2>
                 <p>We offer a 48-hour money-back guarantee if the service does not meet the specified performance metrics. Abuse of this policy may result in a ban.</p>
 
                 <h2>4. Prohibited Content</h2>
-                <p>You may not use our servers for illegal activities, crypto mining, or massive network attacks (DDoS). Violation of this rule results in immediate termination without refund.</p>
+                <p>You may not use our servers for illegal activities, crypto mining, or massive network attacks (DDoS). Violation of this rule results in immediate termination.</p>
                 
                 <h2>5. Limitation of Liability</h2>
                 <p>SNAC-Hosting is not responsible for data loss. Users are responsible for maintaining their own off-site backups.</p>
@@ -757,7 +755,7 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 SNAC-Hosting. All rights reserved.</p>
-            </div>
+                </div>
         </div>
     </footer>
 
@@ -766,12 +764,10 @@
         // ⚙️ CONFIGURATION & STATE
         // ============================================
 
-        // 🟢 REAL-TIME COUNTER LOGIC
-        // Starts at 15 and increments on purchase
+        // 🟢 REAL-TIME COUNTER (Starts at 15)
         let liveServerCount = parseInt(localStorage.getItem('snac_active_servers')) || 15;
 
-        // 🟢 LOCATION DATA (Based on your screenshots)
-        // Prices are approximations in USD based on the Euro screenshot
+        // 🟢 LOCATIONS (From Screenshot)
         const LOCATIONS = [
             { id: 'eu', name: 'Europe (No Preference)', flag: '🇪🇺', price: 0 },
             { id: 'us', name: 'Manassas, USA', flag: '🇺🇸', price: 1.57 },
@@ -794,61 +790,73 @@
                 support: "24/7"
             },
 
+            // 🟢 UPDATED PLANS (From Screenshot 1)
             plans: [
                 {
                     id: "rs1000",
                     name: "RS 1000 G12",
-                    description: "Perfect for small SMPs",
-                    price: 11.99,
+                    description: "AMD EPYC™ 9645",
+                    price: 8.74,
                     period: "/month",
                     popular: false,
-                    buttonText: "Get Started",
+                    buttonText: "Order now",
                     buttonStyle: "secondary",
-                    features: ["8GB DDR5 RAM", "4 DEDICATED CORES", "256 GB NVMe", "AMD EPYC™ 9645", "DDOS PROTECTION", "25+ PLAYERS", "40+ PLUGINS"]
+                    features: ["8 GB DDR5 RAM (ECC)", "4 dedicated cores", "256 GB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
                 },
                 {
                     id: "rs2000",
                     name: "RS 2000 G12",
-                    description: "Fit for growing communites",
-                    price: 19.99,
+                    description: "AMD EPYC™ 9645",
+                    price: 14.58,
                     period: "/month",
                     popular: true,
-                    buttonText: "Get Started",
+                    buttonText: "Order now",
                     buttonStyle: "primary",
-                    features: ["16GB DDR5 RAM", "8 DEDICATED CORES", "512 GB NVMe", "AMD EPYC™ 9645", "UPGRADED DDOS PROTECTION", "30+ PLAYERS","60+ PLUGINS"]
+                    features: ["16 GB DDR5 RAM (ECC)", "8 dedicated cores", "512 GB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
                 },
                 {
                     id: "rs4000",
                     name: "RS 4000 G12",
-                    description: "Suits big servers",
-                    price: 39.99,
+                    description: "AMD EPYC™ 9645",
+                    price: 27.08,
                     period: "/month",
                     popular: false,
-                    buttonText: "Get Started",
+                    buttonText: "Order now",
                     buttonStyle: "secondary",
-                    features: ["32GB DDR5 RAM", "12 DEDICATED CORES", "1 TB NVMe", "AMD EPYC™ 9645", "Better performance", "40-50 PLAYERS", "50+ PLUGINS"]
+                    features: ["32 GB DDR5 RAM (ECC)", "12 dedicated cores", "1 TB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
                 },
                 {
                     id: "rs8000",
                     name: "RS 8000 G12",
-                    description: "Perfect for large servers",
-                    price: 64.99,
+                    description: "AMD EPYC™ 9645",
+                    price: 48.33,
                     period: "/month",
                     popular: true,
-                    buttonText: "Get Started",
+                    buttonText: "Order now",
                     buttonStyle: "primary",
-                    features: ["64GB DDR5 RAM", "16 DEDICATED CORES", "2 TB NVMe", "AMD EPYC™ 9645", "UPGRADED SECURITY + DDOS", "50-100 PLAYERS", "UNLIMITED"]
+                    features: ["64 GB DDR5 RAM (ECC)", "16 dedicated cores", "2 TB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
                 },
                 {
                     id: "rs12000",
                     name: "RS 12000 G12",
-                    description: "Top tier performance, best for massive servers",
-                    price: 99.99,
+                    description: "AMD EPYC™ 9645",
+                    price: 69.58,
                     period: "/month",
                     popular: false,
-                    buttonText: "Get Started",
+                    buttonText: "Order now",
                     buttonStyle: "secondary",
-                    features: ["96GB DDR5 RAM", "20 DEDICATED CORES", "3 TB NVMe", "AMD EPYC™ 9645", "MAXIMUM SECURITY + DDOS", "UNLIMITED PLAYERS", "UNLIMITED PLUGINS"]
+                    features: ["96 GB DDR5 RAM (ECC)", "20 dedicated cores", "3 TB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
+                },
+                {
+                    id: "rs16000",
+                    name: "RS 16000 G12",
+                    description: "AMD EPYC™ 9645",
+                    price: 97.92,
+                    period: "/month",
+                    popular: false,
+                    buttonText: "Order now",
+                    buttonStyle: "secondary",
+                    features: ["128 GB DDR5 RAM (ECC)", "24 dedicated cores", "4 TB NVMe", "Snapshots (Copy-On-Write)", "Remote console"]
                 }
             ],
 
@@ -881,7 +889,6 @@
                 if (plan && !this.items.find(i => i.id === planId)) {
                     this.items = [{ ...plan, quantity: 1, billingCycle: 'monthly' }]; 
                     this.save();
-                    // Reset location when adding new item
                     selectedLocationPrice = 0;
                     selectedLocationName = "Europe";
                     this.updateUI();
@@ -1006,7 +1013,7 @@
                     ${p.popular ? '<span class="popular-badge">Most Popular</span>' : ''}
                     <div class="plan-name">${p.name}</div>
                     <div class="plan-description">${p.description}</div>
-                    <div class="plan-price"><span class="price">$${p.price.toFixed(2)}</span><span class="price-period">${p.period}</span></div>
+                    <div class="plan-price"><span class="price">€${p.price.toFixed(2)}</span><span class="price-period">${p.period}</span></div>
                     <ul class="plan-features">${p.features.map(f => `<li><span class="check">✓</span>${f}</li>`).join('')}</ul>
                     <button class="btn btn-${p.buttonStyle}" onclick="handlePlanSelect('${p.id}')">${p.buttonText}</button>
                 </div>
@@ -1059,7 +1066,7 @@
             }
             
             renderBillingCycle();
-            renderLocationSelector(); // 🟢 Render Locations
+            renderLocationSelector(); 
             renderOrderSummary();
             document.getElementById('checkoutModal').classList.add('active');
         }
@@ -1072,7 +1079,7 @@
         function renderLocationSelector() {
             const item = Cart.items[0];
             const container = document.getElementById('locationSelector');
-            container.innerHTML = ''; // Clear previous
+            container.innerHTML = ''; 
 
             // Logic: Only RS1000 and RS2000 get choices
             if (item.id === 'rs1000' || item.id === 'rs2000') {
@@ -1081,7 +1088,7 @@
                     el.className = `location-option ${selectedLocationName === loc.name ? 'selected' : ''}`;
                     el.onclick = () => selectLocation(loc);
                     
-                    const extra = loc.price > 0 ? `+$${loc.price.toFixed(2)}` : 'Included';
+                    const extra = loc.price > 0 ? `+€${loc.price.toFixed(2)}` : 'Included';
                     
                     el.innerHTML = `
                         <span class="location-flag">${loc.flag}</span>
@@ -1108,8 +1115,8 @@
         function selectLocation(loc) {
             selectedLocationPrice = loc.price;
             selectedLocationName = loc.name;
-            renderLocationSelector(); // Re-render to show selection
-            renderOrderSummary(); // Update total price
+            renderLocationSelector();
+            renderOrderSummary(); 
         }
 
         function renderBillingCycle() {
@@ -1123,16 +1130,16 @@
             document.getElementById('billingCycle').innerHTML = `
                 <div class="billing-option ${selectedBillingCycle === 'monthly' ? 'selected' : ''}" onclick="selectBillingCycle('monthly')">
                     <span class="billing-period">Monthly</span>
-                    <span class="billing-price">$${monthly.toFixed(2)}/mo</span>
+                    <span class="billing-price">€${monthly.toFixed(2)}/mo</span>
                 </div>
                 <div class="billing-option ${selectedBillingCycle === 'quarterly' ? 'selected' : ''}" onclick="selectBillingCycle('quarterly')">
                     <span class="billing-period">Quarterly</span>
-                    <span class="billing-price">$${quarterly}/3mo</span>
+                    <span class="billing-price">€${quarterly}/3mo</span>
                     <span class="billing-save">Save 10%</span>
                 </div>
                 <div class="billing-option ${selectedBillingCycle === 'yearly' ? 'selected' : ''}" onclick="selectBillingCycle('yearly')">
                     <span class="billing-period">Yearly</span>
-                    <span class="billing-price">$${yearly}/yr</span>
+                    <span class="billing-price">€${yearly}/yr</span>
                     <span class="billing-save">Save 20%</span>
                 </div>
             `;
@@ -1159,18 +1166,18 @@
                         <h4>${item.name}</h4>
                         <p>${item.description}</p>
                     </div>
-                    <div class="order-item-price">$${item.price.toFixed(2)}</div>
+                    <div class="order-item-price">€${item.price.toFixed(2)}</div>
                 </div>
                 <div class="order-item">
                     <div class="order-item-info">
                         <h4>Location</h4>
                         <p>${selectedLocationName}</p>
                     </div>
-                    <div class="order-item-price">${selectedLocationPrice > 0 ? '+$' + selectedLocationPrice.toFixed(2) : '$0.00'}</div>
+                    <div class="order-item-price">${selectedLocationPrice > 0 ? '+€' + selectedLocationPrice.toFixed(2) : '€0.00'}</div>
                 </div>
                 <div class="order-total">
                     <span>Total ${cycleText}</span>
-                    <span class="total-price">$${total.toFixed(2)}</span>
+                    <span class="total-price">€${total.toFixed(2)}</span>
                 </div>
                 <div class="order-features">
                     <h4>Includes:</h4>
@@ -1255,7 +1262,7 @@
                 <div class="order-detail-row"><span>Plan</span><span>${item?.name || 'N/A'}</span></div>
                 <div class="order-detail-row"><span>Location</span><span>${selectedLocationName}</span></div>
                 <div class="order-detail-row"><span>Billing</span><span>${selectedBillingCycle.charAt(0).toUpperCase() + selectedBillingCycle.slice(1)}</span></div>
-                <div class="order-detail-row"><span>Total</span><span style="color: var(--accent-primary);">$${total.toFixed(2)}</span></div>
+                <div class="order-detail-row"><span>Total</span><span style="color: var(--accent-primary);">€${total.toFixed(2)}</span></div>
             `;
             
             document.getElementById('successModal').classList.add('active');
