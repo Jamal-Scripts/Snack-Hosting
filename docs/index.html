@@ -21,19 +21,11 @@
             --text-muted: #5a6572;
             --border-color: #1e2a38;
             --success: #00d4aa;
-            --warning: #ffc107;
+            --error: #ff6b6b;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-primary);
@@ -42,1300 +34,493 @@
             overflow-x: hidden;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 4px; }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 4px;
-        }
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        @keyframes rotateBlock {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Navigation */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem 2rem;
-            background: rgba(10, 14, 20, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1rem 2rem; background: rgba(10, 14, 20, 0.85);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
-
-        nav.scrolled {
-            padding: 0.75rem 2rem;
-            background: rgba(10, 14, 20, 0.95);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
+        nav.scrolled { padding: 0.75rem 2rem; background: rgba(10, 14, 20, 0.95); }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-primary); }
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--accent-primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--bg-primary);
-            transition: transform 0.3s ease;
+            width: 42px; height: 42px; background: var(--accent-primary); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.25rem; color: var(--bg-primary); transition: transform 0.3s ease;
         }
+        .logo:hover .logo-icon { transform: rotate(10deg) scale(1.05); }
+        .logo-text { font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; }
+        .logo-text span { color: var(--accent-primary); }
 
-        .logo:hover .logo-icon {
-            transform: rotate(10deg) scale(1.05);
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-text span {
-            color: var(--accent-primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent-primary); transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-buttons { display: flex; gap: 1rem; align-items: center; }
 
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            text-decoration: none;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
+        .btn-ghost { background: transparent; color: var(--text-secondary); }
+        .btn-ghost:hover { color: var(--text-primary); background: var(--bg-card); }
+        .btn-primary { background: var(--accent-primary); color: var(--bg-primary); box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0, 212, 170, 0.4); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--accent-primary); }
+        .btn-large { padding: 1rem 2rem; font-size: 1.05rem; }
 
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .mobile-menu-btn span { display: block; width: 24px; height: 2px; background: var(--text-primary); margin: 6px 0; transition: all 0.3s ease; }
+
+        .user-menu { position: relative; }
+        .user-avatar {
+            width: 40px; height: 40px; background: var(--accent-primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--bg-primary); cursor: pointer; transition: transform 0.2s ease;
         }
-
-        .btn-ghost:hover {
-            color: var(--text-primary);
-            background: var(--bg-card);
+        .user-avatar:hover { transform: scale(1.05); }
+        .user-dropdown {
+            position: absolute; top: calc(100% + 10px); right: 0; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 0.5rem;
+            min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.3s ease; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-
-        .btn-primary {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+        .user-menu:hover .user-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .user-dropdown-header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 0.5rem; }
+        .user-dropdown-header strong { display: block; color: var(--text-primary); }
+        .user-dropdown-header span { font-size: 0.85rem; color: var(--text-muted); }
+        .user-dropdown a, .user-dropdown button {
+            display: block; width: 100%; padding: 0.75rem 1rem; color: var(--text-secondary);
+            text-decoration: none; border-radius: 8px; transition: all 0.2s ease;
+            background: none; border: none; text-align: left; font-size: 0.95rem; cursor: pointer; font-family: inherit;
         }
+        .user-dropdown a:hover, .user-dropdown button:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+        .user-dropdown .logout-btn { color: var(--error); }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(0, 212, 170, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-primary);
-        }
-
-        .btn-large {
-            padding: 1rem 2rem;
-            font-size: 1.05rem;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .mobile-menu-btn span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--text-primary);
-            margin: 6px 0;
-            transition: all 0.3s ease;
-        }
-
-        /* Hero Section */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh; display: flex; align-items: center;
+            padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
         }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-        }
-
+        .hero-bg { position: absolute; inset: 0; z-index: -1; }
         .hero-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60%;
-            height: 100%;
-            background: var(--accent-glow);
-            filter: blur(150px);
-            opacity: 0.5;
+            content: ''; position: absolute; top: 0; right: 0; width: 60%; height: 100%;
+            background: var(--accent-glow); filter: blur(150px); opacity: 0.5;
         }
-
         .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
             background-size: 60px 60px;
             mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content {
-            animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
+        .hero-container { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-content { animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 100px;
+            font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;
         }
-
-        .hero-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        .hero h1 span {
-            color: var(--accent-primary);
-            position: relative;
-        }
-
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin-bottom: 2rem;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-        }
-
-        .stat {
-            text-align: left;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .stat-value span {
-            color: var(--accent-primary);
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        .hero-visual {
-            position: relative;
-            animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
-        }
-
-        .minecraft-scene {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .floating-block {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .block-1 {
-            background: #8B4513;
-            top: 10%;
-            left: 20%;
-            animation-delay: 0s;
-            box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .block-2 {
-            background: #228B22;
-            top: 5%;
-            right: 25%;
-            animation-delay: 0.5s;
-            box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .block-3 {
-            background: #4a4a4a;
-            bottom: 20%;
-            left: 15%;
-            animation-delay: 1s;
-            box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .block-4 {
-            background: #1a1a1a;
-            bottom: 15%;
-            right: 20%;
-            animation-delay: 1.5s;
-            box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3);
-        }
-
+        .hero-badge .dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; animation: pulse 2s infinite; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero h1 span { color: var(--accent-primary); }
+        .hero-description { font-size: 1.15rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 2rem; }
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+        .hero-stats { display: flex; gap: 3rem; }
+        .stat { text-align: left; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; }
+        .stat-value span { color: var(--accent-primary); }
+        .stat-label { font-size: 0.875rem; color: var(--text-muted); }
+        .hero-visual { position: relative; animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+        .minecraft-scene { position: relative; width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+        .floating-block { position: absolute; width: 80px; height: 80px; border-radius: 12px; animation: float 4s ease-in-out infinite; }
+        .block-1 { background: #8B4513; top: 10%; left: 20%; animation-delay: 0s; box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3); }
+        .block-2 { background: #228B22; top: 5%; right: 25%; animation-delay: 0.5s; box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3); }
+        .block-3 { background: #4a4a4a; bottom: 20%; left: 15%; animation-delay: 1s; box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3); }
+        .block-4 { background: #1a1a1a; bottom: 15%; right: 20%; animation-delay: 1.5s; box-shadow: inset 0 -20px 0 rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.3); }
         .main-server-visual {
-            width: 280px;
-            height: 280px;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
-        }
-
-        .server-icon {
-            width: 100px;
-            height: 100px;
-            background: var(--accent-primary);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .server-icon::before {
-            content: '⛏';
-            font-size: 3rem;
-        }
-
-        .server-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 212, 170, 0.1);
-            border-radius: 100px;
-            font-size: 0.875rem;
-            color: var(--accent-primary);
-            font-weight: 500;
-        }
-
-        .server-status .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 2rem;
-            background: var(--bg-secondary);
-            position: relative;
-        }
-
-        .features::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 0.375rem 1rem;
-            background: var(--accent-glow);
-            color: var(--accent-primary);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .section-header h2 {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.5px;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: default;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--accent-primary);
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--accent-glow);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--accent-primary);
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .feature-card h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 6rem 2rem;
-            background: var(--bg-primary);
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-        }
-
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--border-color);
-            transition: background 0.3s ease;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 212, 170, 0.3);
-        }
-
-        .pricing-card:hover::before {
-            background: var(--accent-primary);
-        }
-
-        .pricing-card.popular {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 60px rgba(0, 212, 170, 0.15);
-        }
-
-        .pricing-card.popular::before {
-            background: var(--accent-primary);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            padding: 0.375rem 0.875rem;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .plan-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .plan-description {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .plan-price {
-            margin-bottom: 2rem;
-        }
-
-        .price {
-            font-size: 3rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-primary);
-        }
-
-        .price-period {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .plan-features li {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 0;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-
-        .plan-features .check {
-            width: 20px;
-            height: 20px;
-            background: var(--accent-glow);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-primary);
-            font-size: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        /* Server IP Section */
-        .server-info {
-            padding: 4rem 2rem;
-            background: var(--bg-secondary);
-        }
-
-        .server-info-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .server-ip-content h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .server-ip-content p {
-            color: var(--text-secondary);
-        }
-
-        .server-ip-box {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .ip-display {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--accent-primary);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .copy-btn {
-            background: var(--accent-primary);
-            border: none;
-            color: var(--bg-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .copy-btn:hover {
-            opacity: 0.9;
-        }
-
-        .copy-btn.copied {
-            background: var(--success);
-        }
-
-        .online-count {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-primary);
-            font-weight: 500;
-        }
-
-        .online-count .dot {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: 6rem 2rem;
-            background: var(--bg-primary);
-        }
-
-        .faq-grid {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            border-color: rgba(0, 212, 170, 0.3);
-        }
-
-        .faq-question {
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 1.5rem;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-primary);
-            font-size: 1.05rem;
-            font-weight: 500;
-            font-family: 'Outfit', sans-serif;
-            transition: color 0.3s ease;
-        }
-
-        .faq-question:hover {
-            color: var(--accent-primary);
-        }
-
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .faq-icon::before,
-        .faq-icon::after {
-            content: '';
-            position: absolute;
-            background: var(--accent-primary);
-            transition: all 0.3s ease;
-        }
-
-        .faq-icon::before {
-            width: 14px;
-            height: 2px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .faq-icon::after {
-            width: 2px;
-            height: 14px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .faq-item.active .faq-icon::after {
-            transform: translate(-50%, -50%) rotate(90deg);
-            opacity: 0;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .faq-answer-content {
-            padding: 0 1.5rem 1.5rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-        }
-
-        /* CTA Section */
-        .cta {
-            padding: 6rem 2rem;
-            background: var(--bg-secondary);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: var(--accent-glow);
-            filter: blur(100px);
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 1;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .cta h2 {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .cta p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-            margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Footer */
-        footer {
-            padding: 4rem 2rem 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 2fr repeat(3, 1fr);
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            margin-top: 1rem;
-            max-width: 300px;
-            font-size: 0.95rem;
-        }
-
-        .footer-column h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-column a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .footer-column a:hover {
-            color: var(--accent-primary);
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-bottom p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .social-link:hover {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border-color: var(--accent-primary);
-            transform: translateY(-3px);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            z-index: 999;
-            padding: 6rem 2rem 2rem;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .mobile-menu.active {
-            transform: translateX(0);
-        }
-
-        .mobile-menu-links {
-            list-style: none;
-        }
-
-        .mobile-menu-links li {
-            margin-bottom: 1.5rem;
-        }
-
-        .mobile-menu-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pricing-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pricing-card:nth-child(3) {
-                grid-column: span 2;
-                max-width: 400px;
-                margin: 0 auto;
-            }
-        }
-
+            width: 280px; height: 280px; background: var(--bg-card); border: 2px solid var(--border-color);
+            border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+        }
+        .server-icon { width: 100px; height: 100px; background: var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+        .server-icon::before { content: '⛏'; font-size: 3rem; }
+        .server-status { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 212, 170, 0.1); border-radius: 100px; font-size: 0.875rem; color: var(--accent-primary); font-weight: 500; }
+        .server-status .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        .features { padding: 6rem 2rem; background: var(--bg-secondary); position: relative; }
+        .features::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border-color), transparent); }
+        .section-container { max-width: 1400px; margin: 0 auto; }
+        .section-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+        .section-tag { display: inline-block; padding: 0.375rem 1rem; background: var(--accent-glow); color: var(--accent-primary); border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+        .section-header h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.5px; }
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: default; }
+        .feature-card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--accent-primary); }
+        .feature-icon { width: 56px; height: 56px; background: var(--accent-glow); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem; transition: all 0.3s ease; }
+        .feature-card:hover .feature-icon { background: var(--accent-primary); transform: scale(1.1) rotate(5deg); }
+        .feature-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+        .pricing { padding: 6rem 2rem; background: var(--bg-primary); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .pricing-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; display: flex; flex-direction: column; }
+        .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--border-color); transition: background 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-8px); border-color: rgba(0, 212, 170, 0.3); }
+        .pricing-card:hover::before { background: var(--accent-primary); }
+        .pricing-card.popular { border-color: var(--accent-primary); box-shadow: 0 0 60px rgba(0, 212, 170, 0.15); }
+        .pricing-card.popular::before { background: var(--accent-primary); }
+        .popular-badge { position: absolute; top: 1.5rem; right: 1.5rem; background: var(--accent-primary); color: var(--bg-primary); padding: 0.375rem 0.875rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .plan-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .plan-description { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .plan-price { margin-bottom: 2rem; }
+        .price { font-size: 3rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent-primary); }
+        .price-period { color: var(--text-muted); font-size: 0.95rem; }
+        .plan-features { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; color: var(--text-secondary); font-size: 0.95rem; border-bottom: 1px solid var(--border-color); }
+        .plan-features li:last-child { border-bottom: none; }
+        .plan-features .check { width: 20px; height: 20px; background: var(--accent-glow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-primary); font-size: 0.75rem; flex-shrink: 0; }
+        .pricing-card .btn { width: 100%; }
+
+        .server-info { padding: 4rem 2rem; background: var(--bg-secondary); }
+        .server-info-container { max-width: 900px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+        .server-ip-content h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .server-ip-content p { color: var(--text-secondary); }
+        .server-ip-box { display: flex; align-items: center; gap: 1rem; }
+        .ip-display { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--accent-primary); display: flex; align-items: center; gap: 1rem; }
+        .copy-btn { background: var(--accent-primary); border: none; color: var(--bg-primary); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.2s ease; }
+        .copy-btn:hover { opacity: 0.9; }
+        .copy-btn.copied { background: var(--success); }
+        .online-count { display: flex; align-items: center; gap: 0.5rem; color: var(--accent-primary); font-weight: 500; }
+        .online-count .dot { width: 10px; height: 10px; background: var(--accent-primary); border-radius: 50%; animation: pulse 2s infinite; }
+
+        .faq { padding: 6rem 2rem; background: var(--bg-primary); }
+        .faq-grid { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
+        .faq-item:hover { border-color: rgba(0, 212, 170, 0.3); }
+        .faq-question { width: 100%; background: none; border: none; padding: 1.5rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-size: 1.05rem; font-weight: 500; font-family: 'Outfit', sans-serif; transition: color 0.3s ease; }
+        .faq-question:hover { color: var(--accent-primary); }
+        .faq-icon { width: 24px; height: 24px; position: relative; flex-shrink: 0; }
+        .faq-icon::before, .faq-icon::after { content: ''; position: absolute; background: var(--accent-primary); transition: all 0.3s ease; }
+        .faq-icon::before { width: 14px; height: 2px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .faq-icon::after { width: 2px; height: 14px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .faq-item.active .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); line-height: 1.7; }
+        .faq-item.active .faq-answer { max-height: 300px; }
+
+        .cta { padding: 6rem 2rem; background: var(--bg-secondary); text-align: center; position: relative; overflow: hidden; }
+        .cta::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: var(--accent-glow); filter: blur(100px); opacity: 0.3; pointer-events: none; }
+        .cta-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+        .cta h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; margin-bottom: 1rem; }
+        .cta p { color: var(--text-secondary); font-size: 1.15rem; margin-bottom: 2rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        footer { padding: 4rem 2rem 2rem; background: var(--bg-primary); border-top: 1px solid var(--border-color); }
+        .footer-container { max-width: 1400px; margin: 0 auto; }
+        .footer-top { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 3rem; margin-bottom: 3rem; }
+        .footer-brand p { color: var(--text-secondary); margin-top: 1rem; max-width: 300px; font-size: 0.95rem; }
+        .footer-column h4 { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1.25rem; }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 0.75rem; }
+        .footer-column a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; font-size: 0.95rem; }
+        .footer-column a:hover { color: var(--accent-primary); }
+        .footer-bottom { padding-top: 2rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-bottom p { color: var(--text-muted); font-size: 0.9rem; }
+        .social-links { display: flex; gap: 1rem; }
+        .social-link { width: 40px; height: 40px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; font-size: 1.1rem; }
+        .social-link:hover { background: var(--accent-primary); color: var(--bg-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; width: 100%; max-width: 440px; transform: scale(0.9) translateY(20px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; position: relative; }
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+        .modal-header { padding: 2rem 2rem 0; text-align: center; }
+        .modal-header h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .modal-header p { color: var(--text-secondary); }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; background: var(--bg-card-hover); border: none; border-radius: 50%; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; transition: all 0.2s ease; }
+        .modal-close:hover { background: var(--border-color); color: var(--text-primary); }
+        .modal-body { padding: 2rem; position: relative; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary); font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 0.875rem 1rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-size: 1rem; font-family: inherit; transition: all 0.3s ease; }
+        .form-input:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .form-input.error { border-color: var(--error); animation: shake 0.4s ease; }
+        .form-checkbox { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
+        .form-checkbox input { width: 18px; height: 18px; accent-color: var(--accent-primary); cursor: pointer; }
+        .form-checkbox span { color: var(--text-secondary); font-size: 0.9rem; }
+        .form-checkbox a { color: var(--accent-primary); text-decoration: none; }
+        .form-submit { width: 100%; padding: 1rem; margin-top: 0.5rem; }
+        .modal-footer { padding: 0 2rem 2rem; text-align: center; color: var(--text-secondary); font-size: 0.95rem; }
+        .modal-footer a { color: var(--accent-primary); text-decoration: none; font-weight: 500; cursor: pointer; }
+        .alert { padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.9rem; display: none; }
+        .alert.success { background: rgba(0, 212, 170, 0.1); border: 1px solid var(--accent-primary); color: var(--accent-primary); }
+        .alert.error { background: rgba(255, 107, 107, 0.1); border: 1px solid var(--error); color: var(--error); }
+        .alert.visible { display: block; animation: slideDown 0.3s ease; }
+        .password-toggle { position: relative; }
+        .password-toggle .form-input { padding-right: 3rem; }
+        .password-toggle-btn { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.25rem; transition: color 0.2s ease; }
+        .password-toggle-btn:hover { color: var(--text-primary); }
+
+        .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 999; padding: 6rem 2rem 2rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .mobile-menu.active { transform: translateX(0); }
+        .mobile-menu-links { list-style: none; }
+        .mobile-menu-links li { margin-bottom: 1.5rem; }
+        .mobile-menu-links a { color: var(--text-primary); text-decoration: none; font-size: 1.5rem; font-weight: 600; }
+
+        @media (max-width: 1200px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 992px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-description {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-cta {
-                justify-content: center;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                order: -1;
-            }
-
-            .minecraft-scene {
-                max-width: 400px;
-                margin: 0 auto;
-            }
-
-            .footer-top {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-brand {
-                grid-column: span 2;
-            }
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-description { margin-left: auto; margin-right: auto; }
+            .hero-cta { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { order: -1; }
+            .minecraft-scene { max-width: 400px; margin: 0 auto; }
+            .footer-top { grid-template-columns: repeat(2, 1fr); }
+            .footer-brand { grid-column: span 2; }
         }
-
         @media (max-width: 768px) {
-            .nav-links,
-            .nav-buttons {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card:nth-child(3) {
-                grid-column: span 1;
-                max-width: none;
-            }
-
-            .server-info-container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .server-ip-box {
-                flex-direction: column;
-            }
-
-            .footer-top {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-brand {
-                grid-column: span 1;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .floating-block {
-                width: 50px;
-                height: 50px;
-            }
-
-            .main-server-visual {
-                width: 220px;
-                height: 220px;
-            }
-
-            .server-icon {
-                width: 70px;
-                height: 70px;
-            }
-
-            .server-icon::before {
-                font-size: 2rem;
-            }
+            .nav-links, .nav-buttons { display: none; }
+            .mobile-menu-btn { display: block; }
+            .mobile-menu { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .server-info-container { flex-direction: column; text-align: center; }
+            .server-ip-box { flex-direction: column; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .floating-block { width: 50px; height: 50px; }
+            .main-server-visual { width: 220px; height: 220px; }
+            .server-icon { width: 70px; height: 70px; }
+            .server-icon::before { font-size: 2rem; }
         }
-
         @media (max-width: 480px) {
-            .hero-stats {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .ip-display {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .cta-buttons .btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .ip-display { flex-direction: column; text-align: center; }
+            .cta-buttons { flex-direction: column; }
+            .cta-buttons .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <script>
+        // ============================================
+        // ⚙️ EASY CONFIGURATION - EDIT YOUR DATA HERE
+        // ============================================
+
+        const CONFIG = {
+            // 🏠 SITE INFO
+            siteName: "SNAC-Hosting",
+            siteTagline: "Premium Minecraft Server Hosting",
+            serverIP: "play.snac-hosting.com",
+
+            // 📊 HERO STATS
+            stats: {
+                servers: "10K",
+                uptime: "99.9",
+                support: "24/7"
+            },
+
+            // 💰 PRICING PLANS - Add, remove, or edit plans here!
+            plans: [
+                {
+                    name: "Starter",
+                    description: "Perfect for small friend groups",
+                    price: "$4.99",
+                    period: "/month",
+                    popular: false,
+                    buttonText: "Get Started",
+                    buttonStyle: "secondary",
+                    features: [
+                        "2GB DDR5 RAM",
+                        "2 vCPU Cores",
+                        "25GB NVMe Storage",
+                        "10 Player Slots",
+                        "DDoS Protection",
+                        "Daily Backups"
+                    ]
+                },
+                {
+                    name: "Pro",
+                    description: "For growing communities",
+                    price: "$12.99",
+                    period: "/month",
+                    popular: true,
+                    buttonText: "Get Started",
+                    buttonStyle: "primary",
+                    features: [
+                        "6GB DDR5 RAM",
+                        "4 vCPU Cores",
+                        "75GB NVMe Storage",
+                        "50 Player Slots",
+                        "Priority Support",
+                        "Custom Domain"
+                    ]
+                },
+                {
+                    name: "Enterprise",
+                    description: "Maximum power for large servers",
+                    price: "$29.99",
+                    period: "/month",
+                    popular: false,
+                    buttonText: "Contact Sales",
+                    buttonStyle: "secondary",
+                    features: [
+                        "16GB DDR5 RAM",
+                        "8 vCPU Cores",
+                        "200GB NVMe Storage",
+                        "Unlimited Players",
+                        "Dedicated IP",
+                        "24/7 Phone Support"
+                    ]
+                }
+            ],
+
+            // ✨ FEATURES
+            features: [
+                { icon: "⚡", title: "Instant Setup", description: "Your server is ready in under 60 seconds. No complex configuration needed." },
+                { icon: "🛡️", title: "DDoS Protection", description: "Enterprise-grade protection keeps your server online even during attacks." },
+                { icon: "🚀", title: "NVMe Storage", description: "Lightning-fast SSD storage for instant world loading and zero lag." },
+                { icon: "🎮", title: "One-Click Modpacks", description: "Install Forge, Fabric, Spigot, Paper, and 100+ modpacks instantly." },
+                { icon: "📊", title: "Real-time Console", description: "Full access to your server console with live stats and metrics." },
+                { icon: "💾", title: "Auto Backups", description: "Automatic daily backups with one-click restore. Never lose progress." },
+                { icon: "🌐", title: "Global Network", description: "Servers worldwide for the lowest ping no matter where you play." },
+                { icon: "🔧", title: "Full FTP Access", description: "Complete control over your files. Upload plugins, mods easily." }
+            ],
+
+            // ❓ FAQ
+            faq: [
+                { question: "How quickly can I get my server running?", answer: "Your server is deployed instantly after payment. Within 60 seconds, you'll have full access to your control panel and can start playing right away." },
+                { question: "Can I install mods and plugins?", answer: "Absolutely! We support all major mod loaders including Forge, Fabric, Spigot, Paper, and Bukkit. Install mods with one click or upload your own." },
+                { question: "What's your uptime guarantee?", answer: "We guarantee 99.9% uptime backed by our SLA. Our infrastructure runs on enterprise-grade hardware with automatic failover." },
+                { question: "Can I upgrade my plan later?", answer: "Yes! Upgrade or downgrade anytime with zero downtime. Your world data transfers automatically." },
+                { question: "Do you offer refunds?", answer: "We offer a 7-day money-back guarantee, no questions asked. We also offer a free trial so you can test before committing." }
+            ]
+        };
+
+        // 🔐 AUTH SYSTEM
+        const Auth = {
+            getUsers() { return JSON.parse(localStorage.getItem('snac_users') || '[]'); },
+            saveUsers(users) { localStorage.setItem('snac_users', JSON.stringify(users)); },
+            getCurrentUser() {
+                const userId = localStorage.getItem('snac_current_user');
+                if (!userId) return null;
+                return this.getUsers().find(u => u.id === userId) || null;
+            },
+            register(email, password, name) {
+                const users = this.getUsers();
+                if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+                    return { success: false, message: 'An account with this email already exists.' };
+                }
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    return { success: false, message: 'Please enter a valid email address.' };
+                }
+                if (password.length < 6) {
+                    return { success: false, message: 'Password must be at least 6 characters.' };
+                }
+                const newUser = { id: 'user_' + Date.now(), email: email.toLowerCase(), password: this.hash(password), name: name || email.split('@')[0], createdAt: new Date().toISOString() };
+                users.push(newUser);
+                this.saveUsers(users);
+                return { success: true, message: 'Account created successfully!', user: newUser };
+            },
+            login(email, password) {
+                const user = this.getUsers().find(u => u.email.toLowerCase() === email.toLowerCase());
+                if (!user) return { success: false, message: 'No account found with this email.' };
+                if (user.password !== this.hash(password)) return { success: false, message: 'Incorrect password.' };
+                localStorage.setItem('snac_current_user', user.id);
+                return { success: true, message: 'Welcome back!', user };
+            },
+            logout() { localStorage.removeItem('snac_current_user'); },
+            hash(p) { let h = 0; for (let i = 0; i < p.length; i++) { h = ((h << 5) - h) + p.charCodeAt(i); h = h & h; } return 'h_' + Math.abs(h).toString(16); }
+        };
+    </script>
+
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <div class="logo-icon">S</div>
-                <span class="logo-text">SNAC<span>-Hosting</span></span>
-            </a>
+            <a href="#" class="logo"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#support">Support</a></li>
             </ul>
-            <div class="nav-buttons">
-                <a href="#" class="btn btn-ghost">Sign In</a>
-                <a href="#pricing" class="btn btn-primary">Get Started</a>
-            </div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="nav-buttons" id="navButtons"></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <ul class="mobile-menu-links">
             <li><a href="#features" onclick="toggleMobileMenu()">Features</a></li>
             <li><a href="#pricing" onclick="toggleMobileMenu()">Pricing</a></li>
             <li><a href="#faq" onclick="toggleMobileMenu()">FAQ</a></li>
             <li><a href="#support" onclick="toggleMobileMenu()">Support</a></li>
-            <li><a href="#" onclick="toggleMobileMenu()">Sign In</a></li>
         </ul>
-        <a href="#pricing" class="btn btn-primary btn-large" style="margin-top: 2rem; width: 100%; justify-content: center;" onclick="toggleMobileMenu()">Get Started</a>
+        <div id="mobileAuthButtons" style="margin-top: 2rem;"></div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="hero-grid"></div>
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            <div id="signInForm">
+                <div class="modal-header"><h2>Welcome Back</h2><p>Sign in to your account</p></div>
+                <div class="modal-body">
+                    <div class="alert" id="signInAlert"></div>
+                    <form onsubmit="handleSignIn(event)">
+                        <div class="form-group"><label>Email</label><input type="email" id="signInEmail" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signInPassword" class="form-input" placeholder="••••••••" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signInPassword', this)">👁</button></div></div>
+                        <button type="submit" class="btn btn-primary form-submit">Sign In</button>
+                    </form>
+                </div>
+                <div class="modal-footer">Don't have an account? <a onclick="showSignUp()">Sign up</a></div>
+            </div>
+            <div id="signUpForm" style="display: none;">
+                <div class="modal-header"><h2>Create Account</h2><p>Start hosting your Minecraft server</p></div>
+                <div class="modal-body">
+                    <div class="alert" id="signUpAlert"></div>
+                    <form onsubmit="handleSignUp(event)">
+                        <div class="form-group"><label>Name</label><input type="text" id="signUpName" class="form-input" placeholder="Your name" required></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="signUpEmail" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signUpPassword" class="form-input" placeholder="At least 6 characters" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signUpPassword', this)">👁</button></div></div>
+                        <div class="form-group"><label class="form-checkbox"><input type="checkbox" required><span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span></label></div>
+                        <button type="submit" class="btn btn-primary form-submit">Create Account</button>
+                    </form>
+                </div>
+                <div class="modal-footer">Already have an account? <a onclick="showSignIn()">Sign in</a></div>
+            </div>
         </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-bg"><div class="hero-grid"></div></div>
         <div class="hero-container">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="dot"></span>
-                    All systems operational
-                </div>
+                <div class="hero-badge"><span class="dot"></span>All systems operational</div>
                 <h1>Host Your <span>Minecraft</span> Server in Seconds</h1>
-                <p class="hero-description">Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules, our infrastructure.</p>
+                <p class="hero-description">Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules.</p>
                 <div class="hero-cta">
                     <a href="#pricing" class="btn btn-primary btn-large">Start Free Trial</a>
                     <a href="#features" class="btn btn-secondary btn-large">Explore Features</a>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-value">10K<span>+</span></div>
-                        <div class="stat-label">Active Servers</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">99.9<span>%</span></div>
-                        <div class="stat-label">Uptime SLA</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">24<span>/7</span></div>
-                        <div class="stat-label">Support</div>
-                    </div>
-                </div>
+                <div class="hero-stats" id="heroStats"></div>
             </div>
             <div class="hero-visual">
                 <div class="minecraft-scene">
@@ -1345,227 +530,48 @@
                     <div class="floating-block block-4"></div>
                     <div class="main-server-visual">
                         <div class="server-icon"></div>
-                        <div class="server-status">
-                            <span class="status-dot"></span>
-                            Online & Ready
-                        </div>
+                        <div class="server-status"><span class="status-dot"></span>Online & Ready</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features" id="features">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <span class="section-tag">Features</span>
-                <h2>Everything You Need to Dominate</h2>
-                <p>Built for performance, designed for gamers. No compromises.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Setup</h3>
-                    <p>Your server is ready in under 60 seconds. No complex configuration needed—just click and play.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>DDoS Protection</h3>
-                    <p>Enterprise-grade protection keeps your server online even during attacks. Play without interruptions.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">🚀</div>
-                    <h3>NVMe Storage</h3>
-                    <p>Lightning-fast SSD storage for instant world loading and zero lag during gameplay.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">🎮</div>
-                    <h3>One-Click Modpacks</h3>
-                    <p>Install Forge, Fabric, Spigot, Paper, and 100+ modpacks with a single click.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">📊</div>
-                    <h3>Real-time Console</h3>
-                    <p>Full access to your server console with live player stats and performance metrics.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">💾</div>
-                    <h3>Auto Backups</h3>
-                    <p>Automatic daily backups with one-click restore. Never lose your progress again.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">🌐</div>
-                    <h3>Global Network</h3>
-                    <p>Servers in multiple locations worldwide for the lowest ping no matter where you play.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">🔧</div>
-                    <h3>Full FTP Access</h3>
-                    <p>Complete control over your files. Upload plugins, mods, and custom configurations easily.</p>
-                </div>
-            </div>
+            <div class="section-header animate-on-scroll"><span class="section-tag">Features</span><h2>Everything You Need to Dominate</h2><p>Built for performance, designed for gamers.</p></div>
+            <div class="features-grid" id="featuresGrid"></div>
         </div>
     </section>
 
-    <!-- Server Info -->
     <section class="server-info">
         <div class="server-info-container animate-on-scroll">
-            <div class="server-ip-content">
-                <h3>Join Our Community Server</h3>
-                <p>Test our infrastructure on our public demo server</p>
-            </div>
+            <div class="server-ip-content"><h3>Join Our Community Server</h3><p>Test our infrastructure on our public demo server</p></div>
             <div class="server-ip-box">
-                <div class="ip-display">
-                    <span id="serverIp">play.snac-hosting.com</span>
-                    <button class="copy-btn" onclick="copyIP()">Copy</button>
-                </div>
-                <div class="online-count">
-                    <span class="dot"></span>
-                    <span id="playerCount">247 players online</span>
-                </div>
+                <div class="ip-display"><span id="serverIp"></span><button class="copy-btn" onclick="copyIP()">Copy</button></div>
+                <div class="online-count"><span class="dot"></span><span id="playerCount">247 players online</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
     <section class="pricing" id="pricing">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <span class="section-tag">Pricing</span>
-                <h2>Simple, Transparent Pricing</h2>
-                <p>No hidden fees. Cancel anytime. Start with a free trial.</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card animate-on-scroll">
-                    <div class="plan-name">Starter</div>
-                    <div class="plan-description">Perfect for small friend groups</div>
-                    <div class="plan-price">
-                        <span class="price">$4.99</span>
-                        <span class="price-period">/month</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><span class="check">✓</span> 2GB DDR5 RAM</li>
-                        <li><span class="check">✓</span> 2 vCPU Cores</li>
-                        <li><span class="check">✓</span> 25GB NVMe Storage</li>
-                        <li><span class="check">✓</span> 10 Player Slots</li>
-                        <li><span class="check">✓</span> DDoS Protection</li>
-                        <li><span class="check">✓</span> Daily Backups</li>
-                    </ul>
-                    <a href="#" class="btn btn-secondary">Get Started</a>
-                </div>
-                <div class="pricing-card popular animate-on-scroll">
-                    <span class="popular-badge">Most Popular</span>
-                    <div class="plan-name">Pro</div>
-                    <div class="plan-description">For growing communities</div>
-                    <div class="plan-price">
-                        <span class="price">$12.99</span>
-                        <span class="price-period">/month</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><span class="check">✓</span> 6GB DDR5 RAM</li>
-                        <li><span class="check">✓</span> 4 vCPU Cores</li>
-                        <li><span class="check">✓</span> 75GB NVMe Storage</li>
-                        <li><span class="check">✓</span> 50 Player Slots</li>
-                        <li><span class="check">✓</span> Priority Support</li>
-                        <li><span class="check">✓</span> Custom Domain</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Get Started</a>
-                </div>
-                <div class="pricing-card animate-on-scroll">
-                    <div class="plan-name">Enterprise</div>
-                    <div class="plan-description">Maximum power for large servers</div>
-                    <div class="plan-price">
-                        <span class="price">$29.99</span>
-                        <span class="price-period">/month</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><span class="check">✓</span> 16GB DDR5 RAM</li>
-                        <li><span class="check">✓</span> 8 vCPU Cores</li>
-                        <li><span class="check">✓</span> 200GB NVMe Storage</li>
-                        <li><span class="check">✓</span> Unlimited Players</li>
-                        <li><span class="check">✓</span> Dedicated IP</li>
-                        <li><span class="check">✓</span> 24/7 Phone Support</li>
-                    </ul>
-                    <a href="#" class="btn btn-secondary">Contact Sales</a>
-                </div>
-            </div>
+            <div class="section-header animate-on-scroll"><span class="section-tag">Pricing</span><h2>Simple, Transparent Pricing</h2><p>No hidden fees. Cancel anytime.</p></div>
+            <div class="pricing-grid" id="pricingGrid"></div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
     <section class="faq" id="faq">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <span class="section-tag">FAQ</span>
-                <h2>Frequently Asked Questions</h2>
-                <p>Got questions? We've got answers.</p>
-            </div>
-            <div class="faq-grid">
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        How quickly can I get my server running?
-                        <span class="faq-icon"></span>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Your server is deployed instantly after payment. Within 60 seconds, you'll have full access to your control panel and can start playing right away. No technical knowledge required.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        Can I install mods and plugins?
-                        <span class="faq-icon"></span>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Absolutely! We support all major mod loaders including Forge, Fabric, Spigot, Paper, and Bukkit. Install mods with one click or upload your own through FTP. Full customization freedom.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        What's your uptime guarantee?
-                        <span class="faq-icon"></span>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            We guarantee 99.9% uptime backed by our SLA. Our infrastructure runs on enterprise-grade hardware with automatic failover. If we ever fall below this, you get service credits.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        Can I upgrade my plan later?
-                        <span class="faq-icon"></span>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Yes! Upgrade or downgrade anytime with zero downtime. Your world data transfers automatically, and you only pay the difference. Scale as your community grows.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        Do you offer refunds?
-                        <span class="faq-icon"></span>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            We offer a 7-day money-back guarantee, no questions asked. If SNAC-Hosting isn't right for you, get a full refund. We also offer a free trial so you can test before committing.
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="section-header animate-on-scroll"><span class="section-tag">FAQ</span><h2>Frequently Asked Questions</h2><p>Got questions? We've got answers.</p></div>
+            <div class="faq-grid" id="faqGrid"></div>
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta" id="support">
         <div class="cta-content animate-on-scroll">
             <h2>Ready to Start Your Server?</h2>
-            <p>Join thousands of gamers who trust SNAC-Hosting for their Minecraft adventures. No credit card required to start.</p>
+            <p>Join thousands of gamers who trust SNAC-Hosting. No credit card required.</p>
             <div class="cta-buttons">
                 <a href="#pricing" class="btn btn-primary btn-large">Start Free Trial</a>
                 <a href="#" class="btn btn-secondary btn-large">Contact Support</a>
@@ -1573,196 +579,211 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-container">
             <div class="footer-top">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <div class="logo-icon">S</div>
-                        <span class="logo-text">SNAC<span>-Hosting</span></span>
-                    </a>
-                    <p>Premium Minecraft server hosting with instant setup, powerful hardware, and unbeatable support.</p>
+                    <a href="#" class="logo"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
+                    <p>Premium Minecraft server hosting with instant setup and unbeatable support.</p>
                 </div>
-                <div class="footer-column">
-                    <h4>Product</h4>
-                    <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#">Server Locations</a></li>
-                        <li><a href="#">Status Page</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Discord</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
+                <div class="footer-column"><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Locations</a></li><li><a href="#">Status</a></li></ul></div>
+                <div class="footer-column"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Docs</a></li><li><a href="#">Contact</a></li><li><a href="#">Discord</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Careers</a></li></ul></div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 SNAC-Hosting. All rights reserved.</p>
+                <p>© 2026 SNAC-Hosting. All rights reserved.</p>
                 <div class="social-links">
-                    <a href="#" class="social-link" title="Discord">💬</a>
-                    <a href="#" class="social-link" title="Twitter">🐦</a>
-                    <a href="#" class="social-link" title="YouTube">▶️</a>
-                    <a href="#" class="social-link" title="GitHub">⌨️</a>
+                    <a href="#" class="social-link">💬</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">▶️</a>
+                    <a href="#" class="social-link">⌨️</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+        function renderStats() {
+            const s = CONFIG.stats;
+            document.getElementById('heroStats').innerHTML = `
+                <div class="stat"><div class="stat-value">${s.servers}<span>+</span></div><div class="stat-label">Active Servers</div></div>
+                <div class="stat"><div class="stat-value">${s.uptime}<span>%</span></div><div class="stat-label">Uptime SLA</div></div>
+                <div class="stat"><div class="stat-value">${s.support.replace('/', '<span>/')}</span></div><div class="stat-label">Support</div></div>
+            `;
+        }
 
-        // Mobile menu toggle
+        function renderFeatures() {
+            document.getElementById('featuresGrid').innerHTML = CONFIG.features.map(f => `
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">${f.icon}</div>
+                    <h3>${f.title}</h3>
+                    <p>${f.description}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderPricing() {
+            document.getElementById('pricingGrid').innerHTML = CONFIG.plans.map(p => `
+                <div class="pricing-card ${p.popular ? 'popular' : ''} animate-on-scroll">
+                    ${p.popular ? '<span class="popular-badge">Most Popular</span>' : ''}
+                    <div class="plan-name">${p.name}</div>
+                    <div class="plan-description">${p.description}</div>
+                    <div class="plan-price"><span class="price">${p.price}</span><span class="price-period">${p.period}</span></div>
+                    <ul class="plan-features">${p.features.map(f => `<li><span class="check">✓</span>${f}</li>`).join('')}</ul>
+                    <button class="btn btn-${p.buttonStyle}" onclick="handlePlanSelect('${p.name}')">${p.buttonText}</button>
+                </div>
+            `).join('');
+        }
+
+        function renderFAQ() {
+            document.getElementById('faqGrid').innerHTML = CONFIG.faq.map(f => `
+                <div class="faq-item animate-on-scroll">
+                    <button class="faq-question" onclick="toggleFAQ(this)">${f.question}<span class="faq-icon"></span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">${f.answer}</div></div>
+                </div>
+            `).join('');
+        }
+
+        function renderAuthButtons() {
+            const user = Auth.getCurrentUser();
+            const nav = document.getElementById('navButtons');
+            const mob = document.getElementById('mobileAuthButtons');
+            if (user) {
+                const init = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                nav.innerHTML = `<div class="user-menu"><div class="user-avatar">${init}</div><div class="user-dropdown"><div class="user-dropdown-header"><strong>${user.name}</strong><span>${user.email}</span></div><a href="#">Dashboard</a><a href="#">My Servers</a><button class="logout-btn" onclick="handleLogout()">Sign Out</button></div></div>`;
+                mob.innerHTML = `<p style="color:var(--text-secondary);margin-bottom:1rem;">Signed in as ${user.name}</p><button class="btn btn-secondary" style="width:100%;" onclick="handleLogout();toggleMobileMenu();">Sign Out</button>`;
+            } else {
+                nav.innerHTML = `<button class="btn btn-ghost" onclick="openAuthModal('signin')">Sign In</button><button class="btn btn-primary" onclick="openAuthModal('signup')">Get Started</button>`;
+                mob.innerHTML = `<button class="btn btn-ghost" style="width:100%;margin-bottom:1rem;" onclick="openAuthModal('signin');toggleMobileMenu();">Sign In</button><button class="btn btn-primary" style="width:100%;" onclick="openAuthModal('signup');toggleMobileMenu();">Get Started</button>`;
+            }
+        }
+
+        function handlePlanSelect(name) {
+            const user = Auth.getCurrentUser();
+            if (user) alert(`Thanks ${user.name}! You selected ${name}. Redirecting to checkout...`);
+            else openAuthModal('signup');
+        }
+
+        function openAuthModal(mode) {
+            document.getElementById('authModal').classList.add('active');
+            mode === 'signup' ? showSignUp() : showSignIn();
+            clearAlerts();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+            clearAlerts();
+        }
+
+        function showSignIn() {
+            document.getElementById('signInForm').style.display = 'block';
+            document.getElementById('signUpForm').style.display = 'none';
+        }
+
+        function showSignUp() {
+            document.getElementById('signInForm').style.display = 'none';
+            document.getElementById('signUpForm').style.display = 'block';
+        }
+
+        function clearAlerts() {
+            document.querySelectorAll('.alert').forEach(el => el.className = 'alert');
+        }
+
+        function showAlert(id, msg, type) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = `alert ${type} visible`;
+        }
+
+        function handleSignIn(e) {
+            e.preventDefault();
+            clearAlerts();
+            const result = Auth.login(document.getElementById('signInEmail').value, document.getElementById('signInPassword').value);
+            if (result.success) {
+                showAlert('signInAlert', result.message, 'success');
+                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1000);
+            } else showAlert('signInAlert', result.message, 'error');
+        }
+
+        function handleSignUp(e) {
+            e.preventDefault();
+            clearAlerts();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const result = Auth.register(email, password, name);
+            if (result.success) {
+                showAlert('signUpAlert', result.message, 'success');
+                Auth.login(email, password);
+                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1500);
+            } else showAlert('signUpAlert', result.message, 'error');
+        }
+
+        function handleLogout() { Auth.logout(); renderAuthButtons(); }
+
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            input.type = input.type === 'password' ? 'text' : 'password';
+            btn.textContent = input.type === 'password' ? '👁' : '🙈';
+        }
+
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('active');
             document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
         }
 
-        // Copy IP functionality
         function copyIP() {
-            const ip = document.getElementById('serverIp').textContent;
-            navigator.clipboard.writeText(ip).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
+            navigator.clipboard.writeText(document.getElementById('serverIp').textContent);
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
         }
 
-        // FAQ toggle
         function toggleFAQ(button) {
             const item = button.parentElement;
-            const isActive = item.classList.contains('active');
-            
-            // Close all FAQ items
-            document.querySelectorAll('.faq-item').forEach(faq => {
-                faq.classList.remove('active');
-            });
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
         }
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Simulate player count updates
         function updatePlayerCount() {
-            const count = Math.floor(Math.random() * 100) + 200;
-            document.getElementById('playerCount').textContent = `${count} players online`;
+            document.getElementById('playerCount').textContent = `${Math.floor(Math.random() * 100) + 200} players online`;
         }
-        
-        setInterval(updatePlayerCount, 10000);
 
-        // Add staggered animation delays to grid items
-        document.querySelectorAll('.features-grid .feature-card').forEach((card, index) => {
-            card.style.transitionDelay = `${index * 0.1}s`;
-        });
-
-        document.querySelectorAll('.pricing-grid .pricing-card').forEach((card, index) => {
-            card.style.transitionDelay = `${index * 0.15}s`;
-        });
-
-        document.querySelectorAll('.faq-grid .faq-item').forEach((item, index) => {
-            item.style.transitionDelay = `${index * 0.1}s`;
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Button ripple effect
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out;
-                `;
-                
-                const size = Math.max(rect.width, rect.height);
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-                ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-                
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
+        document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeAuthModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuthModal(); });
 
-        // Add ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+        document.addEventListener('DOMContentLoaded', function() {
+            renderStats();
+            renderFeatures();
+            renderPricing();
+            renderFAQ();
+            renderAuthButtons();
+            document.getElementById('serverIp').textContent = CONFIG.serverIP;
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            document.querySelectorAll('.features-grid .feature-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
+            document.querySelectorAll('.pricing-grid .pricing-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.15}s`);
+            document.querySelectorAll('.faq-grid .faq-item').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
+            setInterval(updatePlayerCount, 10000);
+        });
     </script>
 </body>
 </html>
