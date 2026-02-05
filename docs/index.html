@@ -396,6 +396,59 @@
             .cta-buttons { flex-direction: column; }
             .cta-buttons .btn { width: 100%; }
         }
+        /* 📜 TERMS PAGE STYLES */
+        #termsPage {
+            display: none; /* Hidden by default */
+            padding: 8rem 2rem 4rem;
+            min-height: 100vh;
+            background: var(--bg-primary);
+        }
+        .terms-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .terms-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .terms-header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .terms-header span {
+            color: var(--accent-primary);
+        }
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .terms-content h2 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+            font-size: 1.5rem;
+        }
+        .terms-content p, .terms-content ul {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .terms-content ul {
+            padding-left: 1.5rem;
+        }
+        .terms-content li {
+            margin-bottom: 0.5rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -615,7 +668,31 @@
             </div>
         </section>
     </main>
+<section id="termsPage">
+        <div class="terms-container">
+            <a onclick="showHomePage()" class="back-link">← Back to Home</a>
+            <div class="terms-header">
+                <h1>Terms of <span>Service</span></h1>
+                <p class="last-updated">Last Updated: February 2026</p>
+            </div>
+            <div class="terms-content">
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing and using services provided by SNAC-Hosting, you accept and agree to be bound by the terms and provision of this agreement.</p>
 
+                <h2>2. Service Availability</h2>
+                <p>We strive to maintain 99.9% uptime. However, periodic maintenance or unforeseen circumstances may cause temporary interruptions. We will provide updates via our Discord community.</p>
+
+                <h2>3. Refunds & Cancellations</h2>
+                <p>We offer a 48-hour money-back guarantee if the service does not meet the specified performance metrics. Abuse of this policy may result in a ban.</p>
+
+                <h2>4. Prohibited Content</h2>
+                <p>You may not use our servers for illegal activities, crypto mining, or massive network attacks (DDoS). Violation of this rule results in immediate termination without refund.</p>
+                
+                <h2>5. Limitation of Liability</h2>
+                <p>SNAC-Hosting is not responsible for data loss. Users are responsible for maintaining their own off-site backups.</p>
+            </div>
+        </div>
+    </section>
     <footer>
         <div class="footer-container">
             <div class="footer-top">
