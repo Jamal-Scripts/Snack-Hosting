@@ -45,7 +45,6 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes checkmark { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        @keyframes confetti { 0% { opacity: 1; transform: translateY(0) rotate(0deg); } 100% { opacity: 0; transform: translateY(-100px) rotate(720deg); } }
 
         .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
@@ -400,7 +399,245 @@
     </style>
 </head>
 <body>
-<script>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showHomePage()"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a></li>
+            </ul>
+            <div class="nav-buttons" id="navButtons"></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-menu-links">
+            <li><a href="#features" onclick="toggleMobileMenu()">Features</a></li>
+            <li><a href="#pricing" onclick="toggleMobileMenu()">Pricing</a></li>
+            <li><a href="#faq" onclick="toggleMobileMenu()">FAQ</a></li>
+            <li><a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="toggleMobileMenu()">Support</a></li>
+        </ul>
+        <div id="mobileAuthButtons" style="margin-top: 2rem;"></div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            <div id="signInForm">
+                <div class="modal-header"><h2>Welcome Back</h2><p>Sign in to your account</p></div>
+                <div class="modal-body">
+                    <div class="alert" id="signInAlert"></div>
+                    <form onsubmit="handleSignIn(event)">
+                        <div class="form-group"><label>Email</label><input type="email" id="signInEmail" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signInPassword" class="form-input" placeholder="••••••••" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signInPassword', this)">👁</button></div></div>
+                        <button type="submit" class="btn btn-primary form-submit">Sign In</button>
+                    </form>
+                </div>
+                <div class="modal-footer">Don't have an account? <a onclick="showSignUp()">Sign up</a></div>
+            </div>
+            <div id="signUpForm" style="display: none;">
+                <div class="modal-header"><h2>Create Account</h2><p>Start hosting your Minecraft server</p></div>
+                <div class="modal-body">
+                    <div class="alert" id="signUpAlert"></div>
+                    <form onsubmit="handleSignUp(event)">
+                        <div class="form-group"><label>Name</label><input type="text" id="signUpName" class="form-input" placeholder="Your name" required></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="signUpEmail" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signUpPassword" class="form-input" placeholder="At least 6 characters" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signUpPassword', this)">👁</button></div></div>
+                        <div class="form-group"><label class="form-checkbox"><input type="checkbox" required><span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span></label></div>
+                        <button type="submit" class="btn btn-primary form-submit">Create Account</button>
+                    </form>
+                </div>
+                <div class="modal-footer">Already have an account? <a onclick="showSignIn()">Sign in</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal checkout-modal">
+            <button class="modal-close" onclick="closeCheckoutModal()">×</button>
+            <div class="modal-header"><h2>🛒 Checkout</h2><p>Complete your order</p></div>
+            <div class="modal-body">
+                <div class="alert" id="checkoutAlert"></div>
+                <div class="checkout-grid">
+                    <div class="checkout-form">
+                        <div class="checkout-section">
+                            <h3><span class="step-number">1</span> Billing Cycle</h3>
+                            <div class="billing-cycle" id="billingCycle"></div>
+                        </div>
+
+                        <div class="checkout-section">
+                            <h3><span class="step-number">2</span> Account Information</h3>
+                            <div class="form-row">
+                                <div class="form-group"><label>First Name</label><input type="text" id="checkoutFirstName" class="form-input" placeholder="John" required></div>
+                                <div class="form-group"><label>Last Name</label><input type="text" id="checkoutLastName" class="form-input" placeholder="Doe" required></div>
+                            </div>
+                            <div class="form-group"><label>Email</label><input type="email" id="checkoutEmail" class="form-input" placeholder="you@example.com" required></div>
+                            <div class="form-group"><label>Server Name (optional)</label><input type="text" id="checkoutServerName" class="form-input" placeholder="My Awesome Server"></div>
+                        </div>
+
+                        <div class="checkout-section">
+                            <h3><span class="step-number">3</span> Billing Address</h3>
+                            <div class="form-group"><label>Address</label><input type="text" id="checkoutAddress" class="form-input" placeholder="123 Main Street" required></div>
+                            <div class="form-row">
+                                <div class="form-group"><label>City</label><input type="text" id="checkoutCity" class="form-input" placeholder="New York" required></div>
+                                <div class="form-group"><label>ZIP Code</label><input type="text" id="checkoutZip" class="form-input" placeholder="10001" required></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Country</label>
+                                    <select id="checkoutCountry" class="form-input" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="FR">France</option>
+                                        <option value="AU">Australia</option>
+                                        <option value="OTHER">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>State/Province</label><input type="text" id="checkoutState" class="form-input" placeholder="NY"></div>
+                            </div>
+                        </div>
+
+                        <div class="checkout-section">
+                            <h3><span class="step-number">4</span> Payment Method</h3>
+                            <div class="payment-methods">
+                                <div class="payment-method selected" onclick="selectPayment('card')"><span class="payment-icon">💳</span>Credit Card</div>
+                                <div class="payment-method" onclick="selectPayment('paypal')"><span class="payment-icon">🅿️</span>PayPal</div>
+                            </div>
+                            <div id="cardPaymentFields">
+                                <div class="form-group">
+                                    <label>Card Number</label>
+                                    <div class="card-input-group">
+                                        <input type="text" id="checkoutCardNumber" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                        <span class="card-icons">💳</span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Expiry Date</label><input type="text" id="checkoutExpiry" class="form-input" placeholder="MM/YY" maxlength="5" required></div>
+                                    <div class="form-group"><label>CVV</label><input type="text" id="checkoutCVV" class="form-input" placeholder="123" maxlength="4" required></div>
+                                </div>
+                                <div class="form-group"><label>Name on Card</label><input type="text" id="checkoutCardName" class="form-input" placeholder="JOHN DOE" required></div>
+                            </div>
+                            <div id="paypalPaymentFields" style="display:none;">
+                                <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">You will be redirected to PayPal to complete your payment.</p>
+                            </div>
+                            <div class="secure-badge">🔒 Your payment is secured with 256-bit SSL encryption</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-checkbox"><input type="checkbox" id="checkoutTerms" required><span>I agree to the <a href="https://docs.google.com/document/d/your-terms-doc-id" target="_blank">Terms of Service</a></span></label>
+                        </div>
+
+                        <button type="button" class="btn btn-primary btn-large form-submit" onclick="processPayment()">Complete Order</button>
+                    </div>
+
+                    <div class="order-summary" id="orderSummary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h2>Order Confirmed!</h2>
+                <p>Your server is being set up. You'll receive an email with login details shortly.</p>
+                <div class="order-details" id="orderDetails"></div>
+                <button class="btn btn-primary btn-large" onclick="closeSuccessModal()">Go to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <main id="mainContent">
+        <section class="hero">
+            <div class="hero-bg"><div class="hero-grid"></div></div>
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge"><span class="dot"></span>All systems operational</div>
+                    <h1>Host Your <span>Minecraft</span> Server in Seconds</h1>
+                    <p class="hero-description">Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules.</p>
+                    <div class="hero-cta">
+                        <a href="#pricing" class="btn btn-primary btn-large">View Plans</a>
+                        <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="btn btn-secondary btn-large">Contact Support</a>
+                    </div>
+                    <div class="hero-stats" id="heroStats"></div>
+                </div>
+                <div class="hero-visual">
+                    <div class="minecraft-scene">
+                        <div class="floating-block block-1"></div>
+                        <div class="floating-block block-2"></div>
+                        <div class="floating-block block-3"></div>
+                        <div class="floating-block block-4"></div>
+                        <div class="main-server-visual">
+                            <div class="server-icon"></div>
+                            <div class="server-status"><span class="status-dot"></span>Online & Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="section-container">
+                <div class="section-header animate-on-scroll"><span class="section-tag">Features</span><h2>Everything You Need to Dominate</h2><p>Built for performance, designed for gamers.</p></div>
+                <div class="features-grid" id="featuresGrid"></div>
+            </div>
+        </section>
+
+        <section class="pricing" id="pricing">
+            <div class="section-container">
+                <div class="section-header animate-on-scroll"><span class="section-tag">Pricing</span><h2>Simple, Transparent Pricing</h2><p>No hidden fees. Cancel anytime.</p></div>
+                <div class="pricing-grid" id="pricingGrid"></div>
+            </div>
+        </section>
+
+        <section class="faq" id="faq">
+            <div class="section-container">
+                <div class="section-header animate-on-scroll"><span class="section-tag">FAQ</span><h2>Frequently Asked Questions</h2><p>Got questions? We've got answers.</p></div>
+                <div class="faq-grid" id="faqGrid"></div>
+            </div>
+        </section>
+
+        <section class="cta" id="support">
+            <div class="cta-content animate-on-scroll">
+                <h2>Ready to Start Your Server?</h2>
+                <p>Join thousands of gamers who trust SNAC-Hosting. Get started today!</p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="btn btn-primary btn-large">View Plans</a>
+                    <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="btn btn-secondary btn-large">Contact Support</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
+                    <p>Premium Minecraft server hosting with instant setup and unbeatable support.</p>
+                </div>
+                <div class="footer-column"><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Locations</a></li><li><a href="#">Status</a></li></ul></div>
+                <div class="footer-column"><h4>Support</h4><ul><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Help Center</a></li><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Contact Us</a></li><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Discord</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Careers</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 SNAC-Hosting. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="social-link" title="Discord">💬</a>
+                    <a href="https://youtube.com" target="_blank" class="social-link" title="YouTube">▶️</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
         // ============================================
         // ⚙️ CONFIGURATION & STATE
         // ============================================
@@ -796,622 +1033,6 @@
                 localStorage.setItem('snac_active_servers', liveServerCount); // Save to browser
                 renderStats(); // Update the UI instantly
                 
-                closeCheckoutModal();
-                showSuccessModal();
-                Cart.clear();
-                renderAuthButtons();
-                btn.textContent = 'Complete Order';
-                btn.disabled = false;
-            }, 2000);
-        }
-
-        function showCheckoutAlert(message, type) {
-            const alert = document.getElementById('checkoutAlert');
-            alert.textContent = message;
-            alert.className = `alert ${type} visible`;
-            setTimeout(() => alert.className = 'alert', 5000);
-        }
-
-        function showSuccessModal() {
-            const item = Cart.items[0];
-            const total = Cart.getTotal();
-            const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
-            
-            document.getElementById('orderDetails').innerHTML = `
-                <h4>Order Details</h4>
-                <div class="order-detail-row"><span>Order ID</span><span>${orderId}</span></div>
-                <div class="order-detail-row"><span>Plan</span><span>${item?.name || 'N/A'}</span></div>
-                <div class="order-detail-row"><span>Billing</span><span>${selectedBillingCycle.charAt(0).toUpperCase() + selectedBillingCycle.slice(1)}</span></div>
-                <div class="order-detail-row"><span>Total</span><span style="color: var(--accent-primary);">$${total.toFixed(2)}</span></div>
-            `;
-            
-            document.getElementById('successModal').classList.add('active');
-        }
-
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.remove('active');
-        }
-
-        function openAuthModal(mode) {
-            document.getElementById('authModal').classList.add('active');
-            mode === 'signup' ? showSignUp() : showSignIn();
-            clearAlerts();
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('active');
-            clearAlerts();
-        }
-
-        function showSignIn() {
-            document.getElementById('signInForm').style.display = 'block';
-            document.getElementById('signUpForm').style.display = 'none';
-        }
-
-        function showSignUp() {
-            document.getElementById('signInForm').style.display = 'none';
-            document.getElementById('signUpForm').style.display = 'block';
-        }
-
-        function clearAlerts() {
-            document.querySelectorAll('.alert').forEach(el => el.className = 'alert');
-        }
-
-        function showAlert(id, msg, type) {
-            const el = document.getElementById(id);
-            el.textContent = msg;
-            el.className = `alert ${type} visible`;
-        }
-
-        function handleSignIn(e) {
-            e.preventDefault();
-            clearAlerts();
-            const result = Auth.login(document.getElementById('signInEmail').value, document.getElementById('signInPassword').value);
-            if (result.success) {
-                showAlert('signInAlert', result.message, 'success');
-                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1000);
-            } else showAlert('signInAlert', result.message, 'error');
-        }
-
-        function handleSignUp(e) {
-            e.preventDefault();
-            clearAlerts();
-            const name = document.getElementById('signUpName').value;
-            const email = document.getElementById('signUpEmail').value;
-            const password = document.getElementById('signUpPassword').value;
-            const result = Auth.register(email, password, name);
-            if (result.success) {
-                showAlert('signUpAlert', result.message, 'success');
-                Auth.login(email, password);
-                setTimeout(() => { closeAuthModal(); renderAuthButtons(); }, 1500);
-            } else showAlert('signUpAlert', result.message, 'error');
-        }
-
-        function handleLogout() { Auth.logout(); renderAuthButtons(); }
-
-        function togglePassword(id, btn) {
-            const input = document.getElementById(id);
-            input.type = input.type === 'password' ? 'text' : 'password';
-            btn.textContent = input.type === 'password' ? '👁' : '🙈';
-        }
-
-        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
-        }
-
-        function toggleFAQ(button) {
-            const item = button.parentElement;
-            const wasActive = item.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
-            if (!wasActive) item.classList.add('active');
-        }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Close modals on overlay click
-        ['authModal', 'checkoutModal', 'successModal'].forEach(id => {
-            document.getElementById(id).addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-        });
-
-        document.addEventListener('keydown', e => { 
-            if (e.key === 'Escape') {
-                closeAuthModal();
-                closeCheckoutModal();
-                closeSuccessModal();
-            }
-        });
-
-        // Format card number input
-        document.addEventListener('DOMContentLoaded', function() {
-            renderStats();
-            renderFeatures();
-            renderPricing();
-            renderFAQ();
-            renderAuthButtons();
-            Cart.load();
-            
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-            document.querySelectorAll('.features-grid .feature-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
-            document.querySelectorAll('.pricing-grid .pricing-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.15}s`);
-            document.querySelectorAll('.faq-grid .faq-item').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
-            
-            // Card number formatting
-            const cardInput = document.getElementById('checkoutCardNumber');
-            if (cardInput) {
-                cardInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
-                    let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
-                    e.target.value = formatted;
-                });
-            }
-            
-            // Expiry formatting
-            const expiryInput = document.getElementById('checkoutExpiry');
-            if (expiryInput) {
-                expiryInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    if (value.length >= 2) {
-                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
-                    }
-                    e.target.value = value;
-                });
-            }
-        });
-    </script>
-    <nav id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="showHomePage()"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a></li>
-            </ul>
-            <div class="nav-buttons" id="navButtons"></div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
-        </div>
-    </nav>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <ul class="mobile-menu-links">
-            <li><a href="#features" onclick="toggleMobileMenu()">Features</a></li>
-            <li><a href="#pricing" onclick="toggleMobileMenu()">Pricing</a></li>
-            <li><a href="#faq" onclick="toggleMobileMenu()">FAQ</a></li>
-            <li><a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="toggleMobileMenu()">Support</a></li>
-        </ul>
-        <div id="mobileAuthButtons" style="margin-top: 2rem;"></div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal">
-            <button class="modal-close" onclick="closeAuthModal()">×</button>
-            <div id="signInForm">
-                <div class="modal-header"><h2>Welcome Back</h2><p>Sign in to your account</p></div>
-                <div class="modal-body">
-                    <div class="alert" id="signInAlert"></div>
-                    <form onsubmit="handleSignIn(event)">
-                        <div class="form-group"><label>Email</label><input type="email" id="signInEmail" class="form-input" placeholder="you@example.com" required></div>
-                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signInPassword" class="form-input" placeholder="••••••••" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signInPassword', this)">👁</button></div></div>
-                        <button type="submit" class="btn btn-primary form-submit">Sign In</button>
-                    </form>
-                </div>
-                <div class="modal-footer">Don't have an account? <a onclick="showSignUp()">Sign up</a></div>
-            </div>
-            <div id="signUpForm" style="display: none;">
-                <div class="modal-header"><h2>Create Account</h2><p>Start hosting your Minecraft server</p></div>
-                <div class="modal-body">
-                    <div class="alert" id="signUpAlert"></div>
-                    <form onsubmit="handleSignUp(event)">
-                        <div class="form-group"><label>Name</label><input type="text" id="signUpName" class="form-input" placeholder="Your name" required></div>
-                        <div class="form-group"><label>Email</label><input type="email" id="signUpEmail" class="form-input" placeholder="you@example.com" required></div>
-                        <div class="form-group"><label>Password</label><div class="password-toggle"><input type="password" id="signUpPassword" class="form-input" placeholder="At least 6 characters" required><button type="button" class="password-toggle-btn" onclick="togglePassword('signUpPassword', this)">👁</button></div></div>
-                        <div class="form-group"><label class="form-checkbox"><input type="checkbox" required><span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span></label></div>
-                        <button type="submit" class="btn btn-primary form-submit">Create Account</button>
-                    </form>
-                </div>
-                <div class="modal-footer">Already have an account? <a onclick="showSignIn()">Sign in</a></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="modal checkout-modal">
-            <button class="modal-close" onclick="closeCheckoutModal()">×</button>
-            <div class="modal-header"><h2>🛒 Checkout</h2><p>Complete your order</p></div>
-            <div class="modal-body">
-                <div class="alert" id="checkoutAlert"></div>
-                <div class="checkout-grid">
-                    <div class="checkout-form">
-                        <div class="checkout-section">
-                            <h3><span class="step-number">1</span> Billing Cycle</h3>
-                            <div class="billing-cycle" id="billingCycle"></div>
-                        </div>
-
-                        <div class="checkout-section">
-                            <h3><span class="step-number">2</span> Account Information</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>First Name</label><input type="text" id="checkoutFirstName" class="form-input" placeholder="John" required></div>
-                                <div class="form-group"><label>Last Name</label><input type="text" id="checkoutLastName" class="form-input" placeholder="Doe" required></div>
-                            </div>
-                            <div class="form-group"><label>Email</label><input type="email" id="checkoutEmail" class="form-input" placeholder="you@example.com" required></div>
-                            <div class="form-group"><label>Server Name (optional)</label><input type="text" id="checkoutServerName" class="form-input" placeholder="My Awesome Server"></div>
-                        </div>
-
-                        <div class="checkout-section">
-                            <h3><span class="step-number">3</span> Billing Address</h3>
-                            <div class="form-group"><label>Address</label><input type="text" id="checkoutAddress" class="form-input" placeholder="123 Main Street" required></div>
-                            <div class="form-row">
-                                <div class="form-group"><label>City</label><input type="text" id="checkoutCity" class="form-input" placeholder="New York" required></div>
-                                <div class="form-group"><label>ZIP Code</label><input type="text" id="checkoutZip" class="form-input" placeholder="10001" required></div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Country</label>
-                                    <select id="checkoutCountry" class="form-input" required>
-                                        <option value="">Select Country</option>
-                                        <option value="US">United States</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="UK">United Kingdom</option>
-                                        <option value="DE">Germany</option>
-                                        <option value="FR">France</option>
-                                        <option value="AU">Australia</option>
-                                        <option value="OTHER">Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-group"><label>State/Province</label><input type="text" id="checkoutState" class="form-input" placeholder="NY"></div>
-                            </div>
-                        </div>
-
-                        <div class="checkout-section">
-                            <h3><span class="step-number">4</span> Payment Method</h3>
-                            <div class="payment-methods">
-                                <div class="payment-method selected" onclick="selectPayment('card')"><span class="payment-icon">💳</span>Credit Card</div>
-                                <div class="payment-method" onclick="selectPayment('paypal')"><span class="payment-icon">🅿️</span>PayPal</div>
-                            </div>
-                            <div id="cardPaymentFields">
-                                <div class="form-group">
-                                    <label>Card Number</label>
-                                    <div class="card-input-group">
-                                        <input type="text" id="checkoutCardNumber" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                                        <span class="card-icons">💳</span>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group"><label>Expiry Date</label><input type="text" id="checkoutExpiry" class="form-input" placeholder="MM/YY" maxlength="5" required></div>
-                                    <div class="form-group"><label>CVV</label><input type="text" id="checkoutCVV" class="form-input" placeholder="123" maxlength="4" required></div>
-                                </div>
-                                <div class="form-group"><label>Name on Card</label><input type="text" id="checkoutCardName" class="form-input" placeholder="JOHN DOE" required></div>
-                            </div>
-                            <div id="paypalPaymentFields" style="display:none;">
-                                <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">You will be redirected to PayPal to complete your payment.</p>
-                            </div>
-                            <div class="secure-badge">🔒 Your payment is secured with 256-bit SSL encryption</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-checkbox"><input type="checkbox" id="checkoutTerms" required><span>I agree to the <a href="https://docs.google.com/document/d/your-terms-doc-id" target="_blank">Terms of Service</a></span></label>
-                        </div>
-
-                        <button type="button" class="btn btn-primary btn-large form-submit" onclick="processPayment()">Complete Order</button>
-                    </div>
-
-                    <div class="order-summary" id="orderSummary"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal">
-            <div class="success-content">
-                <div class="success-icon">✓</div>
-                <h2>Order Confirmed!</h2>
-                <p>Your server is being set up. You'll receive an email with login details shortly.</p>
-                <div class="order-details" id="orderDetails"></div>
-                <button class="btn btn-primary btn-large" onclick="closeSuccessModal()">Go to Dashboard</button>
-            </div>
-        </div>
-    </div>
-
-    <main id="mainContent">
-        <section class="hero">
-            <div class="hero-bg"><div class="hero-grid"></div></div>
-            <div class="hero-container">
-                <div class="hero-content">
-                    <div class="hero-badge"><span class="dot"></span>All systems operational</div>
-                    <h1>Host Your <span>Minecraft</span> Server in Seconds</h1>
-                    <p class="hero-description">Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules.</p>
-                    <div class="hero-cta">
-                        <a href="#pricing" class="btn btn-primary btn-large">View Plans</a>
-                        <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="btn btn-secondary btn-large">Contact Support</a>
-                    </div>
-                    <div class="hero-stats" id="heroStats"></div>
-                </div>
-                <div class="hero-visual">
-                    <div class="minecraft-scene">
-                        <div class="floating-block block-1"></div>
-                        <div class="floating-block block-2"></div>
-                        <div class="floating-block block-3"></div>
-                        <div class="floating-block block-4"></div>
-                        <div class="main-server-visual">
-                            <div class="server-icon"></div>
-                            <div class="server-status"><span class="status-dot"></span>Online & Ready</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features" id="features">
-            <div class="section-container">
-                <div class="section-header animate-on-scroll"><span class="section-tag">Features</span><h2>Everything You Need to Dominate</h2><p>Built for performance, designed for gamers.</p></div>
-                <div class="features-grid" id="featuresGrid"></div>
-            </div>
-        </section>
-
-        <section class="pricing" id="pricing">
-            <div class="section-container">
-                <div class="section-header animate-on-scroll"><span class="section-tag">Pricing</span><h2>Simple, Transparent Pricing</h2><p>No hidden fees. Cancel anytime.</p></div>
-                <div class="pricing-grid" id="pricingGrid"></div>
-            </div>
-        </section>
-
-        <section class="faq" id="faq">
-            <div class="section-container">
-                <div class="section-header animate-on-scroll"><span class="section-tag">FAQ</span><h2>Frequently Asked Questions</h2><p>Got questions? We've got answers.</p></div>
-                <div class="faq-grid" id="faqGrid"></div>
-            </div>
-        </section>
-
-        <section class="cta" id="support">
-            <div class="cta-content animate-on-scroll">
-                <h2>Ready to Start Your Server?</h2>
-                <p>Join thousands of gamers who trust SNAC-Hosting. Get started today!</p>
-                <div class="cta-buttons">
-                    <a href="#pricing" class="btn btn-primary btn-large">View Plans</a>
-                    <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="btn btn-secondary btn-large">Contact Support</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <a href="#" class="logo"><div class="logo-icon">S</div><span class="logo-text">SNAC<span>-Hosting</span></span></a>
-                    <p>Premium Minecraft server hosting with instant setup and unbeatable support.</p>
-                </div>
-                <div class="footer-column"><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Locations</a></li><li><a href="#">Status</a></li></ul></div>
-                <div class="footer-column"><h4>Support</h4><ul><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Help Center</a></li><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Contact Us</a></li><li><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Discord</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Careers</a></li></ul></div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 SNAC-Hosting. All rights reserved.</p>
-                <div class="social-links">
-                    <a href="https://discord.gg/K8tcDCFe2P" target="_blank" class="social-link" title="Discord">💬</a>
-                    <a href="https://youtube.com" target="_blank" class="social-link" title="YouTube">▶️</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        let selectedPaymentMethod = 'card';
-        let selectedBillingCycle = 'monthly';
-
-        function renderStats() {
-            const s = CONFIG.stats;
-            document.getElementById('heroStats').innerHTML = `
-                <div class="stat"><div class="stat-value">${s.servers}<span>+</span></div><div class="stat-label">Active Servers</div></div>
-                <div class="stat"><div class="stat-value">${s.uptime}<span>%</span></div><div class="stat-label">Uptime SLA</div></div>
-                <div class="stat"><div class="stat-value">${s.support.replace('/', '<span>/')}</span></div><div class="stat-label">Support</div></div>
-            `;
-        }
-
-        function renderFeatures() {
-            document.getElementById('featuresGrid').innerHTML = CONFIG.features.map(f => `
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon">${f.icon}</div>
-                    <h3>${f.title}</h3>
-                    <p>${f.description}</p>
-                </div>
-            `).join('');
-        }
-
-        function renderPricing() {
-            document.getElementById('pricingGrid').innerHTML = CONFIG.plans.map(p => `
-                <div class="pricing-card ${p.popular ? 'popular' : ''} animate-on-scroll">
-                    ${p.popular ? '<span class="popular-badge">Most Popular</span>' : ''}
-                    <div class="plan-name">${p.name}</div>
-                    <div class="plan-description">${p.description}</div>
-                    <div class="plan-price"><span class="price">$${p.price.toFixed(2)}</span><span class="price-period">${p.period}</span></div>
-                    <ul class="plan-features">${p.features.map(f => `<li><span class="check">✓</span>${f}</li>`).join('')}</ul>
-                    <button class="btn btn-${p.buttonStyle}" onclick="handlePlanSelect('${p.id}')">${p.buttonText}</button>
-                </div>
-            `).join('');
-        }
-
-        function renderFAQ() {
-            document.getElementById('faqGrid').innerHTML = CONFIG.faq.map(f => `
-                <div class="faq-item animate-on-scroll">
-                    <button class="faq-question" onclick="toggleFAQ(this)">${f.question}<span class="faq-icon"></span></button>
-                    <div class="faq-answer"><div class="faq-answer-content">${f.answer}</div></div>
-                </div>
-            `).join('');
-        }
-
-        function renderAuthButtons() {
-            const user = Auth.getCurrentUser();
-            const nav = document.getElementById('navButtons');
-            const mob = document.getElementById('mobileAuthButtons');
-            
-            const cartIcon = `<div class="cart-icon" onclick="openCheckoutModal()">🛒<span class="cart-badge">${Cart.items.length}</span></div>`;
-            
-            if (user) {
-                const init = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-                nav.innerHTML = `${cartIcon}<div class="user-menu"><div class="user-avatar">${init}</div><div class="user-dropdown"><div class="user-dropdown-header"><strong>${user.name}</strong><span>${user.email}</span></div><a href="#">Dashboard</a><a href="#">My Servers</a><button class="logout-btn" onclick="handleLogout()">Sign Out</button></div></div>`;
-                mob.innerHTML = `<p style="color:var(--text-secondary);margin-bottom:1rem;">Signed in as ${user.name}</p><button class="btn btn-secondary" style="width:100%;" onclick="handleLogout();toggleMobileMenu();">Sign Out</button>`;
-            } else {
-                nav.innerHTML = `${cartIcon}<button class="btn btn-ghost" onclick="openAuthModal('signin')">Sign In</button><button class="btn btn-primary" onclick="openAuthModal('signup')">Get Started</button>`;
-                mob.innerHTML = `<button class="btn btn-ghost" style="width:100%;margin-bottom:1rem;" onclick="openAuthModal('signin');toggleMobileMenu();">Sign In</button><button class="btn btn-primary" style="width:100%;" onclick="openAuthModal('signup');toggleMobileMenu();">Get Started</button>`;
-            }
-            Cart.updateUI();
-        }
-
-        function handlePlanSelect(planId) {
-            Cart.add(planId);
-            openCheckoutModal();
-        }
-
-        function openCheckoutModal() {
-            if (Cart.items.length === 0) {
-                alert('Please select a plan first!');
-                return;
-            }
-            
-            const user = Auth.getCurrentUser();
-            if (user) {
-                document.getElementById('checkoutFirstName').value = user.name.split(' ')[0] || '';
-                document.getElementById('checkoutLastName').value = user.name.split(' ')[1] || '';
-                document.getElementById('checkoutEmail').value = user.email;
-            }
-            
-            renderBillingCycle();
-            renderOrderSummary();
-            document.getElementById('checkoutModal').classList.add('active');
-        }
-
-        function closeCheckoutModal() {
-            document.getElementById('checkoutModal').classList.remove('active');
-        }
-
-        function renderBillingCycle() {
-            const item = Cart.items[0];
-            if (!item) return;
-            
-            const monthly = item.price;
-            const quarterly = (item.price * 3 * 0.9).toFixed(2);
-            const yearly = (item.price * 12 * 0.8).toFixed(2);
-            
-            document.getElementById('billingCycle').innerHTML = `
-                <div class="billing-option ${selectedBillingCycle === 'monthly' ? 'selected' : ''}" onclick="selectBillingCycle('monthly')">
-                    <span class="billing-period">Monthly</span>
-                    <span class="billing-price">$${monthly.toFixed(2)}/mo</span>
-                </div>
-                <div class="billing-option ${selectedBillingCycle === 'quarterly' ? 'selected' : ''}" onclick="selectBillingCycle('quarterly')">
-                    <span class="billing-period">Quarterly</span>
-                    <span class="billing-price">$${quarterly}/3mo</span>
-                    <span class="billing-save">Save 10%</span>
-                </div>
-                <div class="billing-option ${selectedBillingCycle === 'yearly' ? 'selected' : ''}" onclick="selectBillingCycle('yearly')">
-                    <span class="billing-period">Yearly</span>
-                    <span class="billing-price">$${yearly}/yr</span>
-                    <span class="billing-save">Save 20%</span>
-                </div>
-            `;
-        }
-
-        function selectBillingCycle(cycle) {
-            selectedBillingCycle = cycle;
-            Cart.setBillingCycle(cycle);
-            renderBillingCycle();
-            renderOrderSummary();
-        }
-
-        function renderOrderSummary() {
-            const item = Cart.items[0];
-            if (!item) return;
-            
-            const total = Cart.getTotal();
-            const cycleText = selectedBillingCycle === 'monthly' ? '/month' : selectedBillingCycle === 'quarterly' ? '/3 months' : '/year';
-            
-            document.getElementById('orderSummary').innerHTML = `
-                <h3>Order Summary</h3>
-                <div class="order-item">
-                    <div class="order-item-info">
-                        <h4>${item.name}</h4>
-                        <p>${item.description}</p>
-                    </div>
-                    <div class="order-item-price">$${total.toFixed(2)}</div>
-                </div>
-                <div class="order-total">
-                    <span>Total ${cycleText}</span>
-                    <span class="total-price">$${total.toFixed(2)}</span>
-                </div>
-                <div class="order-features">
-                    <h4>Includes:</h4>
-                    <ul>
-                        ${item.features.map(f => `<li>${f}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-
-        function selectPayment(method) {
-            selectedPaymentMethod = method;
-            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            
-            document.getElementById('cardPaymentFields').style.display = method === 'card' ? 'block' : 'none';
-            document.getElementById('paypalPaymentFields').style.display = method === 'paypal' ? 'block' : 'none';
-        }
-
-        function processPayment() {
-            const firstName = document.getElementById('checkoutFirstName').value;
-            const lastName = document.getElementById('checkoutLastName').value;
-            const email = document.getElementById('checkoutEmail').value;
-            const terms = document.getElementById('checkoutTerms').checked;
-            
-            if (!firstName || !lastName || !email) {
-                showCheckoutAlert('Please fill in all required fields.', 'error');
-                return;
-            }
-            
-            if (!terms) {
-                showCheckoutAlert('Please agree to the Terms of Service.', 'error');
-                return;
-            }
-            
-            if (selectedPaymentMethod === 'card') {
-                const cardNumber = document.getElementById('checkoutCardNumber').value;
-                const expiry = document.getElementById('checkoutExpiry').value;
-                const cvv = document.getElementById('checkoutCVV').value;
-                
-                if (!cardNumber || !expiry || !cvv) {
-                    showCheckoutAlert('Please fill in all payment details.', 'error');
-                    return;
-                }
-            }
-            
-            // Simulate payment processing
-            const btn = event.target;
-            btn.textContent = 'Processing...';
-            btn.disabled = true;
-            
-            setTimeout(() => {
                 closeCheckoutModal();
                 showSuccessModal();
                 Cart.clear();
