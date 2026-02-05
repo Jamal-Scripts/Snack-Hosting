@@ -334,62 +334,97 @@
 
             // 📊 HERO STATS
             stats: {
-                servers: "10K",
-                uptime: "99.9",
+                servers: "0",
+                uptime: "100",
                 support: "24/7"
             },
 
             // 💰 PRICING PLANS - Add, remove, or edit plans here!
             plans: [
                 {
-                    name: "Starter",
+                    name: "RS 1000 G12",
                     description: "Perfect for small friend groups",
-                    price: "$4.99",
+                    price: "$11.99",
                     period: "/month",
                     popular: false,
                     buttonText: "Get Started",
                     buttonStyle: "secondary",
                     features: [
-                        "2GB DDR5 RAM",
-                        "2 vCPU Cores",
-                        "25GB NVMe Storage",
-                        "10 Player Slots",
-                        "DDoS Protection",
-                        "Daily Backups"
+                        "4 DDR5 RAM",
+                        "4 DEDICATED CORES",
+                        "256 GB NVMe",
+                        "AMD EPYC™ 9645",
+                        "DDOS PROTECTION",
+                        "10-20 PLAYERS"
                     ]
                 },
                 {
-                    name: "Pro",
+                    name: "RS 2000 G12",
                     description: "For growing communities",
-                    price: "$12.99",
+                    price: "$19.99",
                     period: "/month",
                     popular: true,
                     buttonText: "Get Started",
                     buttonStyle: "primary",
                     features: [
-                        "6GB DDR5 RAM",
-                        "4 vCPU Cores",
-                        "75GB NVMe Storage",
-                        "50 Player Slots",
-                        "Priority Support",
-                        "Custom Domain"
+                        "AMD EPYC™ 9645",
+                         "8 DEDICATED CORES",
+                         "512 GB NVMe",
+                         "AMD EPYC™ 9645",
+                       "UPGRADED DDOS PROTECTION",
+                        "30 PLAYERS+."
                     ]
                 },
                 {
-                    name: "Enterprise",
+                    name: "RS 4000 G12",
                     description: "Maximum power for large servers",
-                    price: "$29.99",
+                    price: "$39.99",
                     period: "/month",
                     popular: false,
-                    buttonText: "Contact Sales",
+                    buttonText: "Get Started",
+                    buttonStyle: "secondary",
+                    features: [
+                        "32GB DDR5 RAM",
+                        "12 DEDICATED CORES",
+                        "1 TB NVMe",
+                        "AMD EPYC™ 9645",
+                        "Better performance",
+                        "40-50 PLAYERS"
+                        
+                    ]
+                }
+                                {
+                    name: "RS 8000 G12",
+                    description: "Maximum power for large servers",
+                    price: "$64.99",
+                    period: "/month",
+                    popular: true,
+                    buttonText: "Get Started",
                     buttonStyle: "secondary",
                     features: [
                         "16GB DDR5 RAM",
-                        "8 vCPU Cores",
+                        "16 DEDICATED CORES",
                         "200GB NVMe Storage",
-                        "Unlimited Players",
-                        "Dedicated IP",
-                        "24/7 Phone Support"
+                        "AMD EPYC™ 9645",
+                        "UPGRADED SECURITY + DDOS PROTECTION",
+                        "50-100 PLAYERS"
+                    ]
+                }
+                                        {
+                    name: "RS 12000 G12",
+                    description: "Maximum power for large servers",
+                    price: "$99.99",
+                    period: "/month",
+                    popular: false,
+                    buttonText: "Get Started",
+                    buttonStyle: "secondary",
+                    features: [
+                        "96GB DDR5 RAM",
+                        "20 DEDICATED CORES",
+                        "3 TB NVMe",
+                        "AMD EPYC™ 9645",
+                        "MAXIMUM SECURITY AND DDOS PROTECTION",
+                        "UNLIMITED PLAYERS"
                     ]
                 }
             ],
@@ -397,7 +432,7 @@
             // ✨ FEATURES
             features: [
                 { icon: "⚡", title: "Instant Setup", description: "Your server is ready in under 60 seconds. No complex configuration needed." },
-                { icon: "🛡️", title: "DDoS Protection", description: "Enterprise-grade protection keeps your server online even during attacks." },
+                { icon: "🛡️", title: "DDoS Protection", description: "Enterprise grade protection keeps your server online even during attacks." },
                 { icon: "🚀", title: "NVMe Storage", description: "Lightning-fast SSD storage for instant world loading and zero lag." },
                 { icon: "🎮", title: "One-Click Modpacks", description: "Install Forge, Fabric, Spigot, Paper, and 100+ modpacks instantly." },
                 { icon: "📊", title: "Real-time Console", description: "Full access to your server console with live stats and metrics." },
@@ -412,7 +447,8 @@
                 { question: "Can I install mods and plugins?", answer: "Absolutely! We support all major mod loaders including Forge, Fabric, Spigot, Paper, and Bukkit. Install mods with one click or upload your own." },
                 { question: "What's your uptime guarantee?", answer: "We guarantee 99.9% uptime backed by our SLA. Our infrastructure runs on enterprise-grade hardware with automatic failover." },
                 { question: "Can I upgrade my plan later?", answer: "Yes! Upgrade or downgrade anytime with zero downtime. Your world data transfers automatically." },
-                { question: "Do you offer refunds?", answer: "We offer a 7-day money-back guarantee, no questions asked. We also offer a free trial so you can test before committing." }
+                { question: "Can I get a custom domain??", answer: "Yes! You can, we suggest buying a domain from cheap name as it is cheap." }
+                {question:"Why are the prices so high?", answer:"Other hosting services use DDR4 ram, which is good but not as up to date as the DDR5 ram, it runs faster and it is up to date, our CPUs are the perfect fit for minecraft hosting services."}
             ]
         };
 
@@ -541,16 +577,6 @@
         <div class="section-container">
             <div class="section-header animate-on-scroll"><span class="section-tag">Features</span><h2>Everything You Need to Dominate</h2><p>Built for performance, designed for gamers.</p></div>
             <div class="features-grid" id="featuresGrid"></div>
-        </div>
-    </section>
-
-    <section class="server-info">
-        <div class="server-info-container animate-on-scroll">
-            <div class="server-ip-content"><h3>Join Our Community Server</h3><p>Test our infrastructure on our public demo server</p></div>
-            <div class="server-ip-box">
-                <div class="ip-display"><span id="serverIp"></span><button class="copy-btn" onclick="copyIP()">Copy</button></div>
-                <div class="online-count"><span class="dot"></span><span id="playerCount">247 players online</span></div>
-            </div>
         </div>
     </section>
 
