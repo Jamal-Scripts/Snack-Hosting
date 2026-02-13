@@ -1,1730 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SNAC-Hosting | Premium Minecraft Server Hosting</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a25;
-            --bg-glass: rgba(26, 26, 37, 0.7);
-            --accent-primary: #10b981;
-            --accent-secondary: #06b6d4;
-            --accent-gradient: linear-gradient(135deg, #10b981, #06b6d4);
-            --accent-teal: #14f4c9;
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .3s;
-            border: none;
-            font-size: 14px
-        }
-
-        .btn-primary {
-            background: var(--accent-gradient);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3)
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5)
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--accent-primary);
-            color: var(--accent-primary)
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-primary);
-            color: #fff
-        }
-
-        .glass {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color)
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 15px 0;
-            transition: all .3s
-        }
-
-        nav.scrolled {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color)
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            align-items: center
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: color .3s
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary)
-        }
-
-        .nav-auth {
-            display: flex;
-            gap: 10px
-        }
-
-        .mobile-menu {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-primary)
-        }
-
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 100px 0
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.1
-        }
-
-        .hero h1 span {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 50px;
-            justify-content: center;
-            margin-top: 60px
-        }
-
-        .stat {
-            text-align: center
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 14px
-        }
-
-        /* ===== LAUNCH BANNER ===== */
-        .launch-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 16px;
-            padding: 14px 24px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 30px;
-            animation: bannerPulse 3s ease-in-out infinite;
-        }
-
-        .launch-banner .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .launch-banner .pulse-dot::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-primary);
-            animation: dotPulse 2s ease-in-out infinite;
-        }
-
-        .launch-banner span {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--accent-teal);
-            letter-spacing: 0.5px;
-        }
-
-        @keyframes bannerPulse {
-            0%, 100% { border-color: rgba(16, 185, 129, 0.25); }
-            50% { border-color: rgba(16, 185, 129, 0.5); }
-        }
-
-        @keyframes dotPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.5); }
-        }
-
-        /* ===== WAITLIST SECTION ===== */
-        .waitlist-section {
-            padding: 80px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .waitlist-card {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 50px 40px;
-            border-radius: 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(6, 182, 212, 0.05)), var(--bg-card);
-        }
-
-        .waitlist-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .waitlist-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .waitlist-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 24px;
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
-        }
-
-        .waitlist-card h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .waitlist-card > p {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-size: 1.05rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .waitlist-counter {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--bg-secondary);
-            padding: 12px 24px;
-            border-radius: 50px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
-        }
-
-        .waitlist-counter .count-number {
-            font-size: 1.4rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .waitlist-counter .count-label {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .waitlist-btn {
-            padding: 16px 40px;
-            font-size: 16px;
-            border-radius: 14px;
-            font-weight: 700;
-            background: var(--accent-gradient);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .waitlist-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
-        }
-
-        .waitlist-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .waitlist-btn i {
-            margin-right: 8px;
-        }
-
-        /* Waitlist success state */
-        .waitlist-success {
-            display: none;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .waitlist-success.active {
-            display: block;
-        }
-
-        .waitlist-success .check-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            margin: 0 auto 20px;
-            animation: scaleIn 0.4s ease 0.1s both;
-        }
-
-        .waitlist-success h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--accent-teal);
-        }
-
-        .waitlist-success p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .waitlist-position {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 20px;
-            background: var(--bg-secondary);
-            border-radius: 30px;
-            border: 1px solid var(--border-color);
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .waitlist-position strong {
-            color: var(--accent-teal);
-            font-weight: 700;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* ===== SECTIONS ===== */
-        section {
-            padding: 100px 0;
-            position: relative;
-            z-index: 1
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 15px
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px
-        }
-
-        .feature-card {
-            padding: 30px;
-            border-radius: 20px;
-            transition: all .3s
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-primary)
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 14px
-        }
-
-        /* ===== PRICING ===== */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto
-        }
-
-        @media(max-width: 1200px) {
-            .pricing-grid { grid-template-columns: repeat(3, 1fr) }
-        }
-
-        @media(max-width: 900px) {
-            .pricing-grid { grid-template-columns: repeat(2, 1fr) }
-        }
-
-        @media(max-width: 600px) {
-            .pricing-grid { grid-template-columns: 1fr }
-        }
-
-        .pricing-card {
-            padding: 30px 25px;
-            border-radius: 20px;
-            position: relative;
-            transition: all .3s;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color)
-        }
-
-        .pricing-card.popular {
-            border: 2px solid var(--accent-primary)
-        }
-
-        .pricing-card.popular::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            white-space: nowrap
-        }
-
-        .pricing-card.ultimate {
-            border: 1px solid var(--accent-primary)
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15)
-        }
-
-        .pricing-header h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            color: var(--accent-primary)
-        }
-
-        .plan-subtitle {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin-bottom: 15px
-        }
-
-        .pricing-header .price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 10px 0;
-            color: var(--accent-teal)
-        }
-
-        .pricing-header .price span {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 400
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin: 20px 0;
-            padding: 0
-        }
-
-        .pricing-features li {
-            padding: 8px 0;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px
-        }
-
-        .pricing-features li i {
-            color: var(--accent-primary);
-            font-size: 12px
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            margin-top: 10px
-        }
-
-        .pricing-card .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--text-primary)
-        }
-
-        .pricing-card .btn-secondary:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-primary);
-            color: var(--bg-primary)
-        }
-
-        .pricing-card .btn-primary {
-            background: var(--accent-primary);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3)
-        }
-
-        .pricing-card .btn-primary:hover {
-            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5)
-        }
-
-        /* ===== FAQ ===== */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto
-        }
-
-        .faq-item {
-            margin-bottom: 15px;
-            border-radius: 15px;
-            overflow: hidden
-        }
-
-        .faq-question {
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600
-        }
-
-        .faq-question i {
-            transition: transform .3s
-        }
-
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg)
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height .3s;
-            padding: 0 25px
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding: 0 25px 20px
-        }
-
-        .faq-answer p {
-            color: var(--text-secondary)
-        }
-
-        /* ===== CTA ===== */
-        .cta-section {
-            text-align: center;
-            padding: 80px 40px;
-            border-radius: 30px;
-            margin: 0 20px
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px
-        }
-
-        .cta-section p {
-            color: var(--text-secondary);
-            margin-bottom: 30px
-        }
-
-        .cta-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            padding: 60px 0 30px;
-            border-top: 1px solid var(--border-color)
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            margin-top: 15px;
-            font-size: 14px
-        }
-
-        .footer-links h4 {
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px
-        }
-
-        .footer-links a {
-            display: block;
-            color: var(--text-secondary);
-            padding: 8px 0;
-            font-size: 14px;
-            transition: color .3s
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-primary)
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 14px
-        }
-
-        /* ===== MODALS ===== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px
-        }
-
-        .modal-overlay.active {
-            display: flex
-        }
-
-        .modal {
-            background: var(--bg-card);
-            border-radius: 25px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalIn .3s
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) }
-            to { opacity: 1; transform: scale(1) }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 24px;
-            cursor: pointer
-        }
-
-        .modal-header {
-            padding: 30px 30px 0;
-            text-align: center
-        }
-
-        .modal-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px
-        }
-
-        .modal-header p {
-            color: var(--text-secondary)
-        }
-
-        .modal-body {
-            padding: 30px
-        }
-
-        .form-group {
-            margin-bottom: 20px
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: border-color .3s
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent-primary)
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-secondary);
-            font-size: 14px
-        }
-
-        .form-footer a {
-            color: var(--accent-primary)
-        }
-
-        /* ===== TOAST NOTIFICATION ===== */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 3000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            max-width: 400px;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-
-        .toast.success i {
-            color: var(--accent-primary);
-            font-size: 18px;
-        }
-
-        .toast.error {
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-
-        .toast.error i {
-            color: var(--danger);
-            font-size: 18px;
-        }
-
-        .toast.info {
-            border-color: rgba(6, 182, 212, 0.4);
-        }
-
-        .toast.info i {
-            color: var(--accent-secondary);
-            font-size: 18px;
-        }
-
-        /* ===== USER NAV (logged in) ===== */
-        .nav-user {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .nav-user-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .nav-user .btn {
-            padding: 8px 16px;
-            font-size: 13px;
-        }
-
-        /* ===== MOBILE ===== */
-        .mobile-nav-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1500;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .mobile-nav-overlay.active {
-            display: flex;
-        }
-
-        .mobile-nav-overlay a {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            padding: 12px 0;
-        }
-
-        .mobile-nav-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 28px;
-            color: var(--text-primary);
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        .hidden {
-            display: none !important
-        }
-
-        @media(max-width:768px) {
-            .nav-links,
-            .nav-auth {
-                display: none
-            }
-
-            .mobile-menu {
-                display: block
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr
-            }
-
-            .waitlist-card {
-                padding: 35px 25px;
-            }
-
-            .hero-stats {
-                gap: 25px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNACK-Hosting | Game Server Hosting</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg-primary:#0a0a0f;--bg-secondary:#12121a;--bg-card:#1a1a25;--bg-glass:rgba(26,26,37,0.7);--accent-primary:#10b981;--accent-secondary:#06b6d4;--accent-gradient:linear-gradient(135deg,#10b981,#06b6d4);--accent-teal:#14f4c9;--text-primary:#fff;--text-secondary:#9ca3af;--border-color:rgba(255,255,255,0.08);--success:#10b981;--warning:#f59e0b;--danger:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-weight:600;cursor:pointer;transition:all .3s;border:none;font-size:14px;font-family:inherit}
+.btn-primary{background:var(--accent-gradient);color:#fff;box-shadow:0 4px 20px rgba(16,185,129,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(16,185,129,0.5)}
+.btn-secondary{background:transparent;border:2px solid var(--accent-primary);color:var(--accent-primary)}
+.btn-secondary:hover{background:var(--accent-primary);color:#fff}
+.btn-danger{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:var(--danger);cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.glass{background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-color)}
+.hidden{display:none!important}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:15px 0;transition:all .3s}
+nav.scrolled{background:var(--bg-glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-color)}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:800;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{color:var(--text-secondary);font-weight:500;transition:color .3s;cursor:pointer}
+.nav-links a:hover{color:var(--text-primary)}
+.nav-auth{display:flex;gap:10px}
+.mobile-menu{display:none;font-size:24px;cursor:pointer;color:var(--text-primary)}
+.nav-user{display:flex;align-items:center;gap:12px}
+.nav-user-avatar{width:36px;height:36px;border-radius:10px;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+
+/* PARTICLES */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:100px 0}
+.hero-content{text-align:center;max-width:800px;margin:0 auto;position:relative;z-index:1}
+.hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:20px;line-height:1.1}
+.hero h1 span{background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.2rem;color:var(--text-secondary);margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
+.hero-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.hero-stats{display:flex;gap:50px;justify-content:center;margin-top:60px}
+.stat{text-align:center}
+.stat-value{font-size:2.5rem;font-weight:800;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:var(--text-secondary);font-size:14px}
+
+/* LAUNCH BANNER */
+.launch-banner{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(6,182,212,0.1));border:1px solid rgba(16,185,129,0.25);border-radius:16px;padding:14px 24px;display:inline-flex;align-items:center;gap:12px;margin-bottom:30px;animation:bannerPulse 3s ease-in-out infinite}
+.launch-banner .pulse-dot{width:10px;height:10px;background:var(--accent-primary);border-radius:50%;position:relative}
+.launch-banner .pulse-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent-primary);animation:dotPulse 2s ease-in-out infinite}
+.launch-banner span{font-size:14px;font-weight:600;color:var(--accent-teal);letter-spacing:.5px}
+@keyframes bannerPulse{0%,100%{border-color:rgba(16,185,129,0.25)}50%{border-color:rgba(16,185,129,0.5)}}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
+
+/* WAITLIST */
+.waitlist-section{padding:80px 0;position:relative;z-index:1}
+.waitlist-card{max-width:700px;margin:0 auto;padding:50px 40px;border-radius:24px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(16,185,129,0.2);background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(6,182,212,0.05)),var(--bg-card)}
+.waitlist-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(16,185,129,0.08) 0%,transparent 60%);pointer-events:none}
+.waitlist-card>*{position:relative;z-index:1}
+.waitlist-icon{width:80px;height:80px;border-radius:20px;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 24px;box-shadow:0 8px 30px rgba(16,185,129,0.3)}
+.waitlist-card h2{font-size:2rem;font-weight:800;margin-bottom:12px}
+.waitlist-card>p{color:var(--text-secondary);margin-bottom:30px;font-size:1.05rem;max-width:500px;margin-left:auto;margin-right:auto}
+.waitlist-counter{display:inline-flex;align-items:center;gap:10px;background:var(--bg-secondary);padding:12px 24px;border-radius:50px;margin-bottom:30px;border:1px solid var(--border-color)}
+.waitlist-counter .count-number{font-size:1.4rem;font-weight:800;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.waitlist-counter .count-label{color:var(--text-secondary);font-size:13px}
+.waitlist-btn{padding:16px 40px;font-size:16px;border-radius:14px;font-weight:700;background:var(--accent-gradient);color:#fff;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(16,185,129,0.3);font-family:inherit}
+.waitlist-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(16,185,129,0.5)}
+.waitlist-btn i{margin-right:8px}
+.waitlist-success{display:none;animation:fadeInUp .5s ease}
+.waitlist-success.active{display:block}
+.waitlist-success .check-circle{width:70px;height:70px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 20px;animation:scaleIn .4s ease .1s both}
+.waitlist-success h3{font-size:1.5rem;margin-bottom:10px;color:var(--accent-teal)}
+.waitlist-success p{color:var(--text-secondary);font-size:14px}
+.waitlist-position{display:inline-block;margin-top:15px;padding:8px 20px;background:var(--bg-secondary);border-radius:30px;border:1px solid var(--border-color);font-size:13px;color:var(--text-secondary)}
+.waitlist-position strong{color:var(--accent-teal);font-weight:700}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+
+/* SECTIONS */
+section{padding:100px 0;position:relative;z-index:1}
+.section-header{text-align:center;margin-bottom:60px}
+.section-header h2{font-size:2.5rem;font-weight:700;margin-bottom:15px}
+.section-header p{color:var(--text-secondary);max-width:600px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px}
+.feature-card{padding:30px;border-radius:20px;transition:all .3s}
+.feature-card:hover{transform:translateY(-5px);border-color:var(--accent-primary)}
+.feature-icon{width:60px;height:60px;border-radius:15px;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
+.feature-card h3{font-size:1.3rem;margin-bottom:10px}
+.feature-card p{color:var(--text-secondary);font-size:14px}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;max-width:1400px;margin:0 auto}
+.pricing-card{padding:30px 25px;border-radius:20px;position:relative;transition:all .3s;background:var(--bg-card);border:1px solid var(--border-color)}
+.pricing-card.popular{border:2px solid var(--accent-primary)}
+.pricing-card.popular::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent-primary);padding:5px 15px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.pricing-card.ultimate{border:1px solid var(--accent-primary)}
+.pricing-card:hover{transform:translateY(-8px);border-color:var(--accent-primary);box-shadow:0 20px 40px rgba(16,185,129,0.15)}
+.pricing-header h3{font-size:1.3rem;margin-bottom:5px;color:var(--accent-primary)}
+.plan-subtitle{color:var(--text-secondary);font-size:13px;margin-bottom:15px}
+.pricing-header .price{font-size:2.5rem;font-weight:800;margin:10px 0;color:var(--accent-teal)}
+.pricing-header .price span{font-size:.9rem;color:var(--text-secondary);font-weight:400}
+.pricing-features{list-style:none;margin:20px 0;padding:0}
+.pricing-features li{padding:8px 0;color:var(--text-secondary);display:flex;align-items:center;gap:10px;font-size:13px}
+.pricing-features li i{color:var(--accent-primary);font-size:12px}
+.pricing-card .btn{width:100%;margin-top:10px;justify-content:center}
+.pricing-card .btn-secondary{background:transparent;border:2px solid var(--border-color);color:var(--text-primary)}
+.pricing-card .btn-secondary:hover{border-color:var(--accent-primary);background:var(--accent-primary);color:var(--bg-primary)}
+.pricing-card .btn-primary{background:var(--accent-primary);box-shadow:0 4px 15px rgba(16,185,129,0.3)}
+
+/* FAQ */
+.faq-container{max-width:800px;margin:0 auto}
+.faq-item{margin-bottom:15px;border-radius:15px;overflow:hidden}
+.faq-question{padding:20px 25px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600}
+.faq-question i{transition:transform .3s}
+.faq-item.active .faq-question i{transform:rotate(180deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .3s;padding:0 25px}
+.faq-item.active .faq-answer{max-height:200px;padding:0 25px 20px}
+.faq-answer p{color:var(--text-secondary)}
+
+/* CTA */
+.cta-section{text-align:center;padding:80px 40px;border-radius:30px;margin:0 20px}
+.cta-section h2{font-size:2.5rem;margin-bottom:15px}
+.cta-section p{color:var(--text-secondary);margin-bottom:30px}
+.cta-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{padding:60px 0 30px;border-top:1px solid var(--border-color)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand p{color:var(--text-secondary);margin-top:15px;font-size:14px}
+.footer-links h4{margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+.footer-links a{display:block;color:var(--text-secondary);padding:8px 0;font-size:14px;transition:color .3s}
+.footer-links a:hover{color:var(--accent-primary)}
+.footer-bottom{text-align:center;padding-top:30px;border-top:1px solid var(--border-color);color:var(--text-secondary);font-size:14px}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg-card);border-radius:25px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .3s}
+@keyframes modalIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text-secondary);font-size:24px;cursor:pointer}
+.modal-header{padding:30px 30px 0;text-align:center}
+.modal-header h2{font-size:1.8rem;margin-bottom:10px}
+.modal-header p{color:var(--text-secondary)}
+.modal-body{padding:30px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;margin-bottom:8px;font-weight:500;font-size:14px}
+.form-group input,.form-group select{width:100%;padding:14px 18px;border-radius:12px;border:1px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-size:14px;transition:border-color .3s;font-family:inherit}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--accent-primary)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.form-footer{text-align:center;margin-top:20px;color:var(--text-secondary);font-size:14px}
+.form-footer a{color:var(--accent-primary)}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;right:30px;padding:16px 24px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-primary);font-size:14px;font-weight:500;display:flex;align-items:center;gap:12px;z-index:3000;transform:translateY(100px);opacity:0;transition:all .4s ease;box-shadow:0 10px 40px rgba(0,0,0,0.4);max-width:400px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(16,185,129,0.4)}.toast.success i{color:var(--accent-primary);font-size:18px}
+.toast.error{border-color:rgba(239,68,68,0.4)}.toast.error i{color:var(--danger);font-size:18px}
+.toast.info{border-color:rgba(6,182,212,0.4)}.toast.info i{color:var(--accent-secondary);font-size:18px}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* SERVERS PAGE */
+.servers-layout{display:grid;grid-template-columns:220px 1fr;gap:30px;padding-top:100px;min-height:100vh;position:relative;z-index:1}
+.region-sidebar{position:sticky;top:100px;align-self:start;background:var(--bg-card);border-radius:16px;border:1px solid var(--border-color);padding:20px;height:fit-content}
+.region-sidebar h3{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-secondary);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-color)}
+.region-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:10px;border:none;background:transparent;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-align:left;font-family:inherit}
+.region-btn:hover{background:rgba(16,185,129,0.08);color:var(--text-primary)}
+.region-btn.active{background:rgba(16,185,129,0.15);color:var(--accent-teal)}
+.region-btn i{font-size:16px;width:20px;text-align:center}
+.servers-content{padding-bottom:60px}
+.servers-content h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.servers-content h1 span{background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.servers-subtitle{color:var(--text-secondary);margin-bottom:40px;font-size:15px}
+
+/* GAME CARDS */
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.game-card{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border-color);cursor:pointer;transition:all .4s cubic-bezier(.25,.46,.45,.94);aspect-ratio:16/10;background:var(--bg-card)}
+.game-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--accent-primary);box-shadow:0 20px 60px rgba(16,185,129,0.2)}
+.game-card-img{width:100%;height:100%;object-fit:cover;transition:all .4s cubic-bezier(.25,.46,.45,.94);filter:brightness(.9)}
+.game-card:hover .game-card-img{transform:scale(1.08);filter:brightness(.5)}
+.game-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,0.95) 0%,rgba(10,10,15,0.4) 50%,rgba(10,10,15,0.1) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:24px;transition:all .4s}
+.game-card:hover .game-card-overlay{background:linear-gradient(to top,rgba(10,10,15,0.98) 0%,rgba(10,10,15,0.7) 50%,rgba(10,10,15,0.4) 100%)}
+.game-card-name{font-size:1.4rem;font-weight:800;margin-bottom:4px;transition:transform .4s}
+.game-card:hover .game-card-name{transform:translateY(-8px)}
+.game-card-status{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.5px;width:fit-content;transition:transform .4s}
+.game-card:hover .game-card-status{transform:translateY(-8px)}
+.game-card-hover-info{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition:all .4s;text-align:center;pointer-events:none}
+.game-card:hover .game-card-hover-info{opacity:1}
+.game-card-hover-info i{font-size:36px;color:var(--accent-teal);margin-bottom:8px;display:block}
+.game-card-hover-info span{font-size:13px;color:var(--text-secondary);font-weight:500}
+
+/* CONFIGURE */
+.configure-section{margin-top:60px;background:var(--bg-card);border-radius:20px;border:1px solid var(--border-color);padding:35px;position:relative}
+.configure-section::before{content:'ADMIN';position:absolute;top:-10px;left:25px;background:var(--danger);padding:3px 12px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:1px}
+.configure-section h2{font-size:1.4rem;font-weight:700;margin-bottom:20px}
+.config-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.config-form .form-group{margin-bottom:0}
+.config-form .full-width{grid-column:1/-1}
+.config-games-list{margin-top:20px;border:1px solid var(--border-color);border-radius:12px;overflow:hidden}
+.config-game-item{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-color);transition:background .2s}
+.config-game-item:last-child{border-bottom:none}
+.config-game-item:hover{background:rgba(255,255,255,0.02)}
+.config-game-item .game-info{display:flex;align-items:center;gap:12px}
+.config-game-item .game-info .dot{width:8px;height:8px;border-radius:50%}
+.config-game-item .game-info span{font-size:14px;font-weight:500}
+.config-game-item .game-region{font-size:12px;color:var(--text-secondary)}
+.config-game-item .btn{padding:6px 14px;font-size:12px}
+
+/* MOBILE NAV */
+.mobile-nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1500;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.mobile-nav-overlay.active{display:flex}
+.mobile-nav-overlay a{font-size:1.3rem;font-weight:600;color:var(--text-primary);padding:12px 0;cursor:pointer}
+.mobile-nav-close{position:absolute;top:20px;right:20px;font-size:28px;color:var(--text-primary);cursor:pointer;background:none;border:none}
+
+@media(max-width:1200px){.pricing-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+.nav-links,.nav-auth{display:none}.mobile-menu{display:block}
+.footer-grid{grid-template-columns:1fr 1fr}
+.hero-stats{gap:25px}
+.servers-layout{grid-template-columns:1fr}
+.region-sidebar{position:static;display:flex;flex-wrap:wrap;gap:8px;padding:15px}
+.region-sidebar h3{width:100%;margin-bottom:8px}
+.region-btn{width:auto;padding:8px 14px}
+.config-form{grid-template-columns:1fr}
+.pricing-grid{grid-template-columns:1fr}
+.waitlist-card{padding:35px 25px}
+}
+</style>
 </head>
-
 <body>
-    <canvas id="particles"></canvas>
-
-    <!-- Mobile Nav -->
-    <div class="mobile-nav-overlay" id="mobileNav">
-        <button class="mobile-nav-close" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
-        <a href="#features" onclick="closeMobileMenu()">Features</a>
-        <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
-        <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
-        <a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="closeMobileMenu()">Support</a>
-        <div id="mobileAuthBtns">
-            <button class="btn btn-secondary" onclick="closeMobileMenu();openModal('loginModal')">Login</button>
-            <button class="btn btn-primary" onclick="closeMobileMenu();openModal('registerModal')">Sign Up</button>
-        </div>
-        <div id="mobileUserBtns" class="hidden" style="text-align:center;">
-            <p class="nav-user-name" id="mobileUserName" style="margin-bottom:12px;"></p>
-            <button class="btn btn-secondary" onclick="handleLogout()">Logout</button>
-        </div>
-    </div>
-
-    <nav id="navbar">
-        <div class="container">
-            <a href="#" class="logo">SNAC-Hosting</a>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-                <a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a>
-            </div>
-            <div class="nav-auth" id="navAuth">
-                <button class="btn btn-secondary" onclick="openModal('loginModal')">Login</button>
-                <button class="btn btn-primary" onclick="openModal('registerModal')">Sign Up</button>
-            </div>
-            <div class="nav-user hidden" id="navUser">
-                <div class="nav-user-avatar" id="userAvatar"></div>
-                <span class="nav-user-name" id="userName"></span>
-                <button class="btn btn-secondary" onclick="handleLogout()" style="padding:8px 16px;font-size:13px;">Logout</button>
-            </div>
-            <div class="mobile-menu" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
-        </div>
-    </nav>
-
-    <div id="mainContent">
-        <!-- HERO -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="launch-banner">
-                        <div class="pulse-dot"></div>
-                        <span>LAUNCHING SOON — JOIN THE WAITLIST</span>
-                    </div>
-                    <h1>Host Your <span>Minecraft Server</span> in Seconds</h1>
-                    <p>Premium game hosting with instant setup, powerful hardware, and 24/7 DDoS protection. Your world, your rules.</p>
-                    <div class="hero-btns">
-                        <button class="btn btn-primary" onclick="scrollToWaitlist()"><i class="fas fa-bell"></i> Join Waitlist</button>
-                        <a href="https://discord.gg/K8tcDCFe2P" class="btn btn-secondary"><i class="fab fa-discord"></i> Contact Support</a>
-                    </div>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-value">99.9%</div>
-                            <div class="stat-label">Uptime</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value" id="waitlistStatCount">0</div>
-                            <div class="stat-label">On Waitlist</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">24/7</div>
-                            <div class="stat-label">Support</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WAITLIST -->
-        <section id="waitlist" class="waitlist-section">
-            <div class="container">
-                <div class="waitlist-card">
-                    <div id="waitlistDefault">
-                        <div class="waitlist-icon"><i class="fas fa-rocket"></i></div>
-                        <h2>Be the First to Know</h2>
-                        <p>Join our waitlist to get early access and exclusive launch-day discounts when SNAC-Hosting goes live.</p>
-                        <div class="waitlist-counter">
-                            <span class="count-number" id="waitlistCount">0</span>
-                            <span class="count-label">people already joined</span>
-                        </div>
-                        <br>
-                        <button class="waitlist-btn" id="joinWaitlistBtn" onclick="handleJoinWaitlist()">
-                            <i class="fas fa-bell"></i> Join the Waitlist
-                        </button>
-                    </div>
-                    <div class="waitlist-success" id="waitlistSuccess">
-                        <div class="check-circle"><i class="fas fa-check"></i></div>
-                        <h3>You're on the list!</h3>
-                        <p>We'll notify you at <strong id="waitlistEmail"></strong> as soon as SNAC-Hosting launches.</p>
-                        <div class="waitlist-position">Your position: <strong id="waitlistPosition">#1</strong></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FEATURES -->
-        <section id="features">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Everything You Need to Dominate</h2>
-                    <p>Built for performance, designed for gamers.</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                        <h3>Instant Setup</h3>
-                        <p>Your server is ready in seconds with our automated deployment system.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-                        <h3>DDoS Protection</h3>
-                        <p>Enterprise-grade protection keeps your server online during attacks.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-microchip"></i></div>
-                        <h3>Powerful Hardware</h3>
-                        <p>Latest AMD Ryzen processors and NVMe SSDs for maximum performance.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
-                        <h3>Global Locations</h3>
-                        <p>Multiple server locations worldwide for low latency gameplay.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-cloud-arrow-up"></i></div>
-                        <h3>Auto Backups</h3>
-                        <p>Daily automated backups with one-click restore functionality.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                        <h3>24/7 Support</h3>
-                        <p>Expert support team available around the clock via Discord.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PRICING -->
-        <section id="pricing">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Simple, Transparent Pricing</h2>
-                    <p>No hidden fees. Cancel anytime. Powered by AMD EPYC™ 9645 processors.</p>
-                </div>
-                <div class="pricing-grid">
-                    <div class="pricing-card glass">
-                        <div class="pricing-header">
-                            <h3>RS 1000 G12</h3>
-                            <p class="plan-subtitle">Perfect for small SMPs</p>
-                            <div class="price">$11.99<span>/month</span></div>
-                        </div>
-                        <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 8GB DDR5 RAM</li>
-                            <li><i class="fas fa-check"></i> 4 Dedicated Cores</li>
-                            <li><i class="fas fa-check"></i> 256 GB NVMe</li>
-                            <li><i class="fas fa-check"></i> AMD EPYC™ 9645</li>
-                            <li><i class="fas fa-check"></i> DDoS Protection</li>
-                            <li><i class="fas fa-check"></i> 25+ Players</li>
-                            <li><i class="fas fa-check"></i> 40+ Plugins</li>
-                        </ul>
-                        <button class="btn btn-secondary" onclick="handlePricingClick('RS 1000 G12')">Get Started</button>
-                    </div>
-
-                    <div class="pricing-card glass popular">
-                        <div class="pricing-header">
-                            <h3>RS 2000 G12</h3>
-                            <p class="plan-subtitle">Fit for growing communities</p>
-                            <div class="price">$19.99<span>/month</span></div>
-                        </div>
-                        <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 16GB DDR5 RAM</li>
-                            <li><i class="fas fa-check"></i> 8 Dedicated Cores</li>
-                            <li><i class="fas fa-check"></i> 512 GB NVMe</li>
-                            <li><i class="fas fa-check"></i> AMD EPYC™ 9645</li>
-                            <li><i class="fas fa-check"></i> Upgraded DDoS Protection</li>
-                            <li><i class="fas fa-check"></i> 30+ Players</li>
-                            <li><i class="fas fa-check"></i> 60+ Plugins</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="handlePricingClick('RS 2000 G12')">Get Started</button>
-                    </div>
-
-                    <div class="pricing-card glass">
-                        <div class="pricing-header">
-                            <h3>RS 4000 G12</h3>
-                            <p class="plan-subtitle">Suits big servers</p>
-                            <div class="price">$39.99<span>/month</span></div>
-                        </div>
-                        <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 32GB DDR5 RAM</li>
-                            <li><i class="fas fa-check"></i> 12 Dedicated Cores</li>
-                            <li><i class="fas fa-check"></i> 1TB NVMe</li>
-                            <li><i class="fas fa-check"></i> AMD EPYC™ 9645</li>
-                            <li><i class="fas fa-check"></i> Better Performance</li>
-                            <li><i class="fas fa-check"></i> 40-50 Players</li>
-                            <li><i class="fas fa-check"></i> 50+ Plugins</li>
-                        </ul>
-                        <button class="btn btn-secondary" onclick="handlePricingClick('RS 4000 G12')">Get Started</button>
-                    </div>
-
-                    <div class="pricing-card glass popular">
-                        <div class="pricing-header">
-                            <h3>RS 8000 G12</h3>
-                            <p class="plan-subtitle">Perfect for large servers</p>
-                            <div class="price">$64.99<span>/month</span></div>
-                        </div>
-                        <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 64GB DDR5 RAM</li>
-                            <li><i class="fas fa-check"></i> 16 Dedicated Cores</li>
-                            <li><i class="fas fa-check"></i> 2 TB NVMe</li>
-                            <li><i class="fas fa-check"></i> AMD EPYC™ 9645</li>
-                            <li><i class="fas fa-check"></i> Upgraded Security + DDoS</li>
-                            <li><i class="fas fa-check"></i> 50-100 Players</li>
-                            <li><i class="fas fa-check"></i> Unlimited Plugins</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="handlePricingClick('RS 8000 G12')">Get Started</button>
-                    </div>
-
-                    <div class="pricing-card glass ultimate">
-                        <div class="pricing-header">
-                            <h3>RS 12000 G12</h3>
-                            <p class="plan-subtitle">Top tier performance, best for massive servers</p>
-                            <div class="price">$99.99<span>/month</span></div>
-                        </div>
-                        <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 96GB DDR5 RAM</li>
-                            <li><i class="fas fa-check"></i> 20 Dedicated Cores</li>
-                            <li><i class="fas fa-check"></i> 3 TB NVMe</li>
-                            <li><i class="fas fa-check"></i> AMD EPYC™ 9645</li>
-                            <li><i class="fas fa-check"></i> Maximum Security + DDoS</li>
-                            <li><i class="fas fa-check"></i> Unlimited Players</li>
-                            <li><i class="fas fa-check"></i> Unlimited Plugins</li>
-                        </ul>
-                        <button class="btn btn-secondary" onclick="handlePricingClick('RS 12000 G12')">Get Started</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section id="faq">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Frequently Asked Questions</h2>
-                    <p>Got questions? We've got answers.</p>
-                </div>
-                <div class="faq-container">
-                    <div class="faq-item glass">
-                        <div class="faq-question" onclick="toggleFaq(this)"><span>How fast is the server setup?</span><i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">
-                            <p>Your server is ready instantly! Our automated system deploys your Minecraft server within seconds of payment confirmation.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item glass">
-                        <div class="faq-question" onclick="toggleFaq(this)"><span>Can I upgrade my plan later?</span><i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">
-                            <p>Yes! You can upgrade or downgrade your plan anytime from your control panel. Changes take effect immediately.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item glass">
-                        <div class="faq-question" onclick="toggleFaq(this)"><span>Do you support modpacks?</span><i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">
-                            <p>Absolutely! We support all major modpacks including Forge, Fabric, and popular modpack launchers.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item glass">
-                        <div class="faq-question" onclick="toggleFaq(this)"><span>What's your refund policy?</span><i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">
-                            <p>We offer a 48-hour money-back guarantee if the service doesn't meet your expectations.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item glass">
-                        <div class="faq-question" onclick="toggleFaq(this)"><span>When does SNAC-Hosting launch?</span><i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">
-                            <p>We're launching in a few months! Join our waitlist to be the first to know and get exclusive launch-day discounts.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA -->
-        <section>
-            <div class="container">
-                <div class="cta-section glass">
-                    <h2>Ready to Get Early Access?</h2>
-                    <p>Join the waitlist and be first in line when SNAC-Hosting launches!</p>
-                    <div class="cta-btns">
-                        <button class="btn btn-primary" onclick="scrollToWaitlist()"><i class="fas fa-bell"></i> Join Waitlist</button>
-                        <a href="https://discord.gg/K8tcDCFe2P" class="btn btn-secondary"><i class="fab fa-discord"></i> Contact Support</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer>
-            <div class="container">
-                <div class="footer-grid">
-                    <div class="footer-brand">
-                        <a href="#" class="logo">SNAC-Hosting</a>
-                        <p>Premium Minecraft server hosting with instant setup and unbeatable support. Launching soon.</p>
-                    </div>
-                    <div class="footer-links">
-                        <h4>Product</h4>
-                        <a href="#features">Features</a>
-                        <a href="#pricing">Pricing</a>
-                        <a href="#">Status</a>
-                    </div>
-                    <div class="footer-links">
-                        <h4>Support</h4>
-                        <a href="https://discord.gg/K8tcDCFe2P">Contact Us</a>
-                        <a href="https://discord.gg/K8tcDCFe2P">Discord</a>
-                    </div>
-                    <div class="footer-links">
-                        <h4>Company</h4>
-                        <a href="#">About</a>
-                        <a href="#">Terms</a>
-                    </div>
-                </div>
-                <div class="footer-bottom">© 2026 SNAC-Hosting. All rights reserved.</div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal">
-            <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
-            <div class="modal-header">
-                <h2>Welcome Back</h2>
-                <p id="loginSubtext">Sign in to your account</p>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="you@example.com"></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword" required placeholder="••••••••"></div>
-                    <button type="submit" class="btn btn-primary" style="width:100%">Sign In</button>
-                </form>
-                <p class="form-footer">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Sign up</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div class="modal-overlay" id="registerModal">
-        <div class="modal">
-            <button class="modal-close" onclick="closeModal('registerModal')"><i class="fas fa-times"></i></button>
-            <div class="modal-header">
-                <h2>Create Account</h2>
-                <p id="registerSubtext">Start hosting your Minecraft server</p>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="handleRegister(event)">
-                    <div class="form-row">
-                        <div class="form-group"><label>First Name</label><input type="text" id="regFirst" required></div>
-                        <div class="form-group"><label>Last Name</label><input type="text" id="regLast" required></div>
-                    </div>
-                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" required placeholder="you@example.com"></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="regPassword" required placeholder="Min 8 characters"></div>
-                    <button type="submit" class="btn btn-primary" style="width:100%">Create Account</button>
-                </form>
-                <p class="form-footer">Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Sign in</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg"></span>
-    </div>
-
-    <script>
-        // ===== STATE =====
-        let currentUser = JSON.parse(localStorage.getItem('snac_user')) || null;
-        let waitlistData = JSON.parse(localStorage.getItem('snac_waitlist')) || [];
-        let pendingWaitlist = false; // flag: user clicked waitlist but wasn't signed in
-
-        // ===== INIT =====
-        document.addEventListener('DOMContentLoaded', () => {
-            updateWaitlistUI();
-            updateAuthUI();
-            initParticles();
-            initScrollNav();
-        });
-
-        // ===== WAITLIST LOGIC =====
-        function handleJoinWaitlist() {
-            if (!currentUser) {
-                // Not signed in — prompt login
-                pendingWaitlist = true;
-                showToast('Please sign in first to join the waitlist', 'info');
-                setTimeout(() => {
-                    document.getElementById('loginSubtext').textContent = 'Sign in to join the waitlist';
-                    document.getElementById('registerSubtext').textContent = 'Create an account to join the waitlist';
-                    openModal('loginModal');
-                }, 400);
-                return;
-            }
-
-            // Check if already on waitlist
-            if (waitlistData.find(w => w.email === currentUser.email)) {
-                showToast('You\'re already on the waitlist!', 'info');
-                showWaitlistSuccess();
-                return;
-            }
-
-            // Add to waitlist
-            const entry = {
-                email: currentUser.email,
-                name: currentUser.firstName + ' ' + currentUser.lastName,
-                joinedAt: new Date().toISOString(),
-                position: waitlistData.length + 1
-            };
-            waitlistData.push(entry);
-            localStorage.setItem('snac_waitlist', JSON.stringify(waitlistData));
-
-            updateWaitlistUI();
-            showWaitlistSuccess();
-            showToast('You\'ve been added to the waitlist!', 'success');
-        }
-
-        function showWaitlistSuccess() {
-            const entry = waitlistData.find(w => w.email === currentUser.email);
-            if (!entry) return;
-
-            document.getElementById('waitlistDefault').style.display = 'none';
-            document.getElementById('waitlistSuccess').classList.add('active');
-            document.getElementById('waitlistEmail').textContent = entry.email;
-            document.getElementById('waitlistPosition').textContent = '#' + entry.position;
-        }
-
-        function updateWaitlistUI() {
-            const count = waitlistData.length;
-            document.getElementById('waitlistCount').textContent = count;
-            document.getElementById('waitlistStatCount').textContent = count;
-
-            // If user is logged in and already on waitlist, show success state
-            if (currentUser && waitlistData.find(w => w.email === currentUser.email)) {
-                showWaitlistSuccess();
-            }
-        }
-
-        function scrollToWaitlist() {
-            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // ===== PRICING CLICK (pre-launch) =====
-        function handlePricingClick(planName) {
-            showToast('We haven\'t launched yet! Join the waitlist to be notified.', 'info');
-            setTimeout(() => scrollToWaitlist(), 600);
-        }
-
-        // ===== AUTH =====
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            // Check stored accounts
-            const accounts = JSON.parse(localStorage.getItem('snac_accounts')) || [];
-            const account = accounts.find(a => a.email === email);
-
-            if (!account) {
-                showToast('No account found with that email. Please sign up.', 'error');
-                return;
-            }
-
-            if (account.password !== password) {
-                showToast('Incorrect password. Try again.', 'error');
-                return;
-            }
-
-            currentUser = {
-                email: account.email,
-                firstName: account.firstName,
-                lastName: account.lastName
-            };
-            localStorage.setItem('snac_user', JSON.stringify(currentUser));
-
-            closeModal('loginModal');
-            updateAuthUI();
-            updateWaitlistUI();
-            showToast('Welcome back, ' + currentUser.firstName + '!', 'success');
-
-            // If they were trying to join waitlist, do it now
-            if (pendingWaitlist) {
-                pendingWaitlist = false;
-                setTimeout(() => handleJoinWaitlist(), 600);
-            }
-        }
-
-        function handleRegister(e) {
-            e.preventDefault();
-            const firstName = document.getElementById('regFirst').value;
-            const lastName = document.getElementById('regLast').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-
-            if (password.length < 8) {
-                showToast('Password must be at least 8 characters.', 'error');
-                return;
-            }
-
-            // Store account
-            const accounts = JSON.parse(localStorage.getItem('snac_accounts')) || [];
-            if (accounts.find(a => a.email === email)) {
-                showToast('An account with that email already exists.', 'error');
-                return;
-            }
-
-            accounts.push({ firstName, lastName, email, password });
-            localStorage.setItem('snac_accounts', JSON.stringify(accounts));
-
-            // Auto-login
-            currentUser = { email, firstName, lastName };
-            localStorage.setItem('snac_user', JSON.stringify(currentUser));
-
-            closeModal('registerModal');
-            updateAuthUI();
-            showToast('Account created! Welcome, ' + firstName + '!', 'success');
-
-            // If they were trying to join waitlist, do it now
-            if (pendingWaitlist) {
-                pendingWaitlist = false;
-                setTimeout(() => handleJoinWaitlist(), 600);
-            }
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('snac_user');
-            pendingWaitlist = false;
-            updateAuthUI();
-
-            // Reset waitlist card to default state
-            document.getElementById('waitlistDefault').style.display = 'block';
-            document.getElementById('waitlistSuccess').classList.remove('active');
-
-            closeMobileMenu();
-            showToast('Logged out successfully.', 'success');
-        }
-
-        function updateAuthUI() {
-            const navAuth = document.getElementById('navAuth');
-            const navUser = document.getElementById('navUser');
-            const mobileAuth = document.getElementById('mobileAuthBtns');
-            const mobileUser = document.getElementById('mobileUserBtns');
-
-            if (currentUser) {
-                navAuth.classList.add('hidden');
-                navUser.classList.remove('hidden');
-                document.getElementById('userAvatar').textContent = currentUser.firstName[0].toUpperCase();
-                document.getElementById('userName').textContent = currentUser.firstName;
-
-                mobileAuth.classList.add('hidden');
-                mobileUser.classList.remove('hidden');
-                document.getElementById('mobileUserName').textContent = currentUser.firstName + ' ' + currentUser.lastName;
-            } else {
-                navAuth.classList.remove('hidden');
-                navUser.classList.add('hidden');
-
-                mobileAuth.classList.remove('hidden');
-                mobileUser.classList.add('hidden');
-            }
-        }
-
-        // ===== MODALS =====
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            // Reset subtexts
-            document.getElementById('loginSubtext').textContent = 'Sign in to your account';
-            document.getElementById('registerSubtext').textContent = 'Start hosting your Minecraft server';
-        }
-
-        function switchModal(from, to) {
-            closeModal(from);
-            setTimeout(() => openModal(to), 200);
-        }
-
-        // Close modal on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-
-        // ===== TOAST =====
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            const icon = toast.querySelector('i');
-
-            toastMsg.textContent = msg;
-            toast.className = 'toast ' + type;
-
-            if (type === 'success') icon.className = 'fas fa-check-circle';
-            else if (type === 'error') icon.className = 'fas fa-exclamation-circle';
-            else if (type === 'info') icon.className = 'fas fa-info-circle';
-
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-
-        // ===== FAQ =====
-        function toggleFaq(el) {
-            const item = el.parentElement;
-            const wasActive = item.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-            if (!wasActive) item.classList.add('active');
-        }
-
-        // ===== MOBILE MENU =====
-        function toggleMobileMenu() {
-            document.getElementById('mobileNav').classList.add('active');
-        }
-
-        function closeMobileMenu() {
-            document.getElementById('mobileNav').classList.remove('active');
-        }
-
-        // ===== SCROLL NAV =====
-        function initScrollNav() {
-            window.addEventListener('scroll', () => {
-                const nav = document.getElementById('navbar');
-                if (window.scrollY > 50) nav.classList.add('scrolled');
-                else nav.classList.remove('scrolled');
-            });
-        }
-
-        // ===== PARTICLES =====
-        function initParticles() {
-            const canvas = document.getElementById('particles');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-
-            resize();
-            window.addEventListener('resize', resize);
-
-            for (let i = 0; i < 60; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    size: Math.random() * 2 + 0.5
-                });
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0) p.x = canvas.width;
-                    if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height;
-                    if (p.y > canvas.height) p.y = 0;
-
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
-                    ctx.fill();
-                });
-
-                // Draw connections
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 150) {
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(16, 185, 129, ${0.08 * (1 - dist / 150)})`;
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-        }
-    </script>
-</body>
-
-</html>
+<canvas id="particles"></canvas>
+
+<div class="mobile-nav-overlay" id="mobileNav">
+<button class="mobile-nav-close" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
+<a onclick="closeMobileMenu();showPage('home')">Home</a>
+<a href="#features" onclick="closeMobileMenu();showPage('home')">Features</a>
+<a href="#pricing" onclick="closeMobileMenu();showPage('home')">Pricing</a>
+<a onclick="closeMobileMenu();showPage('servers')">Servers</a>
+<a href="#faq" onclick="closeMobileMenu();showPage('home')">FAQ</a>
+<a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="closeMobileMenu()">Support</a>
+<div id="mobileAuthBtns"><button class="btn btn-secondary" onclick="closeMobileMenu();openModal('loginModal')">Login</button> <button class="btn btn-primary" onclick="closeMobileMenu();openModal('registerModal')">Sign Up</button></div>
+<div id="mobileUserBtns" class="hidden" style="text-align:center"><p id="mobileUserName" style="margin-bottom:12px;font-weight:600"></p><button class="btn btn-secondary" onclick="handleLogout()">Logout</button></div>
+</div>
+
+<nav id="navbar"><div class="container">
+<span class="logo" onclick="showPage('home')">SNACK-Hosting</span>
+<div class="nav-links">
+<a href="#features" onclick="showPage('home')">Features</a>
+<a href="#pricing" onclick="showPage('home')">Pricing</a>
+<a onclick="showPage('servers')">Servers</a>
+<a href="#faq" onclick="showPage('home')">FAQ</a>
+<a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a>
+</div>
+<div class="nav-auth" id="navAuth"><button class="btn btn-secondary" onclick="openModal('loginModal')">Login</button><button class="btn btn-primary" onclick="openModal('registerModal')">Sign Up</button></div>
+<div class="nav-user hidden" id="navUser"><div class="nav-user-avatar" id="userAvatar"></div><span id="userName" style="font-weight:600;font-size:14px"></span><button class="btn btn-secondary" onclick="handleLogout()" style="padding:8px 16px;font-size:13px">Logout</button></div>
+<div class="mobile-menu" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
+</div></nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+<section class="hero"><div class="container"><div class="hero-content">
+<div class="launch-banner"><div class="pulse-dot"></div><span>LAUNCHING SOON — JOIN THE WAITLIST</span></div>
+<h1>Host Your <span>Game Server</span> in Seconds</h1>
+<p>Powerful game hosting with instant setup, top-tier hardware, and 24/7 DDoS protection. Your world, your rules.</p>
+<div class="hero-btns"><button class="btn btn-primary" onclick="scrollToWaitlist()"><i class="fas fa-bell"></i> Join Waitlist</button><a href="https://discord.gg/K8tcDCFe2P" class="btn btn-secondary"><i class="fab fa-discord"></i> Contact Support</a></div>
+<div class="hero-stats"><div class="stat"><div class="stat-value">99.9%</div><div class="stat-label">Uptime</div></div><div class="stat"><div class="stat-value" id="waitlistStatCount">0</div><div class="stat-label">On Waitlist</div></div><div class="stat"><div class="stat-value">24/7</div><div class="stat-label">Support</div></div></div>
+</div></div></section>
+
+<section id="waitlist" class="waitlist-section"><div class="container"><div class="waitlist-card">
+<div id="waitlistDefault"><div class="waitlist-icon"><i class="fas fa-rocket"></i></div><h2>Be the First to Know</h2><p>Join our waitlist to get early access and exclusive launch-day discounts when SNACK-Hosting goes live.</p><div class="waitlist-counter"><span class="count-number" id="waitlistCount">0</span><span class="count-label">people already joined</span></div><br><button class="waitlist-btn" onclick="handleJoinWaitlist()"><i class="fas fa-bell"></i> Join the Waitlist</button></div>
+<div class="waitlist-success" id="waitlistSuccess"><div class="check-circle"><i class="fas fa-check"></i></div><h3>You're on the list!</h3><p>We'll notify you at <strong id="waitlistEmail"></strong> as soon as SNACK-Hosting launches.</p><div class="waitlist-position">Your position: <strong id="waitlistPosition">#1</strong></div></div>
+</div></div></section>
+
+<section id="features"><div class="container">
+<div class="section-header"><h2>Everything You Need to Dominate</h2><p>Built for performance, designed for gamers.</p></div>
+<div class="features-grid">
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-bolt"></i></div><h3>Instant Setup</h3><p>Your server is ready in seconds with our automated deployment system.</p></div>
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>DDoS Protection</h3><p>Enterprise-grade protection keeps your server online during attacks.</p></div>
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-microchip"></i></div><h3>Powerful Hardware</h3><p>Latest AMD Ryzen processors and NVMe SSDs for maximum performance.</p></div>
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-globe"></i></div><h3>Global Locations</h3><p>Multiple server locations worldwide for low latency gameplay.</p></div>
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-cloud-arrow-up"></i></div><h3>Auto Backups</h3><p>Daily automated backups with one-click restore functionality.</p></div>
+<div class="feature-card glass"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3>24/7 Support</h3><p>Expert support team available around the clock via Discord.</p></div>
+</div></div></section>
+
+<section id="pricing"><div class="container">
+<div class="section-header"><h2>Simple, Transparent Pricing</h2><p>No hidden fees. Cancel anytime. Powered by AMD EPYC™ 9645 processors.</p></div>
+<div class="pricing-grid">
+<div class="pricing-card glass"><div class="pricing-header"><h3>RS 1000 G12</h3><p class="plan-subtitle">Perfect for small SMPs</p><div class="price">$11.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 8GB DDR5 RAM</li><li><i class="fas fa-check"></i> 4 Dedicated Cores</li><li><i class="fas fa-check"></i> 256 GB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> DDoS Protection</li><li><i class="fas fa-check"></i> 25+ Players</li><li><i class="fas fa-check"></i> 40+ Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
+<div class="pricing-card glass popular"><div class="pricing-header"><h3>RS 2000 G12</h3><p class="plan-subtitle">Fit for growing communities</p><div class="price">$19.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 16GB DDR5 RAM</li><li><i class="fas fa-check"></i> 8 Dedicated Cores</li><li><i class="fas fa-check"></i> 512 GB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Upgraded DDoS</li><li><i class="fas fa-check"></i> 30+ Players</li><li><i class="fas fa-check"></i> 60+ Plugins</li></ul><button class="btn btn-primary" onclick="handlePricingClick()">Get Started</button></div>
+<div class="pricing-card glass"><div class="pricing-header"><h3>RS 4000 G12</h3><p class="plan-subtitle">Suits big servers</p><div class="price">$39.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 32GB DDR5 RAM</li><li><i class="fas fa-check"></i> 12 Dedicated Cores</li><li><i class="fas fa-check"></i> 1TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Better Performance</li><li><i class="fas fa-check"></i> 40-50 Players</li><li><i class="fas fa-check"></i> 50+ Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
+<div class="pricing-card glass popular"><div class="pricing-header"><h3>RS 8000 G12</h3><p class="plan-subtitle">Perfect for large servers</p><div class="price">$64.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 64GB DDR5 RAM</li><li><i class="fas fa-check"></i> 16 Dedicated Cores</li><li><i class="fas fa-check"></i> 2 TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Upgraded Security</li><li><i class="fas fa-check"></i> 50-100 Players</li><li><i class="fas fa-check"></i> Unlimited Plugins</li></ul><button class="btn btn-primary" onclick="handlePricingClick()">Get Started</button></div>
+<div class="pricing-card glass ultimate"><div class="pricing-header"><h3>RS 12000 G12</h3><p class="plan-subtitle">Top tier performance</p><div class="price">$99.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 96GB DDR5 RAM</li><li><i class="fas fa-check"></i> 20 Dedicated Cores</li><li><i class="fas fa-check"></i> 3 TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Max Security + DDoS</li><li><i class="fas fa-check"></i> Unlimited Players</li><li><i class="fas fa-check"></i> Unlimited Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
+</div></div></section>
+
+<section id="faq"><div class="container">
+<div class="section-header"><h2>Frequently Asked Questions</h2><p>Got questions? We've got answers.</p></div>
+<div class="faq-container">
+<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>How fast is the server setup?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Your server is ready instantly! Our automated system deploys your server within seconds of payment confirmation.</p></div></div>
+<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>Can I upgrade my plan later?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! You can upgrade or downgrade your plan anytime from your control panel. Changes take effect immediately.</p></div></div>
+<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>Do you support modpacks?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Absolutely! We support all major modpacks including Forge, Fabric, and popular modpack launchers.</p></div></div>
+<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>When does SNACK-Hosting launch?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We're launching in a few months! Join our waitlist to be the first to know and get exclusive launch-day discounts.</p></div></div>
+<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>What games do you support?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We're launching with Minecraft and Rust server hosting, with more games coming soon!</p></div></div>
+</div></div></section>
+
+<section><div class="container"><div class="cta-section glass">
+<h2>Ready to Get Early Access?</h2><p>Join the waitlist and be first in line when SNACK-Hosting launches!</p>
+<div class="cta-btns"><button class="btn btn-primary" onclick="scrollToWaitlist()"><i class="fas fa-bell"></i> Join Waitlist</button><a href="https://discord.gg/K8tcDCFe2P" class="btn btn-secondary"><i class="fab fa-discord"></i> Contact Support</a></div>
+</div></div></section>
+
+<footer><div class="container">
+<div class="footer-grid">
+<div class="footer-brand"><span class="logo" onclick="showPage('home')">SNACK-Hosting</span><p>Game server hosting with instant setup and unbeatable support. Launching soon.</p></div>
+<div class="footer-links"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a onclick="showPage('servers')" style="cursor:pointer">Servers</a></div>
+<div class="footer-links"><h4>Support</h4><a href="https://discord.gg/K8tcDCFe2P">Contact Us</a><a href="https://discord.gg/K8tcDCFe2P">Discord</a></div>
+<div class="footer-links"><h4>Company</h4><a href="#">About</a><a href="#">Terms</a></div>
+</div>
+<div class="footer-bottom">&copy; 2026 SNACK-Hosting. All rights reserved.</div>
+</div></footer>
+</div>
+
+<!-- SERVERS PAGE -->
+<div class="page" id="page-servers"><div class="container"><div class="servers-layout">
+<aside class="region-sidebar">
+<h3><i class="fas fa-globe"></i> &nbsp;Regions</h3>
+<button class="region-btn active" onclick="selectRegion(this,'europe')"><i class="fas fa-earth-europe"></i> Europe</button>
+<button class="region-btn" onclick="selectRegion(this,'america')"><i class="fas fa-earth-americas"></i> America</button>
+<button class="region-btn" onclick="selectRegion(this,'asia')"><i class="fas fa-earth-asia"></i> Asia</button>
+<button class="region-btn" onclick="selectRegion(this,'africa')"><i class="fas fa-earth-africa"></i> Africa</button>
+</aside>
+<div class="servers-content">
+<h1>Available <span>Game Servers</span></h1>
+<p class="servers-subtitle">Select a region and browse available games. Currently viewing <strong id="regionLabel">Europe</strong>.</p>
+<div class="game-grid" id="gameGrid"></div>
+<div class="configure-section" id="configSection">
+<h2><i class="fas fa-sliders"></i> &nbsp;Server Configuration</h2>
+<p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px">Add or manage game servers for each region.</p>
+<div class="config-form">
+<div class="form-group"><label>Game Name</label><input type="text" id="cfgName" placeholder="e.g. Minecraft, Rust, ARK..."></div>
+<div class="form-group"><label>Region</label><select id="cfgRegion"><option value="europe">Europe</option><option value="america">America</option><option value="asia">Asia</option><option value="africa">Africa</option></select></div>
+<div class="form-group"><label>Image URL (optional)</label><input type="text" id="cfgImg" placeholder="https://... or leave blank"></div>
+<div class="form-group"><label>Status</label><select id="cfgStatus"><option value="Coming Soon">Coming Soon</option><option value="Live">Live</option><option value="Maintenance">Maintenance</option></select></div>
+<div class="full-width" style="margin-top:4px"><button class="btn btn-primary" onclick="addServer()"><i class="fas fa-plus"></i> Add Server</button></div>
+</div>
+<div class="config-games-list" id="cfgList"></div>
+</div>
+</div>
+</div></div></div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="loginModal"><div class="modal">
+<button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
+<div class="modal-header"><h2>Welcome Back</h2><p id="loginSubtext">Sign in to your account</p></div>
+<div class="modal-body"><form onsubmit="handleLogin(event)">
+<div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="you@example.com"></div>
+<div class="form-group"><label>Password</label><input type="password" id="loginPassword" required placeholder="Min 8 characters"></div>
+<button type="submit" class="btn btn-primary" style="width:100%">Sign In</button>
+</form><p class="form-footer">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Sign up</a></p></div>
+</div></div>
+
+<div class="modal-overlay" id="registerModal"><div class="modal">
+<button class="modal-close" onclick="closeModal('registerModal')"><i class="fas fa-times"></i></button>
+<div class="modal-header"><h2>Create Account</h2><p id="registerSubtext">Create an account to get started</p></div>
+<div class="modal-body"><form onsubmit="handleRegister(event)">
+<div class="form-row"><div class="form-group"><label>First Name</label><input type="text" id="regFirst" required></div><div class="form-group"><label>Last Name</label><input type="text" id="regLast" required></div></div>
+<div class="form-group"><label>Email</label><input type="email" id="regEmail" required placeholder="you@example.com"></div>
+<div class="form-group"><label>Password</label><input type="password" id="regPassword" required placeholder="Min 8 characters"></div>
+<button type="submit" class="btn btn-primary" style="width:100%">Create Account</button>
+</form><p class="form-footer">Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Sign in</a></p></div>
+</div></div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+const MC_IMG='data:image/jpeg;base64,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';
+const RUST_IMG='data:image/jpeg;base64,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';
+let currentUser=JSON.parse(localStorage.getItem('snack_user'))||null;
+let waitlistData=JSON.parse(localStorage.getItem('snack_waitlist'))||[];
+let pendingWaitlist=false;
+let currentRegion='europe';
+const defaultServers={europe:[{name:'Minecraft',image:MC_IMG,status:'Coming Soon'},{name:'Rust',image:RUST_IMG,status:'Coming Soon'}],america:[{name:'Minecraft',image:MC_IMG,status:'Coming Soon'},{name:'Rust',image:RUST_IMG,status:'Coming Soon'}],asia:[{name:'Minecraft',image:MC_IMG,status:'Coming Soon'},{name:'Rust',image:RUST_IMG,status:'Coming Soon'}],africa:[{name:'Minecraft',image:MC_IMG,status:'Coming Soon'},{name:'Rust',image:RUST_IMG,status:'Coming Soon'}]};
+let serverConfig=JSON.parse(localStorage.getItem('snack_servers'))||defaultServers;
+document.addEventListener('DOMContentLoaded',()=>{updateWaitlistUI();updateAuthUI();renderGameGrid();renderCfgList();initParticles();window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)})});
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function selectRegion(btn,r){currentRegion=r;document.querySelectorAll('.region-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('regionLabel').textContent={europe:'Europe',america:'America',asia:'Asia',africa:'Africa'}[r];renderGameGrid()}
+function renderGameGrid(){const g=document.getElementById('gameGrid'),games=serverConfig[currentRegion]||[];g.innerHTML='';if(!games.length){g.innerHTML='<p style="color:var(--text-secondary);grid-column:1/-1;text-align:center;padding:40px 0">No servers configured for this region.</p>';return}games.forEach(gm=>{const sc=gm.status==='Live'?'var(--success)':gm.status==='Maintenance'?'var(--danger)':'var(--warning)';const sb=gm.status==='Live'?'rgba(16,185,129,0.15)':gm.status==='Maintenance'?'rgba(239,68,68,0.15)':'rgba(245,158,11,0.15)';const sbo=gm.status==='Live'?'rgba(16,185,129,0.3)':gm.status==='Maintenance'?'rgba(239,68,68,0.3)':'rgba(245,158,11,0.3)';const c=document.createElement('div');c.className='game-card';c.innerHTML='<img class="game-card-img" src="'+(gm.image||MC_IMG)+'" alt="'+gm.name+'" loading="lazy"><div class="game-card-overlay"><div class="game-card-name">'+gm.name+'</div><div class="game-card-status" style="background:'+sb+';color:'+sc+';border:1px solid '+sbo+'"><i class="fas fa-circle" style="font-size:6px"></i> '+gm.status+'</div></div><div class="game-card-hover-info"><i class="fas fa-clock"></i><span>'+gm.status+'</span></div>';g.appendChild(c)})}
+function addServer(){const n=document.getElementById('cfgName').value.trim(),r=document.getElementById('cfgRegion').value,img=document.getElementById('cfgImg').value.trim(),s=document.getElementById('cfgStatus').value;if(!n){showToast('Enter a game name.','error');return}if(!serverConfig[r])serverConfig[r]=[];serverConfig[r].push({name:n,image:img||MC_IMG,status:s});localStorage.setItem('snack_servers',JSON.stringify(serverConfig));document.getElementById('cfgName').value='';document.getElementById('cfgImg').value='';renderGameGrid();renderCfgList();showToast(n+' added to '+r+'!','success')}
+function removeServer(r,i){serverConfig[r].splice(i,1);localStorage.setItem('snack_servers',JSON.stringify(serverConfig));renderGameGrid();renderCfgList();showToast('Server removed.','info')}
+function renderCfgList(){const l=document.getElementById('cfgList');let h='';const rl={europe:'Europe',america:'America',asia:'Asia',africa:'Africa'};Object.keys(serverConfig).forEach(r=>{serverConfig[r].forEach((g,i)=>{const dc=g.status==='Live'?'var(--success)':g.status==='Maintenance'?'var(--danger)':'var(--warning)';h+='<div class="config-game-item"><div class="game-info"><div class="dot" style="background:'+dc+'"></div><span>'+g.name+'</span></div><span class="game-region">'+rl[r]+'</span><button class="btn btn-danger" onclick="removeServer(\''+r+'\','+i+')"><i class="fas fa-trash"></i></button></div>'})});l.innerHTML=h||'<p style="padding:20px;text-align:center;color:var(--text-secondary)">No servers configured.</p>'}
+function handleJoinWaitlist(){if(!currentUser){pendingWaitlist=true;showToast('Please sign in first to join the waitlist','info');setTimeout(()=>{document.getElementById('loginSubtext').textContent='Sign in to join the waitlist';document.getElementById('registerSubtext').textContent='Create an account to join the waitlist';openModal('loginModal')},400);return}if(waitlistData.find(w=>w.email===currentUser.email)){showToast("You're already on the waitlist!",'info');showWaitlistSuccess();return}waitlistData.push({email:currentUser.email,name:currentUser.firstName+' '+currentUser.lastName,joinedAt:new Date().toISOString(),position:waitlistData.length+1});localStorage.setItem('snack_waitlist',JSON.stringify(waitlistData));updateWaitlistUI();showWaitlistSuccess();showToast("You've been added to the waitlist!",'success')}
+function showWaitlistSuccess(){const e=waitlistData.find(w=>w.email===currentUser.email);if(!e)return;document.getElementById('waitlistDefault').style.display='none';document.getElementById('waitlistSuccess').classList.add('active');document.getElementById('waitlistEmail').textContent=e.email;document.getElementById('waitlistPosition').textContent='#'+e.position}
+function updateWaitlistUI(){const c=waitlistData.length;document.getElementById('waitlistCount').textContent=c;document.getElementById('waitlistStatCount').textContent=c;if(currentUser&&waitlistData.find(w=>w.email===currentUser.email))showWaitlistSuccess()}
+function scrollToWaitlist(){showPage('home');setTimeout(()=>document.getElementById('waitlist').scrollIntoView({behavior:'smooth'}),100)}
+function handlePricingClick(){showToast("We haven't launched yet! Join the waitlist.",'info');setTimeout(()=>scrollToWaitlist(),600)}
+function handleLogin(e){e.preventDefault();const em=document.getElementById('loginEmail').value,pw=document.getElementById('loginPassword').value,accs=JSON.parse(localStorage.getItem('snack_accounts'))||[],acc=accs.find(a=>a.email===em);if(!acc){showToast('No account found. Please sign up.','error');return}if(acc.password!==pw){showToast('Incorrect password.','error');return}currentUser={email:acc.email,firstName:acc.firstName,lastName:acc.lastName};localStorage.setItem('snack_user',JSON.stringify(currentUser));closeModal('loginModal');updateAuthUI();updateWaitlistUI();showToast('Welcome back, '+currentUser.firstName+'!','success');if(pendingWaitlist){pendingWaitlist=false;setTimeout(()=>handleJoinWaitlist(),600)}}
+function handleRegister(e){e.preventDefault();const fn=document.getElementById('regFirst').value,ln=document.getElementById('regLast').value,em=document.getElementById('regEmail').value,pw=document.getElementById('regPassword').value;if(pw.length<8){showToast('Password must be at least 8 characters.','error');return}const accs=JSON.parse(localStorage.getItem('snack_accounts'))||[];if(accs.find(a=>a.email===em)){showToast('Account already exists.','error');return}accs.push({firstName:fn,lastName:ln,email:em,password:pw});localStorage.setItem('snack_accounts',JSON.stringify(accs));currentUser={email:em,firstName:fn,lastName:ln};localStorage.setItem('snack_user',JSON.stringify(currentUser));closeModal('registerModal');updateAuthUI();showToast('Account created! Welcome, '+fn+'!','success');if(pendingWaitlist){pendingWaitlist=false;setTimeout(()=>handleJoinWaitlist(),600)}}
+function handleLogout(){currentUser=null;localStorage.removeItem('snack_user');pendingWaitlist=false;updateAuthUI();document.getElementById('waitlistDefault').style.display='block';document.getElementById('waitlistSuccess').classList.remove('active');closeMobileMenu();showToast('Logged out.','success')}
+function updateAuthUI(){const na=document.getElementById('navAuth'),nu=document.getElementById('navUser');if(currentUser){na.classList.add('hidden');nu.classList.remove('hidden');document.getElementById('userAvatar').textContent=currentUser.firstName[0].toUpperCase();document.getElementById('userName').textContent=currentUser.firstName;document.getElementById('mobileAuthBtns').classList.add('hidden');document.getElementById('mobileUserBtns').classList.remove('hidden');document.getElementById('mobileUserName').textContent=currentUser.firstName+' '+currentUser.lastName}else{na.classList.remove('hidden');nu.classList.add('hidden');document.getElementById('mobileAuthBtns').classList.remove('hidden');document.getElementById('mobileUserBtns').classList.add('hidden')}}
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active');document.getElementById('loginSubtext').textContent='Sign in to your account';document.getElementById('registerSubtext').textContent='Create an account to get started'}
+function switchModal(f,t){closeModal(f);setTimeout(()=>openModal(t),200)}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active')}));
+function showToast(msg,type){const t=document.getElementById('toast'),i=t.querySelector('i');document.getElementById('toastMsg').textContent=msg;t.className='toast '+type;i.className=type==='success'?'fas fa-check-circle':type==='error'?'fas fa-exclamation-circle':'fas fa-info-circle';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+function toggleFaq(el){const it=el.parentElement,was=it.classList.contains('active');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('active'));if(!was)it.classList.add('active')}
+function toggleMobileMenu(){document.getElementById('mobileNav').classList.add('active')}
+function closeMobileMenu(){document.getElementById('mobileNav').classList.remove('active')}
+function initParticles(){const cv=document.getElementById('particles'),cx=cv.getContext('2d');let ps=[];function rs(){cv.width=window.innerWidth;cv.height=window.innerHeight}rs();window.addEventListener('resize',rs);for(let i=0;i<50;i++)ps.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,s:Math.random()*2+.5});function an(){cx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=cv.width;if(p.x>cv.width)p.x=0;if(p.y<0)p.y=cv.height;if(p.y>cv.height)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.s,0,Math.PI*2);cx.fillStyle='rgba(16,185,129,0.3)';cx.fill()});for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){cx.beginPath();cx.moveTo(ps[i].x,ps[i].y);cx.lineTo(ps[j].x,ps[j].y);cx.strokeStyle='rgba(16,185,129,'+(0.08*(1-d/150))+')';cx.stroke()}}requestAnimationFrame(an)}an()}
+</script></body></html>
