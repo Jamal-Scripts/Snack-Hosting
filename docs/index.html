@@ -225,21 +225,11 @@ footer{padding:60px 0 30px;border-top:1px solid var(--border-color)}
 </div></div></section>
 <section id="pricing"><div class="container">
 <div class="section-header"><h2>Simple, Transparent Pricing</h2><p>No hidden fees. Cancel anytime. Powered by AMD EPYC™ 9645 processors.</p></div>
-<div class="pricing-grid">
-<div class="pricing-card glass"><div class="pricing-header"><h3>RS 1000 G12</h3><p class="plan-subtitle">Perfect for small SMPs</p><div class="price">$11.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 8GB DDR5 RAM</li><li><i class="fas fa-check"></i> 4 Dedicated Cores</li><li><i class="fas fa-check"></i> 256 GB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> DDoS Protection</li><li><i class="fas fa-check"></i> 25+ Players</li><li><i class="fas fa-check"></i> 40+ Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
-<div class="pricing-card glass popular"><div class="pricing-header"><h3>RS 2000 G12</h3><p class="plan-subtitle">Fit for growing communities</p><div class="price">$19.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 16GB DDR5 RAM</li><li><i class="fas fa-check"></i> 8 Dedicated Cores</li><li><i class="fas fa-check"></i> 512 GB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Upgraded DDoS</li><li><i class="fas fa-check"></i> 30+ Players</li><li><i class="fas fa-check"></i> 60+ Plugins</li></ul><button class="btn btn-primary" onclick="handlePricingClick()">Get Started</button></div>
-<div class="pricing-card glass"><div class="pricing-header"><h3>RS 4000 G12</h3><p class="plan-subtitle">Suits big servers</p><div class="price">$39.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 32GB DDR5 RAM</li><li><i class="fas fa-check"></i> 12 Dedicated Cores</li><li><i class="fas fa-check"></i> 1TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Better Performance</li><li><i class="fas fa-check"></i> 40-50 Players</li><li><i class="fas fa-check"></i> 50+ Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
-<div class="pricing-card glass popular"><div class="pricing-header"><h3>RS 8000 G12</h3><p class="plan-subtitle">Perfect for large servers</p><div class="price">$64.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 64GB DDR5 RAM</li><li><i class="fas fa-check"></i> 16 Dedicated Cores</li><li><i class="fas fa-check"></i> 2 TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Upgraded Security</li><li><i class="fas fa-check"></i> 50-100 Players</li><li><i class="fas fa-check"></i> Unlimited Plugins</li></ul><button class="btn btn-primary" onclick="handlePricingClick()">Get Started</button></div>
-<div class="pricing-card glass ultimate"><div class="pricing-header"><h3>RS 12000 G12</h3><p class="plan-subtitle">Top tier performance</p><div class="price">$99.99<span>/month</span></div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 96GB DDR5 RAM</li><li><i class="fas fa-check"></i> 20 Dedicated Cores</li><li><i class="fas fa-check"></i> 3 TB NVMe</li><li><i class="fas fa-check"></i> AMD EPYC™ 9645</li><li><i class="fas fa-check"></i> Max Security + DDoS</li><li><i class="fas fa-check"></i> Unlimited Players</li><li><i class="fas fa-check"></i> Unlimited Plugins</li></ul><button class="btn btn-secondary" onclick="handlePricingClick()">Get Started</button></div>
+<div class="pricing-grid" id="pricingGrid"></div>
 </div></div></section>
 <section id="faq"><div class="container">
 <div class="section-header"><h2>Frequently Asked Questions</h2><p>Got questions? We've got answers.</p></div>
-<div class="faq-container">
-<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>How fast is the server setup?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Your server is ready instantly! Our automated system deploys your server within seconds of payment confirmation.</p></div></div>
-<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>Can I upgrade my plan later?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! You can upgrade or downgrade your plan anytime from your control panel. Changes take effect immediately.</p></div></div>
-<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>Do you support modpacks?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Absolutely! We support all major modpacks including Forge, Fabric, and popular modpack launchers.</p></div></div>
-<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>When does SNACK-Hosting launch?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We're launching in a few months! Join our waitlist to be the first to know and get exclusive launch-day discounts.</p></div></div>
-<div class="faq-item glass"><div class="faq-question" onclick="toggleFaq(this)"><span>What games do you support?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We're launching with Minecraft and Rust server hosting, with more games coming soon!</p></div></div>
+<div class="faq-container" id="faqContainer"></div>
 </div></div></section>
 <section><div class="container"><div class="cta-section glass">
 <h2>Ready to Get Early Access?</h2><p>Join the waitlist and be first in line when SNACK-Hosting launches!</p>
@@ -331,7 +321,140 @@ const SERVER_CONFIG = {
     ],
 };
 // ──────────────────────────────────────────────
-//  END OF CONFIGURATION
+//  END OF CONFIGURATION — SERVERS
+// ──────────────────────────────────────────────
+
+// ──────────────────────────────────────────────
+//  CONFIGURE YOUR PRICING PLANS HERE
+//  Each plan has: name, subtitle, price, popular (bool), ultimate (bool),
+//  buttonStyle ('primary' or 'secondary'), and features (array of strings).
+//  To add/remove a plan, copy or delete a block.
+// ──────────────────────────────────────────────
+const PRICING_CONFIG = [
+    {
+        name: 'RS 1000 G12',
+        subtitle: 'Perfect for small SMPs',
+        price: '$12.99',
+        popular: false,
+        ultimate: false,
+        buttonStyle: 'secondary',
+        features: [
+            '8GB DDR5 RAM',
+            '4 Dedicated Cores',
+            '256 GB NVMe',
+            'AMD EPYC™ 9645',
+            'DDoS Protection',
+            '25+ Players',
+            '40+ Plugins',
+        ],
+    },
+    {
+        name: 'RS 2000 G12',
+        subtitle: 'Fit for growing communities',
+        price: '$19.99',
+        popular: true,
+        ultimate: false,
+        buttonStyle: 'primary',
+        features: [
+            '16GB DDR5 RAM',
+            '8 Dedicated Cores',
+            '512 GB NVMe',
+            'AMD EPYC™ 9645',
+            'Upgraded DDoS',
+            '30+ Players',
+            '60+ Plugins',
+        ],
+    },
+    {
+        name: 'RS 4000 G12',
+        subtitle: 'Suits big servers',
+        price: '$39.99',
+        popular: false,
+        ultimate: false,
+        buttonStyle: 'secondary',
+        features: [
+            '32GB DDR5 RAM',
+            '12 Dedicated Cores',
+            '1TB NVMe',
+            'AMD EPYC™ 9645',
+            'Better Performance',
+            '40-50 Players',
+            '50+ Plugins',
+        ],
+    },
+    {
+        name: 'RS 8000 G12',
+        subtitle: 'Perfect for large servers',
+        price: '$64.99',
+        popular: true,
+        ultimate: false,
+        buttonStyle: 'primary',
+        features: [
+            '64GB DDR5 RAM',
+            '16 Dedicated Cores',
+            '2 TB NVMe',
+            'AMD EPYC™ 9645',
+            'Upgraded Security',
+            '50-100 Players',
+            'Unlimited Plugins',
+        ],
+    },
+    {
+        name: 'RS 12000 G12',
+        subtitle: 'Top tier performance',
+        price: '$99.99',
+        popular: false,
+        ultimate: true,
+        buttonStyle: 'secondary',
+        features: [
+            '96GB DDR5 RAM',
+            '20 Dedicated Cores',
+            '3 TB NVMe',
+            'AMD EPYC™ 9645',
+            'Max Security + DDoS',
+            'Unlimited Players',
+            'Unlimited Plugins',
+        ],
+    },
+];
+// ──────────────────────────────────────────────
+//  END OF CONFIGURATION — PRICING
+// ──────────────────────────────────────────────
+
+// ──────────────────────────────────────────────
+//  CONFIGURE YOUR FAQ HERE
+//  Each item has: question (string), answer (string).
+//  To add a new question, copy a block. To remove, delete it.
+// ──────────────────────────────────────────────
+const FAQ_CONFIG = [
+    {
+        question: 'How fast is the server setup?',
+        answer: 'Your server is ready instantly! Our automated system deploys your server within seconds of payment confirmation.',
+    },
+    {
+        question: 'Can I upgrade my plan later?',
+        answer: 'Yes! You can upgrade or downgrade your plan anytime from your control panel. Changes take effect immediately.',
+    },
+    {
+        question: 'Do you support modpacks?',
+        answer: 'Absolutely! We support all major modpacks including Forge, Fabric, and popular modpack launchers.',
+    },
+    {
+        question: 'When does Snack-Hosting launch?',
+        answer: "We're launching in a few months! Join our waitlist to be the first to know and get exclusive launch-day discounts.",
+    },
+    {
+        question: 'What games do you support?',
+        answer: "We're launching with Minecraft and Rust server hosting, with more games coming soon!",
+    },
+
+        {
+        question: 'Why are the prices too expensive?',
+        answer: "SNACK-Hosting plan runs on dedicated AMD EPYC™ 9645 processors with DDR5 ECC RAM, the fastest server-grade memory available, delivering up to 2x the bandwidth of DDR4.",
+    },
+];
+// ──────────────────────────────────────────────
+//  END OF CONFIGURATION — FAQ
 // ──────────────────────────────────────────────
 
 let currentUser=JSON.parse(localStorage.getItem('snack_user'))||null;
@@ -339,7 +462,39 @@ let waitlistData=JSON.parse(localStorage.getItem('snack_waitlist'))||[];
 let pendingWaitlist=false;
 let currentRegion='europe';
 
-document.addEventListener('DOMContentLoaded',()=>{updateWaitlistUI();updateAuthUI();renderGameGrid();initParticles();window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)})});
+document.addEventListener('DOMContentLoaded',()=>{updateWaitlistUI();updateAuthUI();renderGameGrid();renderPricing();renderFaq();initParticles();window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)})});
+
+function renderPricing(){
+    const g=document.getElementById('pricingGrid');
+    g.innerHTML='';
+    PRICING_CONFIG.forEach(plan=>{
+        const cls=['pricing-card','glass'];
+        if(plan.popular) cls.push('popular');
+        if(plan.ultimate) cls.push('ultimate');
+        const featHtml=plan.features.map(f=>'<li><i class="fas fa-check"></i> '+f+'</li>').join('');
+        const btnCls=plan.buttonStyle==='primary'?'btn btn-primary':'btn btn-secondary';
+        const card=document.createElement('div');
+        card.className=cls.join(' ');
+        card.innerHTML=
+            '<div class="pricing-header"><h3>'+plan.name+'</h3><p class="plan-subtitle">'+plan.subtitle+'</p><div class="price">'+plan.price+'<span>/month</span></div></div>'+
+            '<ul class="pricing-features">'+featHtml+'</ul>'+
+            '<button class="'+btnCls+'" onclick="handlePricingClick()">Get Started</button>';
+        g.appendChild(card);
+    });
+}
+
+function renderFaq(){
+    const c=document.getElementById('faqContainer');
+    c.innerHTML='';
+    FAQ_CONFIG.forEach(item=>{
+        const div=document.createElement('div');
+        div.className='faq-item glass';
+        div.innerHTML=
+            '<div class="faq-question" onclick="toggleFaq(this)"><span>'+item.question+'</span><i class="fas fa-chevron-down"></i></div>'+
+            '<div class="faq-answer"><p>'+item.answer+'</p></div>';
+        c.appendChild(div);
+    });
+}
 
 function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 
