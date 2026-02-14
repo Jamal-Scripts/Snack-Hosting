@@ -37,11 +37,6 @@
         .hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:20px;line-height:1.1}
         .hero h1 span{background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
         .hero p{font-size:1.2rem;color:var(--text-secondary);margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
-        .hero-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
-        .hero-stats{display:flex;gap:50px;justify-content:center;margin-top:60px}
-        .stat{text-align:center}
-        .stat-value{font-size:2.5rem;font-weight:800;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-        .stat-label{color:var(--text-secondary);font-size:14px}
         .launch-banner{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(6,182,212,0.1));border:1px solid rgba(16,185,129,0.25);border-radius:16px;padding:14px 24px;display:inline-flex;align-items:center;gap:12px;margin-bottom:30px;animation:bannerPulse 3s ease-in-out infinite}
         .launch-banner .pulse-dot{width:10px;height:10px;background:var(--accent-primary);border-radius:50%;position:relative}
         .launch-banner .pulse-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent-primary);animation:dotPulse 2s ease-in-out infinite}
@@ -66,56 +61,6 @@
         .waitlist-success .check-circle{width:70px;height:70px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 20px;animation:scaleIn .4s ease .1s both}
         .waitlist-success h3{font-size:1.5rem;margin-bottom:10px;color:var(--accent-teal)}
         .waitlist-success p{color:var(--text-secondary);font-size:14px}
-        .waitlist-position{display:inline-block;margin-top:15px;padding:8px 20px;background:var(--bg-secondary);border-radius:30px;border:1px solid var(--border-color);font-size:13px;color:var(--text-secondary)}
-        .waitlist-position strong{color:var(--accent-teal);font-weight:700}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes scaleIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
-        section{padding:100px 0;position:relative;z-index:1}
-        .section-header{text-align:center;margin-bottom:60px}
-        .section-header h2{font-size:2.5rem;font-weight:700;margin-bottom:15px}
-        .section-header p{color:var(--text-secondary);max-width:600px;margin:0 auto}
-        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px}
-        .feature-card{padding:30px;border-radius:20px;transition:all .3s}
-        .feature-card:hover{transform:translateY(-5px);border-color:var(--accent-primary)}
-        .feature-icon{width:60px;height:60px;border-radius:15px;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
-        .feature-card h3{font-size:1.3rem;margin-bottom:10px}
-        .feature-card p{color:var(--text-secondary);font-size:14px}
-        .pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;max-width:1400px;margin:0 auto}
-        .pricing-card{padding:30px 25px;border-radius:20px;position:relative;transition:all .3s;background:var(--bg-card);border:1px solid var(--border-color)}
-        .pricing-card.popular{border:2px solid var(--accent-primary)}
-        .pricing-card.popular::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent-primary);padding:5px 15px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-        .pricing-card.ultimate{border:1px solid var(--accent-primary)}
-        .pricing-card:hover{transform:translateY(-8px);border-color:var(--accent-primary);box-shadow:0 20px 40px rgba(16,185,129,0.15)}
-        .pricing-header h3{font-size:1.3rem;margin-bottom:5px;color:var(--accent-primary)}
-        .plan-subtitle{color:var(--text-secondary);font-size:13px;margin-bottom:15px}
-        .pricing-header .price{font-size:2.5rem;font-weight:800;margin:10px 0;color:var(--accent-teal)}
-        .pricing-header .price span{font-size:.9rem;color:var(--text-secondary);font-weight:400}
-        .pricing-features{list-style:none;margin:20px 0;padding:0}
-        .pricing-features li{padding:8px 0;color:var(--text-secondary);display:flex;align-items:center;gap:10px;font-size:13px}
-        .pricing-features li i{color:var(--accent-primary);font-size:12px}
-        .pricing-card .btn{width:100%;margin-top:10px;justify-content:center}
-        .pricing-card .btn-secondary{background:transparent;border:2px solid var(--border-color);color:var(--text-primary)}
-        .pricing-card .btn-secondary:hover{border-color:var(--accent-primary);background:var(--accent-primary);color:var(--bg-primary)}
-        .pricing-card .btn-primary{background:var(--accent-primary);box-shadow:0 4px 15px rgba(16,185,129,0.3)}
-        .faq-container{max-width:800px;margin:0 auto}
-        .faq-item{margin-bottom:15px;border-radius:15px;overflow:hidden}
-        .faq-question{padding:20px 25px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600}
-        .faq-question i{transition:transform .3s}
-        .faq-item.active .faq-question i{transform:rotate(180deg)}
-        .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s;padding:0 25px}
-        .faq-item.active .faq-answer{max-height:200px;padding:0 25px 20px}
-        .faq-answer p{color:var(--text-secondary)}
-        .cta-section{text-align:center;padding:80px 40px;border-radius:30px;margin:0 20px}
-        .cta-section h2{font-size:2.5rem;margin-bottom:15px}
-        .cta-section p{color:var(--text-secondary);margin-bottom:30px}
-        .cta-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
-        footer{padding:60px 0 30px;border-top:1px solid var(--border-color)}
-        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-        .footer-brand p{color:var(--text-secondary);margin-top:15px;font-size:14px}
-        .footer-links h4{margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1px}
-        .footer-links a{display:block;color:var(--text-secondary);padding:8px 0;font-size:14px;transition:color .3s}
-        .footer-links a:hover{color:var(--accent-primary)}
-        .footer-bottom{text-align:center;padding-top:30px;border-top:1px solid var(--border-color);color:var(--text-secondary);font-size:14px}
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
         .modal-overlay.active{display:flex}
         .modal{background:var(--bg-card);border-radius:25px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .3s}
@@ -129,19 +74,12 @@
         .form-group label{display:block;margin-bottom:8px;font-weight:500;font-size:14px}
         .form-group input{width:100%;padding:14px 18px;border-radius:12px;border:1px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-size:14px;transition:border-color .3s;font-family:inherit}
         .form-group input:focus{outline:none;border-color:var(--accent-primary)}
-        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-        .form-footer{text-align:center;margin-top:20px;color:var(--text-secondary);font-size:14px}
-        .form-footer a{color:var(--accent-primary)}
         .toast{position:fixed;bottom:30px;right:30px;padding:16px 24px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-primary);font-size:14px;font-weight:500;display:flex;align-items:center;gap:12px;z-index:3000;transform:translateY(100px);opacity:0;transition:all .4s ease;box-shadow:0 10px 40px rgba(0,0,0,0.4);max-width:400px}
         .toast.show{transform:translateY(0);opacity:1}
         .toast.success{border-color:rgba(16,185,129,0.4)}.toast.success i{color:var(--accent-primary);font-size:18px}
-        .toast.error{border-color:rgba(239,68,68,0.4)}.toast.error i{color:var(--danger);font-size:18px}
         .toast.info{border-color:rgba(6,182,212,0.4)}.toast.info i{color:var(--accent-secondary);font-size:18px}
-        
-        /* PAGE SYSTEM */
         .page{display:none}
         .page.active{display:block}
-
         .servers-layout{display:grid;grid-template-columns:220px 1fr;gap:30px;padding-top:120px;padding-bottom:100px;min-height:100vh;position:relative;z-index:1}
         .region-sidebar{position:sticky;top:100px;align-self:start;background:var(--bg-card);border-radius:16px;border:1px solid var(--border-color);padding:20px;height:fit-content}
         .region-sidebar h3{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-secondary);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-color)}
@@ -152,22 +90,19 @@
         .servers-content h1{font-size:2.5rem;font-weight:800;margin-bottom:8px}
         .servers-content h1 span{background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
         .servers-subtitle{color:var(--text-secondary);margin-bottom:40px;font-size:15px}
-        .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-        .game-card{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border-color);background:var(--bg-card);aspect-ratio:16/10}
-        .game-card-img{width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
-        .game-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,0.9) 0%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
-        .game-card-name{font-size:1.3rem;font-weight:800}
-        .game-card-status{font-size:12px;padding:4px 10px;border-radius:10px;width:fit-content;font-weight:700}
-
-        @media(max-width:1200px){.pricing-grid{grid-template-columns:repeat(3,1fr)}}
-        @media(max-width:900px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+        .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+        .game-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:24px;overflow:hidden;transition:transform 0.3s ease}
+        .game-card:hover{transform:translateY(-10px);border-color:var(--accent-primary)}
+        .game-card-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:24px 24px 0 0}
+        .game-card-info{padding:20px;text-align:center}
+        .game-card-name{font-size:1.6rem;font-weight:800;margin-bottom:8px}
+        .game-card-status{display:inline-block;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.15);color:var(--warning);text-transform:uppercase}
+        footer{padding:40px 0;border-top:1px solid var(--border-color);text-align:center}
+        .footer-bottom{color:var(--text-secondary);font-size:14px}
         @media(max-width:768px){
             .nav-links,.nav-auth{display:none}.mobile-menu{display:block}
             .servers-layout{grid-template-columns:1fr;padding-top:100px}
             .region-sidebar{position:static;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-            .region-sidebar h3{width:100%}
-            .region-btn{width:auto}
-            .pricing-grid{grid-template-columns:1fr}
         }
     </style>
 </head>
@@ -177,8 +112,6 @@
     <div class="mobile-nav-overlay" id="mobileNav">
         <button class="mobile-nav-close" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
         <a href="javascript:void(0)" onclick="closeMobileMenu();showPage('home')">Home</a>
-        <a href="javascript:void(0)" onclick="closeMobileMenu();navTo('features')">Features</a>
-        <a href="javascript:void(0)" onclick="closeMobileMenu();navTo('pricing')">Pricing</a>
         <a href="javascript:void(0)" onclick="closeMobileMenu();showPage('servers')">Servers</a>
         <a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="closeMobileMenu()">Support</a>
     </div>
@@ -188,8 +121,6 @@
             <span class="logo" onclick="showPage('home')">snack-hosting</span>
             <div class="nav-links">
                 <a href="javascript:void(0)" onclick="showPage('home')">Home</a>
-                <a href="javascript:void(0)" onclick="navTo('features')">Features</a>
-                <a href="javascript:void(0)" onclick="navTo('pricing')">Pricing</a>
                 <a href="javascript:void(0)" onclick="showPage('servers')">Servers</a>
                 <a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a>
             </div>
@@ -210,7 +141,7 @@
         <section class="hero"><div class="container"><div class="hero-content">
             <div class="launch-banner"><div class="pulse-dot"></div><span>LAUNCHING SOON — JOIN THE WAITLIST</span></div>
             <h1>Host Your <span>Game Server</span> in Seconds</h1>
-            <p>Powerful game hosting with instant setup, top-tier hardware, and 24/7 DDoS protection.</p>
+            <p>Powerful game hosting with instant setup and top-tier hardware. Your world, your rules.</p>
             <div class="hero-btns"><button class="btn btn-primary" onclick="scrollToWaitlist()"><i class="fas fa-bell"></i> Join Waitlist</button></div>
             <div class="hero-stats"><div class="stat"><div class="stat-value">99.9%</div><div class="stat-label">Uptime</div></div><div class="stat"><div class="stat-value" id="waitlistStatCount">0</div><div class="stat-label">On Waitlist</div></div></div>
         </div></div></section>
@@ -219,25 +150,6 @@
             <div id="waitlistDefault"><div class="waitlist-icon"><i class="fas fa-rocket"></i></div><h2>Be the First to Know</h2><p>Join our waitlist to get early access and exclusive launch-day discounts.</p><div class="waitlist-counter"><span class="count-number" id="waitlistCount">0</span><span class="count-label">people joined</span></div><br><button class="waitlist-btn" onclick="handleJoinWaitlist()"><i class="fas fa-bell"></i> Join the Waitlist</button></div>
             <div class="waitlist-success" id="waitlistSuccess"><div class="check-circle"><i class="fas fa-check"></i></div><h3>You're on the list!</h3><p>We'll notify you at <strong id="waitlistEmail"></strong>.</p></div>
         </div></div></section>
-
-        <section id="features"><div class="container">
-            <div class="section-header"><h2>Our Features</h2></div>
-            <div class="features-grid">
-                <div class="feature-card glass"><h3>Instant Setup</h3><p>Your server is ready in seconds.</p></div>
-                <div class="feature-card glass"><h3>DDoS Protection</h3><p>Enterprise-grade security.</p></div>
-                <div class="feature-card glass"><h3>NVMe Storage</h3><p>Fastest drives on the market.</p></div>
-            </div>
-        </div></section>
-
-        <section id="pricing"><div class="container">
-            <div class="section-header"><h2>Pricing Plans</h2></div>
-            <div class="pricing-grid" id="pricingGrid"></div>
-        </div></section>
-
-        <section id="faq"><div class="container">
-            <div class="section-header"><h2>FAQ</h2></div>
-            <div class="faq-container" id="faqContainer"></div>
-        </div></section>
 
         <footer><div class="container"><div class="footer-bottom">&copy; 2026 snack-hosting. All rights reserved.</div></div></footer>
     </div>
@@ -284,26 +196,35 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
     <script>
-        const SERVER_CONFIG = {
-            europe: [
-                { name: 'Minecraft', status: 'Coming Soon', image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=400' },
-                { name: 'Rust', status: 'Coming Soon', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400' }
-            ],
-            america: [
-                { name: 'Minecraft', status: 'Coming Soon', image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=400' }
-            ],
-            asia: [
-                { name: 'Rust', status: 'Coming Soon', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400' }
-            ]
-        };
-
+        // 1. CONFIGURE PRICING
         const PRICING_CONFIG = [
             { name: 'Starter', price: '$11.99', features: ['8GB RAM', '4 Cores', 'DDoS Protection'] },
             { name: 'Pro', price: '$19.99', features: ['16GB RAM', '8 Cores', 'DDoS Protection'], popular: true }
         ];
 
+        // 2. CONFIGURE QUESTIONS
         const FAQ_CONFIG = [
             { question: 'When is launch?', answer: 'We are launching in Q3 2026.' }
+        ];
+
+        // 3. CONFIGURE SERVERS (Using screenshot images)
+        const SERVER_CONFIG = {
+            europe: [
+                { name: 'Minecraft', status: 'Coming Soon', image: 'https://i.imgur.com/K6V8KzN.png' },
+                { name: 'Rust', status: 'Coming Soon', image: 'https://i.imgur.com/vHInoV9.png' }
+            ],
+            america: [
+                { name: 'Minecraft', status: 'Coming Soon', image: 'https://i.imgur.com/K6V8KzN.png' }
+            ],
+            asia: [
+                { name: 'Rust', status: 'Coming Soon', image: 'https://i.imgur.com/vHInoV9.png' }
+            ]
+        };
+
+        // 4. CONFIGURE FEATURES
+        const FEATURES_CONFIG = [
+            { title: 'Instant Setup', desc: 'Your server is ready in seconds.' },
+            { title: 'DDoS Protection', desc: 'Enterprise-grade security.' }
         ];
 
         let currentUser = JSON.parse(localStorage.getItem('snack_user')) || null;
@@ -311,8 +232,6 @@
         let currentRegion = 'europe';
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderPricing();
-            renderFaq();
             renderGameGrid();
             updateWaitlistUI();
             updateAuthUI();
@@ -324,17 +243,8 @@
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const activePage = document.getElementById('page-' + pageId);
-            activePage.classList.add('active');
+            document.getElementById('page-' + pageId).classList.add('active');
             window.scrollTo(0, 0);
-        }
-
-        function navTo(sectionId) {
-            showPage('home');
-            setTimeout(() => {
-                const el = document.getElementById(sectionId);
-                if(el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 50);
         }
 
         function selectRegion(btn, r) {
@@ -353,39 +263,15 @@
                 const card = document.createElement('div');
                 card.className = 'game-card';
                 card.innerHTML = `
-                    <img class="game-card-img" src="${gm.image}">
-                    <div class="game-card-overlay">
+                    <div class="game-card-img-container">
+                        <img class="game-card-img" src="${gm.image}">
+                    </div>
+                    <div class="game-card-info">
                         <div class="game-card-name">${gm.name}</div>
-                        <div class="game-card-status" style="background:rgba(245,158,11,0.2);color:var(--warning)">${gm.status}</div>
+                        <div class="game-card-status">${gm.status}</div>
                     </div>
                 `;
                 g.appendChild(card);
-            });
-        }
-
-        function renderPricing() {
-            const g = document.getElementById('pricingGrid');
-            g.innerHTML = '';
-            PRICING_CONFIG.forEach(plan => {
-                const div = document.createElement('div');
-                div.className = `pricing-card glass ${plan.popular ? 'popular' : ''}`;
-                div.innerHTML = `
-                    <div class="pricing-header"><h3>${plan.name}</h3><div class="price">${plan.price}<span>/mo</span></div></div>
-                    <ul class="pricing-features">${plan.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul>
-                    <button class="btn btn-primary" onclick="scrollToWaitlist()">Join Waitlist</button>
-                `;
-                g.appendChild(div);
-            });
-        }
-
-        function renderFaq() {
-            const c = document.getElementById('faqContainer');
-            c.innerHTML = '';
-            FAQ_CONFIG.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'faq-item glass';
-                div.innerHTML = `<div class="faq-question" onclick="this.parentElement.classList.toggle('active')"><span>${item.question}</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>${item.answer}</p></div>`;
-                c.appendChild(div);
             });
         }
 
@@ -412,7 +298,7 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            currentUser = { email: document.getElementById('loginEmail').value, firstName: 'User' };
+            currentUser = { email: document.getElementById('loginEmail').value };
             localStorage.setItem('snack_user', JSON.stringify(currentUser));
             closeModal('loginModal');
             updateAuthUI();
