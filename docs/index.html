@@ -185,18 +185,18 @@ footer{padding:60px 0 30px;border-top:1px solid var(--border-color)}
 <canvas id="particles"></canvas>
 <div class="mobile-nav-overlay" id="mobileNav">
 <button class="mobile-nav-close" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
-<a onclick="closeMobileMenu();showPage('home')">Home</a>
-<a href="javascript:void(0)" onclick="closeMobileMenu();showPage('home');setTimeout(()=>document.getElementById('features').scrollIntoView({behavior:'smooth'}),100)">Features</a>
-<a href="javascript:void(0)" onclick="closeMobileMenu();showPage('home');setTimeout(()=>document.getElementById('pricing').scrollIntoView({behavior:'smooth'}),100)">Pricing</a>
+<a href="javascript:void(0)" onclick="closeMobileMenu();showPage('home')">Home</a>
+<a href="javascript:void(0)" onclick="closeMobileMenu();navTo('features')">Features</a>
+<a href="javascript:void(0)" onclick="closeMobileMenu();navTo('pricing')">Pricing</a>
 <a href="javascript:void(0)" onclick="closeMobileMenu();showPage('servers')">Servers</a>
-<a href="javascript:void(0)" onclick="closeMobileMenu();showPage('home');setTimeout(()=>document.getElementById('faq').scrollIntoView({behavior:'smooth'}),100)">FAQ</a>
+<a href="javascript:void(0)" onclick="closeMobileMenu();navTo('faq')">FAQ</a>
 <a href="https://discord.gg/K8tcDCFe2P" target="_blank" onclick="closeMobileMenu()">Support</a>
 <div id="mobileAuthBtns"><button class="btn btn-secondary" onclick="closeMobileMenu();openModal('loginModal')">Login</button> <button class="btn btn-primary" onclick="closeMobileMenu();openModal('registerModal')">Sign Up</button></div>
 <div id="mobileUserBtns" class="hidden" style="text-align:center"><p id="mobileUserName" style="margin-bottom:12px;font-weight:600"></p><button class="btn btn-secondary" onclick="handleLogout()">Logout</button></div>
 </div>
 <nav id="navbar"><div class="container">
 <span class="logo" onclick="showPage('home')">snack-hosting</span>
-<div class="nav-links"><a href="#features" onclick="event.preventDefault();showPage('home');setTimeout(()=>document.getElementById('features').scrollIntoView({behavior:'smooth'}),100)">Features</a><a href="#pricing" onclick="event.preventDefault();showPage('home');setTimeout(()=>document.getElementById('pricing').scrollIntoView({behavior:'smooth'}),100)">Pricing</a><a href="javascript:void(0)" onclick="showPage('servers')">Servers</a><a href="#faq" onclick="event.preventDefault();showPage('home');setTimeout(()=>document.getElementById('faq').scrollIntoView({behavior:'smooth'}),100)">FAQ</a><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a></div>
+<div class="nav-links"><a href="javascript:void(0)" onclick="navTo('features')">Features</a><a href="javascript:void(0)" onclick="navTo('pricing')">Pricing</a><a href="javascript:void(0)" onclick="showPage('servers')">Servers</a><a href="javascript:void(0)" onclick="navTo('faq')">FAQ</a><a href="https://discord.gg/K8tcDCFe2P" target="_blank">Support</a></div>
 <div class="nav-auth" id="navAuth"><button class="btn btn-secondary" onclick="openModal('loginModal')">Login</button><button class="btn btn-primary" onclick="openModal('registerModal')">Sign Up</button></div>
 <div class="nav-user hidden" id="navUser"><div class="nav-user-avatar" id="userAvatar"></div><span id="userName" style="font-weight:600;font-size:14px"></span><button class="btn btn-secondary" onclick="handleLogout()" style="padding:8px 16px;font-size:13px">Logout</button></div>
 <div class="mobile-menu" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
@@ -238,7 +238,7 @@ footer{padding:60px 0 30px;border-top:1px solid var(--border-color)}
 <footer><div class="container">
 <div class="footer-grid">
 <div class="footer-brand"><span class="logo" onclick="showPage('home')">snack-hosting</span><p>Game server hosting with instant setup and unbeatable support. Launching soon.</p></div>
-<div class="footer-links"><h4>Product</h4><a href="javascript:void(0)" onclick="showPage('home');setTimeout(()=>document.getElementById('features').scrollIntoView({behavior:'smooth'}),100)">Features</a><a href="javascript:void(0)" onclick="showPage('home');setTimeout(()=>document.getElementById('pricing').scrollIntoView({behavior:'smooth'}),100)">Pricing</a><a href="javascript:void(0)" onclick="showPage('servers')">Servers</a></div>
+<div class="footer-links"><h4>Product</h4><a href="javascript:void(0)" onclick="navTo('features')">Features</a><a href="javascript:void(0)" onclick="navTo('pricing')">Pricing</a><a href="javascript:void(0)" onclick="showPage('servers')">Servers</a></div>
 <div class="footer-links"><h4>Support</h4><a href="https://discord.gg/K8tcDCFe2P">Contact Us</a><a href="https://discord.gg/K8tcDCFe2P">Discord</a></div>
 <div class="footer-links"><h4>Company</h4><a href="#">About</a><a href="#">Terms</a></div>
 </div>
@@ -495,7 +495,8 @@ function renderFaq(){
     });
 }
 
-function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');window.scrollTo(0,0)}
+function navTo(sectionId){showPage('home');setTimeout(()=>document.getElementById(sectionId).scrollIntoView({behavior:'smooth'}),50)}
 
 function selectRegion(btn,r){currentRegion=r;document.querySelectorAll('.region-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('regionLabel').textContent={europe:'Europe',america:'America',asia:'Asia',africa:'Africa'}[r];renderGameGrid()}
 
